@@ -7,7 +7,7 @@ export default {
     userId: localStorage.getItem('user_id') || null,
     token: localStorage.getItem('token') || null,
     route: 'user/',
-    isUserLogged: localStorage.getItem('token') !== null
+    isUserLogged: true // localStorage.getItem('token') !== null // toggle this for logged user
   },
   mutations: {
     SET_TOKEN: set('token'),

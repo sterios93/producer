@@ -40,10 +40,11 @@
             class="purple-input search-input"
             label="Search..."
             color="purple"
-          />
+          ></v-text-field>
         </v-list-tile>
         <v-list-tile
           v-for="(link, i) in links"
+          v-if="link.userAccess === isUserLogged"
           :key="i"
           :to="link.to"
           :active-class="color"
@@ -87,44 +88,64 @@ export default {
     logo: './../../assets/img/vuetifylogo.png',
     links: [
       {
+        to: '/signup',
+        icon: 'mdi-account-plus',
+        text: 'Sign Up',
+        userAccess: false
+      },
+      {
+        to: '/login',
+        icon: 'mdi-login-variant',
+        text: 'Log in',
+        userAccess: false
+      },
+      {
         to: '/dashboard',
         icon: 'mdi-view-dashboard',
-        text: 'Dashboard'
+        text: 'Dashboard',
+        userAccess: true
       },
       {
         to: '/user-profile',
         icon: 'mdi-account',
-        text: 'User Profile'
+        text: 'User Profile',
+        userAccess: true
       },
       {
         to: '/table-list',
         icon: 'mdi-clipboard-outline',
-        text: 'Table List'
+        text: 'Table List',
+        userAccess: true
       },
       {
         to: '/typography',
         icon: 'mdi-format-font',
-        text: 'Typography'
+        text: 'Typography',
+        userAccess: true
       },
       {
         to: '/icons',
         icon: 'mdi-chart-bubble',
-        text: 'Icons'
+        text: 'Icons',
+        userAccess: true
       },
       {
         to: '/maps',
         icon: 'mdi-map-marker',
-        text: 'Maps'
+        text: 'Maps',
+        userAccess: true
       },
       {
         to: '/notifications',
         icon: 'mdi-bell',
-        text: 'Notifications'
+        text: 'Notifications',
+        userAccess: true
       }
     ],
     responsive: false
   }),
   computed: {
+    ...mapState('authentication', ['isUserLogged']),
     ...mapState('app', ['image', 'color']),
     inputValue: {
       get () {
