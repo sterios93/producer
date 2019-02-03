@@ -4,9 +4,6 @@ pages:
  script:
   - npm install --progress=false
   - npm run build
-  - rm -rf public
-  - mkdir public
-  - cp -r dist/* public
  artifacts:
   expire_in: 1 week
   paths:
