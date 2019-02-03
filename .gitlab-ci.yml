@@ -7,9 +7,6 @@ pages:
   - rm -rf public
   - mkdir public
   - cp -r dist/* public
-cache:
-  paths:
-  - node_modules/
  artifacts:
   expire_in: 1 week
   paths:
