@@ -13,3 +13,15 @@ pages: # the job must be named pages
       - public # artifact path must be /public for GitLab Pages to pick it up
   only:
     - master
+create_env:
+  stage: deploy
+  script:
+    - echo "Deploy a review app"
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://$CI_ENVIRONMENT_SLUG.example.com
+  only:
+    - branches
+  except:
+    - master
+
