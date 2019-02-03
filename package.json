@@ -12,9 +12,22 @@
   },
   "dependencies": {
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuetify": "^1.2.5",
+    "node-sass": "^4.9.3",
+    "vue-chartist": "^2.1.2",
+    "vue-meta": "^1.5.2",
+    "sass-loader": "^7.1.0"
   },
   "devDependencies": {
+    "@mdi/font": "^2.5.94",
+    "vue-i18n": "^7.4.0",
+    "vuex": "^3.0.1",
+    "vuex-router-sync": "^5.0.0",
+    "material-design-icons-iconfont": "^3.0.3",
+    "vue-analytics": "^5.8.0",
+      "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",

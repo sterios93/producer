@@ -1,0 +1,49 @@
+<template>
+  <v-snackbar
+    :color="color"
+    :bottom="bottom"
+    :top="top"
+    :left="left"
+    :right="right"
+    v-model="snackbar"
+    dark
+  >
+    <v-icon
+      color="white"
+      class="mr-3"
+    >
+      mdi-bell-plus
+    </v-icon>
+    <div>{{message}}</div>
+    <v-icon
+      size="16"
+      @click="setSnackbar(false)"
+    >
+      mdi-close-circle
+    </v-icon>
+  </v-snackbar>
+</template>
+
+<script>
+  import { mapState, mapActions } from 'vuex'
+  export default {
+    computed: {
+      ...mapState('snackbar', ['snackbar', 'top', 'left', 'bottom', 'right', 'color', 'message']),
+      snackbar: {
+        get () {
+          return this.$store.state.snackbar.snackbar
+        },
+        set (val) {
+          this.setSnackbar(val)
+        }
+      }
+    },
+    methods: {
+      ...mapActions('snackbar', ['setSnackbar'])
+    }
+  }
+</script>
+
+<style scoped lang="stylus">
+
+</style>
