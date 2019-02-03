@@ -87,6 +87,8 @@
         >
           <v-icon color="tertiary">mdi-account</v-icon>
         </router-link>
+        <v-icon @click="logOutAccount" v-if="isUserLogged" color="tertiary">mdi-exit-to-app</v-icon>
+
       </v-flex>
     </v-toolbar-items>
   </v-toolbar>
@@ -95,7 +97,8 @@
 <script>
 
 import {
-  mapMutations
+  mapActions,
+  mapState
 } from 'vuex'
 
 export default {
@@ -118,6 +121,11 @@ export default {
     }
   },
 
+  computed: {
+    ...mapState('authentication', ['isUserLogged'])
+  },
+
+
   mounted () {
     this.onResponsiveInverted()
     window.addEventListener('resize', this.onResponsiveInverted)
@@ -127,7 +135,8 @@ export default {
   },
 
   methods: {
-    ...mapMutations('app', ['setDrawer', 'toggleDrawer']),
+    ...mapActions('authentication', ['logout']),
+    ...mapActions('app', ['setDrawer', 'toggleDrawer']),
     onClickBtn () {
       this.setDrawer(!this.$store.state.app.drawer)
     },
@@ -142,6 +151,9 @@ export default {
         this.responsive = false
         this.responsiveInput = true
       }
+    },
+    logOutAccount() {
+      this.logout().then(() => this.$router.push('login'))
     }
   }
 }
