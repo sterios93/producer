@@ -5,13 +5,15 @@
         <router-view />
       </v-fade-transition>
     </div>
-    <core-footer v-if="$route.name !== 'Maps'" />
+    <core-footer/>
     <CustomSnackBar/>
   </v-content>
 </template>
 
 <script>
 import CustomSnackBar from '../material/CustomSnackBar'
+import { mapActions, mapState } from 'vuex'
+
 export default {
   components: {
     CustomSnackBar
@@ -19,6 +21,26 @@ export default {
   metaInfo () {
     return {
       title: 'Vuetify Material Dashboard by CreativeTim'
+    }
+  },
+  computed: {
+    ...mapState('layout', ['responsive']),
+  },
+  mounted () {
+    this.onResponsiveInverted()
+    window.addEventListener('resize', this.onResponsiveInverted)
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.onResponsiveInverted)
+  },
+  methods: {
+    ...mapActions('layout', ['setResponsive']),
+    onResponsiveInverted () {
+      if (window.innerWidth < 991) {
+        this.setResponsive(true)
+      } else {
+        this.setResponsive(false)
+      }
     }
   }
 }

@@ -142,10 +142,10 @@ export default {
         userAccess: true
       }
     ],
-    responsive: false
   }),
   computed: {
     ...mapState('authentication', ['isUserLogged']),
+    ...mapState('layout', ['responsive']),
     ...mapState('app', ['image', 'color']),
     inputValue: {
       get () {
@@ -159,22 +159,8 @@ export default {
       return this.$t('Layout.View.items')
     }
   },
-  mounted () {
-    this.onResponsiveInverted()
-    window.addEventListener('resize', this.onResponsiveInverted)
-  },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.onResponsiveInverted)
-  },
   methods: {
     ...mapActions('app', ['setDrawer', 'toggleDrawer']),
-    onResponsiveInverted () {
-      if (window.innerWidth < 991) {
-        this.responsive = true
-      } else {
-        this.responsive = false
-      }
-    }
   }
 }
 </script>
