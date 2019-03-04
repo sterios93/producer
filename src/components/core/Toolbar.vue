@@ -31,12 +31,12 @@
         py-2
       >
         <v-text-field
-          v-if="responsiveInput"
+          v-if="!responsiveInput"
           class="mr-4 mt-2 purple-input"
           label="Search..."
           hide-details
           color="purple"
-        />
+        ></v-text-field>
         <router-link
           v-ripple
           class="toolbar-items"
@@ -111,8 +111,6 @@ export default {
       'Another One'
     ],
     title: null,
-    responsive: false,
-    responsiveInput: false
   }),
 
   watch: {
@@ -122,16 +120,8 @@ export default {
   },
 
   computed: {
-    ...mapState('authentication', ['isUserLogged'])
-  },
-
-
-  mounted () {
-    this.onResponsiveInverted()
-    window.addEventListener('resize', this.onResponsiveInverted)
-  },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.onResponsiveInverted)
+    ...mapState('authentication', ['isUserLogged']),
+    ...mapState('layout', ['responsive'])
   },
 
   methods: {
@@ -142,15 +132,6 @@ export default {
     },
     onClick () {
       //
-    },
-    onResponsiveInverted () {
-      if (window.innerWidth < 991) {
-        this.responsive = true
-        this.responsiveInput = false
-      } else {
-        this.responsive = false
-        this.responsiveInput = true
-      }
     },
     logOutAccount() {
       this.logout().then(() => this.$router.push('login'))
