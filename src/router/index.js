@@ -45,6 +45,4 @@ const router = new Router({
 
 Vue.use(Meta)
 
-}
-
 export default router
