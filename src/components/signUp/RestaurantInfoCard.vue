@@ -6,7 +6,6 @@
                 class="purple-input"
                 label="Restaurant Name"
                 v-model="email"
-                :rules="emailRules"
                 required>
             </v-text-field>
         </v-flex>
@@ -16,7 +15,6 @@
                 class="purple-input"
                 label="Restaurant Type"
                 v-model="email"
-                :rules="emailRules"
                 required>
             </v-text-field>
         </v-flex>
@@ -26,7 +24,6 @@
                 class="purple-input"
                 label="Restaurant website"
                 v-model="email"
-                :rules="emailRules"
                 required>
             </v-text-field>
         </v-flex>
@@ -36,7 +33,6 @@
                 class="purple-input"
                 label="Restaurant number"
                 v-model="email"
-                :rules="emailRules"
                 required>
             </v-text-field>
         </v-flex>
@@ -60,7 +56,7 @@
         name: 'restaurant-info-card',
         data () {
             return {
-
+                email: ''
             }
         }
     }
