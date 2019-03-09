@@ -41,6 +41,11 @@ export default [
     view: 'Upgrade'
   },
   {
+    path: '/menu',
+    name: 'Menu',
+    view: 'Menu'
+  },
+  {
     path: '/login',
     view: 'LogIn'
   },

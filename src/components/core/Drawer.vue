@@ -140,6 +140,12 @@ export default {
         icon: 'mdi-bell',
         text: 'Notifications',
         userAccess: true
+      },
+      {
+        to: '/menu',
+        icon: 'menu',
+        text: 'Menu',
+        userAccess: true
       }
     ],
   }),
