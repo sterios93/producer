@@ -4,7 +4,7 @@
 
     flat
     prominent
-    style="margin-left: 260px; background: #eee;"
+    style="background: #eee;"
   >
     <div class="v-toolbar-title">
       <v-toolbar-title
@@ -31,7 +31,7 @@
         py-2
       >
         <v-text-field
-          v-if="!responsiveInput"
+          v-if="!responsive"
           class="mr-4 mt-2 purple-input"
           label="Search..."
           hide-details
@@ -140,8 +140,10 @@ export default {
 }
 </script>
 
-<style>
-  #core-toolbar a {
-    text-decoration: none;
-  }
+<style scoped lang="stylus">
+  #core-toolbar a
+    text-decoration: none
+  >>> .v-toolbar__content
+    margin-left 260px !important
+
 </style>
