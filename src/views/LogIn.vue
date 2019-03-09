@@ -11,7 +11,7 @@
       <material-card
         color="success"
         title="Welcome"
-        text="Complete your profile"
+        text="Please sign in"
       >
         <v-form ref="form">
           <v-container py-0>
@@ -48,13 +48,29 @@
                 xs12
                 text-xs-right
               >
+
                 <v-btn
-                  class="mx-0 font-weight-light"
+                  class="mr-2 font-weight-light"
+                  color="purple darken-2"
+                  @click="submit" :class=" { 'blue darken-4 white--text' : valid, disabled: !valid }"
+                >
+                  Sign up
+                </v-btn>
+
+                <v-btn
+                  class="font-weight-light"
                   color="success"
                   @click="submit" :class=" { 'blue darken-4 white--text' : valid, disabled: !valid }"
                 >
-                  Login Up
+                  Sign in
                 </v-btn>
+              </v-flex>
+              <v-flex
+                xs12
+                text-xs-center
+                class="pa-0"
+              >
+               <a href="#">Forgotten password</a>
               </v-flex>
             </v-layout>
           </v-container>
