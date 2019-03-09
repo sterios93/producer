@@ -3,10 +3,6 @@
   border-radius: $border-radius-base;
   margin-bottom: $margin-general;
 
-  &:not(.v-toolbar--fixed) .v-toolbar__content {
-    margin-left: $toolbar-margin-left;
-  }
-
   @include toolbar-colors('bg-danger', $brand-danger);
   @include toolbar-colors('bg-warning', $brand-warning);
   @include toolbar-colors('bg-primary', $brand-primary);

@@ -4,7 +4,7 @@
 
     flat
     prominent
-    style="background: #eee;"
+    style="margin-left: 260px; background: #eee;"
   >
     <div class="v-toolbar-title">
       <v-toolbar-title

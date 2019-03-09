@@ -8,16 +8,19 @@
     <core-footer v-if="$route.name !== 'Maps'" />
     <core-footer/>
     <CustomSnackBar/>
+    <!--<AddMenuItem/>-->
   </v-content>
 </template>
 
 <script>
 import CustomSnackBar from '../material/CustomSnackBar'
+import AddMenuItem from '../custom/dialogs/AddMenuItem'
 import { mapActions, mapState } from 'vuex'
 
 export default {
   components: {
-    CustomSnackBar
+    CustomSnackBar,
+    AddMenuItem
   },
   metaInfo () {
     return {
