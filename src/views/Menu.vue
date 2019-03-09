@@ -1,24 +1,15 @@
 <template>
-    <v-container
-            fluid
-            grid-list-xl
-            fill-height>
-        <v-layout
-                justify-center
-                align-center
-        >
+    <v-container fluid grid-list-xl fill-height>
+        <v-layout justify-center align-center>
             <v-flex xs12>
                 <material-card :color="color">
                     <v-layout slot="header">
+
                         <v-flex>
                             <div class="title font-weight-light mb-2">Menu</div>
                             <div class="category">
                                 Handcrafted by us with
-                                <v-icon
-                                        size="17"
-                                >
-                                    mdi-heart
-                                </v-icon>
+                                <v-icon size="17">mdi-heart</v-icon>
                             </div>
                         </v-flex>
 
@@ -32,7 +23,6 @@
                 </material-card>
 
                 <UI/>
-
             </v-flex>
         </v-layout>
     </v-container>

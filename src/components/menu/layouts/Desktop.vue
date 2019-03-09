@@ -17,7 +17,8 @@
     props: {
       items: Array,
       categories: Array,
-      selectedCategory: String
+      selectedCategory: String,
+      color: String
     },
 
     components: {
@@ -34,7 +35,8 @@
       },
       categoryProps () {
         return {
-          items: this.categories
+          items: this.categories,
+          color: this.color
         }
       }
     }
