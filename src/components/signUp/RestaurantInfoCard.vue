@@ -38,9 +38,10 @@
         </v-flex>
 
         <v-flex>
+             <v-btn color="primary" @click="stepClick(1)">Back</v-btn>
             <v-btn
                 color="primary"
-                @click="e1 = 3"
+                @click="stepClick(3)"
             >
                 Continue
             </v-btn>
@@ -52,12 +53,23 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
     export default {
         name: 'restaurant-info-card',
         data () {
             return {
                 email: ''
             }
-        }
+        },
+        methods: {
+             ...mapActions('signUp', [
+                'setActiveStepNumber',
+            ]),
+            stepClick(stepNumber) {
+                this.setActiveStepNumber(stepNumber);
+            }
+        },
+        
     }
 </script>

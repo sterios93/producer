@@ -8,17 +8,32 @@
           text="Create your profile"
         >
           <v-form ref="form">
-            <v-stepper v-model="e1">
+            <v-stepper v-model="activeStepNumber">
                 <v-stepper-header>
-                  <v-stepper-step :complete="e1 > 1" step="1" editable>Personal Information</v-stepper-step>
+                  <v-stepper-step
+                   :complete="1 <= activeStepNumber"
+                   step="1"
+                   :rules="[() => this.isPersonalInfoValid]"
+                   @click="stepClick(1)"
+                   >
+                    Personal Information
+                     <small v-if="!this.isPersonalInfoValid">Please fill all fields correct.</small>
+                    </v-stepper-step>
 
                   <v-divider></v-divider>
 
-                  <v-stepper-step :complete="e1 > 2" step="2" editable>Restaurant Information</v-stepper-step>
+                  <v-stepper-step 
+                    :complete="2 <= activeStepNumber"
+                    step="2"
+                    @click="stepClick(2)"
+                    >Restaurant Information</v-stepper-step>
 
                   <v-divider></v-divider>
 
-                  <v-stepper-step step="3" editable>Adress Information</v-stepper-step>
+                  <v-stepper-step
+                    step="3" 
+                    @click="stepClick(3)"
+                    >Adress Information</v-stepper-step>
                 </v-stepper-header>
 
                 <v-stepper-items>
@@ -52,7 +67,7 @@ import RestaurantInfoCard from '../components/signUp/RestaurantInfoCard';
 import AdressInfoCard from '../components/signUp/AdressInfoCard';
 import Map from '../components/shared/map/Map';
 
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name:'sign-up',
@@ -64,47 +79,21 @@ export default {
   },
   data() {
     return {
-      valid: false,
-      e1: false,
-      password: '',
-      passwordRules: [
-        (v) => !!v || 'Password is required',
-      ],
-      email: '',
-      emailRules: [
-        (v) => !!v || 'E-mail is required',
-        (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-      ],
     }
+  },
+  computed: {
+    ...mapState('signUp', [
+      'isPersonalInfoValid',
+      'activeStepNumber'
+    ])
   },
   methods: {
     ...mapActions('authentication', ['postData']),
     ...mapActions('snackbar', ['setState']),
-    submit () {
-      if (this.$refs.form.validate()) {
-        let payload = {
-          email: this.email,
-          password: this.password
-        }
-
-        this.postData({action: 'register', payload})
-          .then((r) => {
-            if (r.success !== false) {
-              this.postData({action: 'login', payload})
-                .then(data => {
-                  if (data.success !== false) {
-                    this.$router.push({ path: 'maps' })
-                  }
-                })
-            } else {
-              this.setState({snackbar: true, message: r.err.name, color: 'red'})
-            }
-          })
-      }
-    },
-    clear() {
-      this.$refs.form.reset()
-    },
+    ...mapActions('signUp', ['setActiveStepNumber']),
+    stepClick(stepNumber) {
+      this.setActiveStepNumber(stepNumber);
+    }
   },
 }
 </script>

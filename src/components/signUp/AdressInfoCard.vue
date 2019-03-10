@@ -11,6 +11,7 @@
                 <Map></Map>
             </v-flex>
             <v-flex>
+                <v-btn color="primary" @click="stepClick(2)">Back</v-btn>
                 <v-btn
                 color="primary"
                 @click="e1 = 1"
@@ -26,6 +27,8 @@
 
 <script>
 import Map from '../shared/map/Map';
+import { mapActions } from 'vuex'
+
 
     export default {
         name: 'adress-info-card',
@@ -36,6 +39,14 @@ import Map from '../shared/map/Map';
             return {
 
             }
-        }
+        },
+         methods: {
+             ...mapActions('signUp', [
+                'setActiveStepNumber',
+            ]),
+            stepClick(stepNumber) {
+                this.setActiveStepNumber(stepNumber);
+            }
+        },
     }
 </script>
