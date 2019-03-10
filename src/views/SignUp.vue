@@ -14,7 +14,6 @@
                    :complete="1 <= activeStepNumber"
                    step="1"
                    :rules="[() => this.isPersonalInfoValid]"
-                   @click="stepClick(1)"
                    >
                     Personal Information
                      <small v-if="!this.isPersonalInfoValid">Please fill all fields correct.</small>
@@ -25,14 +24,12 @@
                   <v-stepper-step 
                     :complete="2 <= activeStepNumber"
                     step="2"
-                    @click="stepClick(2)"
                     >Restaurant Information</v-stepper-step>
 
                   <v-divider></v-divider>
 
                   <v-stepper-step
                     step="3" 
-                    @click="stepClick(3)"
                     >Adress Information</v-stepper-step>
                 </v-stepper-header>
 
@@ -90,10 +87,6 @@ export default {
   methods: {
     ...mapActions('authentication', ['postData']),
     ...mapActions('snackbar', ['setState']),
-    ...mapActions('signUp', ['setActiveStepNumber']),
-    stepClick(stepNumber) {
-      this.setActiveStepNumber(stepNumber);
-    }
   },
 }
 </script>
