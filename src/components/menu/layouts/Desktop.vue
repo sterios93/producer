@@ -1,9 +1,9 @@
 <template>
-    <v-layout>
-        <v-flex xs12 sm8 >
+    <v-layout row wrap>
+        <v-flex xs12 sm9 >
             <MenuListContainer v-bind="MenuListContainerProps"/>
         </v-flex>
-        <v-flex xs12 sm4>
+        <v-flex xs12 sm3>
             <CategoryList v-bind="categoryProps"/>
         </v-flex>
     </v-layout>
@@ -28,7 +28,8 @@
     computed: {
       MenuListContainerProps () {
         return {
-          selectedCategories: this.selectedCategories
+          selectedCategories: this.selectedCategories,
+          color: this.color
         }
       },
       categoryProps () {

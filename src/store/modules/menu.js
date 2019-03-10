@@ -6,6 +6,50 @@ export default {
   state: {
     items: [
       {
+        id: 14,
+        name: 'Lorem',
+        image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+        price: '40,00',
+        category: {
+          id: 0,
+          name: 'Cuban'
+        },
+        description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
+      },
+      {
+        id: 15,
+        name: 'Lorem',
+        image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+        price: '40,00',
+        category: {
+          id: 0,
+          name: 'Cuban'
+        },
+        description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
+      },
+      {
+        id: 10,
+        name: 'Lorem',
+        image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+        price: '40,00',
+        category: {
+          id: 0,
+          name: 'Cuban'
+        },
+        description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
+      },
+      {
+        id: 11,
+        name: 'Lorem',
+        image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+        price: '40,00',
+        category: {
+          id: 0,
+          name: 'Cuban'
+        },
+        description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
+      },
+      {
         id: 0,
         name: 'Lorem',
         image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',

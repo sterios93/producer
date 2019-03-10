@@ -1,7 +1,7 @@
 <template>
 
-    <v-card color="white darken-2">
-        <v-layout align-center justify-space-between row fill-height>
+    <v-card color="white darken-2 text-xs-center">
+        <v-layout align-center justify-space-between row wrap fill-height>
             <v-flex xs12 sm3>
                 <v-img
                         :src="item.image"
@@ -18,8 +18,7 @@
                 </v-card-title>
             </v-flex>
             <v-flex xs12 sm2>
-                <v-spacer></v-spacer>
-                <span class="headline">{{item.price}}</span>
+                <div class="headline">{{item.price}}</div>
             </v-flex>
         </v-layout>
         <v-divider light></v-divider>

@@ -4,6 +4,7 @@
     v-if="toolbar"
     flat
     prominent
+    :class="{'responsive': !responsive}"
     style="background: #eee;"
   >
     <div class="v-toolbar-title">
@@ -144,7 +145,8 @@ export default {
 <style scoped lang="stylus">
   #core-toolbar a
     text-decoration: none
-  >>> .v-toolbar__content
-    margin-left 260px !important
+  .responsive
+    >>> .v-toolbar__content
+      margin-left 260px !important
 
 </style>
