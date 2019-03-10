@@ -1,5 +1,6 @@
 <template>
-    <v-card color="white darken-2" class="">
+
+    <v-card color="white darken-2">
         <v-layout align-center justify-space-between row fill-height>
             <v-flex xs12 sm3>
                 <v-img
@@ -32,6 +33,7 @@
             <v-icon>star_border</v-icon>
         </v-card-actions>
     </v-card>
+
 </template>
 
 <script>

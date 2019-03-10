@@ -1,5 +1,5 @@
 <template>
-    <v-checkbox v-model="selected" :label="item" :value="item"></v-checkbox>
+    <v-checkbox v-model="selected" :label="item.name" :value="item.selected"></v-checkbox>
 </template>
 
 <script>
@@ -14,7 +14,7 @@
           return this.item.selected
         },
         set (value) {
-          this.emit('item-selected', { value, item: this.item.id } )
+          this.$emit('item-selected', this.item.id)
         }
       }
     }

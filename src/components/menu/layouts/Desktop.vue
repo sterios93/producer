@@ -1,7 +1,7 @@
 <template>
     <v-layout>
-        <v-flex xs12 sm8>
-            <MenuList v-bind="menuListProps"/>
+        <v-flex xs12 sm8 >
+            <MenuListContainer v-bind="MenuListContainerProps"/>
         </v-flex>
         <v-flex xs12 sm4>
             <CategoryList v-bind="categoryProps"/>
@@ -10,27 +10,25 @@
 </template>
 
 <script>
-  import MenuList from '../../shared/menu/MenuList'
+  import MenuListContainer from '../../shared/menu/MenuListContainer'
   import CategoryList from '../../shared/category/CategoryList'
 
   export default {
     props: {
-      items: Array,
       categories: Array,
-      selectedCategory: String,
+      selectedCategories: Array,
       color: String
     },
 
     components: {
-      MenuList,
+      MenuListContainer,
       CategoryList
     },
 
     computed: {
-      menuListProps () {
+      MenuListContainerProps () {
         return {
-          items: this.items,
-          category: this.selectedCategory
+          selectedCategories: this.selectedCategories
         }
       },
       categoryProps () {

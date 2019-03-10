@@ -1,26 +1,20 @@
 <template>
-    <ul two-line color="transparent">
-        <v-subheader v-if="category">{{ category }}</v-subheader>
-
-        <template v-for="(item, index) in items">
-            <v-flex xs12>
+    <v-slide-x-transition group mode="out-in" tag="ul" class="pa-0" color="transparent">
+        <v-flex v-for="item in items" xs12 :key="item.id" class="py-2 px-0">
                 <v-divider></v-divider>
-                <MenuItem :item="item" :key="index"/>
-            </v-flex>
-        </template>
-    </ul>
+                <MenuItem :item="item" />
+        </v-flex>
+    </v-slide-x-transition>
 </template>
 
 <script>
   import MenuItem from './MenuItem'
-
   export default {
     components: {
       MenuItem
     },
 
     props: {
-      category: String,
       items: Array
     },
 

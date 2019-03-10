@@ -6,7 +6,7 @@
   import Desktop from './layouts/Desktop'
   import Mobile from './layouts/Mobile'
 
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
 
   export default {
     components: {
@@ -17,15 +17,15 @@
     computed: {
       ...mapState('layout', ['responsive']),
       ...mapState('app', ['color']),
-      ...mapState('menu', ['items', 'categories', 'selectedCategory']),
+      ...mapState('menu', ['categories']),
+      ...mapGetters('menu', ['getSelectedCategories']),
       component() {
         return this.responsive ? 'Mobile' : 'Desktop'
       },
       props() {
         return {
-          items: this.items,
           categories: this.categories,
-          selectedCategory: this.selectedCategory,
+          selectedCategories: this.getSelectedCategories,
           color: this.color
         }
       }

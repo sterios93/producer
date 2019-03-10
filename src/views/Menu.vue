@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid grid-list-xl fill-height>
+    <v-container fluid grid-list-xl fill-height class="py-0 my-0">
         <v-layout justify-center align-center>
             <v-flex xs12>
                 <material-card :color="color">

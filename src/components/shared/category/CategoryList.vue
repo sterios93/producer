@@ -10,21 +10,19 @@
             </v-btn>
         </v-toolbar>
 
-        <v-list two-line>
+        <v-list two-line class="px-3">
             <template v-for="(item, index) in items">
-
-
                 <v-divider></v-divider>
-
-                <CategoryItem :item="item"/>
-
+                <CategoryItem :item="item" @item-selected="onItemSelected"/>
             </template>
         </v-list>
     </v-card>
 </template>
 
 <script>
+  import {mapActions} from 'vuex'
   import CategoryItem from './CategoryItem'
+
   export default {
     components: {
       CategoryItem
@@ -32,6 +30,12 @@
     props: {
       color: String,
       items: Array
+    },
+    methods: {
+      ...mapActions('menu', ['toggleCategory']),
+      onItemSelected(id) {
+        this.toggleCategory({id})
+      }
     }
   }
 </script>

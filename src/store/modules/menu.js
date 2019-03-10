@@ -110,9 +110,12 @@ export default {
   },
   getters: {
     getSelectedCategories: (state) => state.categories.filter(el => el.selected),
-    getMenuItes: (state) => {
+    getMenuItems: (state) => {
       let categories = state.categories.filter(el => el.selected)
-      return state.items.filter(el =>  categories.find(c => c.id == el.category.id))
+      return state.items.filter(el => categories.find(c => c.id === el.category.id))
+    },
+    getMenuByCategory: (state) => (id) => {
+      return state.items.filter(el => id === el.category.id)
     }
   }
   ,
@@ -126,8 +129,8 @@ export default {
     setSelectedCategories({commit}, payload) {
       commit('SET_SELECTED_CATEGORIES', payload)
     },
-    selectCategory({commit}, payload) {
-      commit('SELECT_CATEGORY', payload)
+    toggleCategory({commit}, payload) {
+      commit('TOGGLE_CATEGORY', payload)
     },
     fetchMenu({commit}, payload) {
       getData()
