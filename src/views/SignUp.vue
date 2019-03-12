@@ -8,10 +8,10 @@
           text="Create your profile"
         >
           <v-form ref="form">
-            <v-stepper v-model="activeStepNumber">
+            <v-stepper v-model="activeStep">
                 <v-stepper-header>
                   <v-stepper-step
-                   :complete="1 <= activeStepNumber"
+                   :complete="1 <= activeStep"
                    step="1"
                    :rules="[() => this.isPersonalInfoValid]"
                    >
@@ -22,9 +22,12 @@
                   <v-divider></v-divider>
 
                   <v-stepper-step 
-                    :complete="2 <= activeStepNumber"
+                    :complete="2 <= activeStep"
                     step="2"
-                    >Restaurant Information</v-stepper-step>
+                    :rules="[() => this.isRestaurantInfoValid]"
+                    >Restaurant Information
+                    <small v-if="!this.isRestaurantInfoValid">Please fill all fields correct.</small>
+                    </v-stepper-step>
 
                   <v-divider></v-divider>
 
@@ -81,12 +84,22 @@ export default {
   computed: {
     ...mapState('signUp', [
       'isPersonalInfoValid',
-      'activeStepNumber'
-    ])
+      'isRestaurantInfoValid',
+      'activeStepNumber',
+    ]),
+    activeStep: {
+      get: function () {
+        return this.activeStepNumber
+      },
+      set: function (stepNumber) {
+        this.setActiveStepNumber(stepNumber);
+      }
+    }
   },
   methods: {
     ...mapActions('authentication', ['postData']),
     ...mapActions('snackbar', ['setState']),
+    ...mapActions('signUp', ['setActiveStepNumber']),
   },
 }
 </script>
