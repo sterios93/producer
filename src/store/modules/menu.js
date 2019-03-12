@@ -7,7 +7,7 @@ export default {
     items: [
       {
         id: 14,
-        name: 'Lorem',
+        name: 'Lorem1',
         image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
         price: '40,00',
         category: {
@@ -18,7 +18,7 @@ export default {
       },
       {
         id: 15,
-        name: 'Lorem',
+        name: 'Lorem1',
         image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
         price: '40,00',
         category: {
@@ -29,7 +29,7 @@ export default {
       },
       {
         id: 10,
-        name: 'Lorem',
+        name: 'Lorem1',
         image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
         price: '40,00',
         category: {
@@ -51,7 +51,7 @@ export default {
       },
       {
         id: 0,
-        name: 'Lorem',
+        name: 'Lorem1',
         image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
         price: '40,00',
         category: {
@@ -62,7 +62,7 @@ export default {
       },
       {
         id: 1,
-        name: 'Lorem',
+        name: 'Lorem2',
         image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
         price: '40,00',
         category: {
@@ -73,7 +73,7 @@ export default {
       },
       {
         id: 2,
-        name: 'Lorem',
+        name: 'Lorem2',
         image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
         price: '40,00',
         category: {
@@ -84,7 +84,7 @@ export default {
       },
       {
         id: 3,
-        name: 'Lorem',
+        name: 'Lorem3',
         image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
         price: '40,00',
         category: {
@@ -95,7 +95,7 @@ export default {
       },
       {
         id: 4,
-        name: 'Lorem',
+        name: 'Lorem4',
         image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
         price: '40,00',
         category: {
@@ -154,12 +154,11 @@ export default {
   },
   getters: {
     getSelectedCategories: (state) => state.categories.filter(el => el.selected),
-    getMenuItems: (state) => {
-      let categories = state.categories.filter(el => el.selected)
-      return state.items.filter(el => categories.find(c => c.id === el.category.id))
-    },
-    getMenuByCategory: (state) => (id) => {
-      return state.items.filter(el => id === el.category.id)
+    getMenuByCategory: (state) => (id) => state.items.filter(el => id === el.category.id),
+    getMenuByName: (state) => (name) => {
+      return state.items
+        .filter(el => el.name.indexOf(name) !== -1)
+        .sort((a, b) => a - b)
     }
   }
   ,

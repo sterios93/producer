@@ -11,9 +11,9 @@
         </v-toolbar>
 
         <v-list two-line class="px-3">
-            <template v-for="(item, index) in items">
+            <template v-for="item in items">
                 <v-divider></v-divider>
-                <CategoryItem :item="item" @item-selected="onItemSelected"/>
+                <CategoryItem :item="item" :key=item.id @item-selected="onItemSelected"/>
             </template>
         </v-list>
     </v-card>
@@ -27,10 +27,13 @@
     components: {
       CategoryItem
     },
+
     props: {
       color: String,
-      items: Array
+      items: Array,
+      searchVisibility: Boolean
     },
+
     methods: {
       ...mapActions('menu', ['toggleCategory']),
       onItemSelected(id) {

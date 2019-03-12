@@ -13,7 +13,7 @@
         get () {
           return this.item.selected
         },
-        set (value) {
+        set () {
           this.$emit('item-selected', this.item.id)
         }
       }

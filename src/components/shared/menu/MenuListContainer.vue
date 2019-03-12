@@ -43,6 +43,7 @@
     computed: {
       ...mapGetters('menu', ['getMenuByCategory']),
     },
+
     methods: {
       menuListProps(category) {
         return {

@@ -1,10 +1,10 @@
 <template>
     <v-layout row wrap>
         <v-flex xs12 sm9 >
-            <MenuListContainer v-bind="MenuListContainerProps"/>
+            <MenuListContainer v-bind="{...menuListContainerProps, ...sharedProps}"/>
         </v-flex>
         <v-flex xs12 sm3>
-            <CategoryList v-bind="categoryProps"/>
+            <CategoryList v-bind="{...categoryProps, ...sharedProps}"/>
         </v-flex>
     </v-layout>
 </template>
@@ -15,9 +15,9 @@
 
   export default {
     props: {
+      color: String,
       categories: Array,
-      selectedCategories: Array,
-      color: String
+      selectedCategories: Array
     },
 
     components: {
@@ -26,16 +26,19 @@
     },
 
     computed: {
-      MenuListContainerProps () {
+      menuListContainerProps () {
         return {
           selectedCategories: this.selectedCategories,
-          color: this.color
         }
       },
       categoryProps () {
         return {
           items: this.categories,
-          color: this.color
+        }
+      },
+      sharedProps () {
+        return {
+          color: this.color,
         }
       }
     }
