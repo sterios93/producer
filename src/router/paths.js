@@ -48,4 +48,8 @@ export default [
     path: '/signup',
     view: 'SignUp'
   },
+  {
+    path: '/forgotten-password',
+    view: 'ForgottenPassword'
+  },
 ]
