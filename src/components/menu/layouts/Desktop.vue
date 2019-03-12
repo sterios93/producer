@@ -15,9 +15,11 @@
 
   export default {
     props: {
+      tabs: Object,
       color: String,
       categories: Array,
-      selectedCategories: Array
+      selectedCategories: Array,
+      activeTab: String
     },
 
     components: {
@@ -28,7 +30,8 @@
     computed: {
       menuListContainerProps () {
         return {
-          selectedCategories: this.selectedCategories,
+          tabs: this.tabs,
+          selectedCategories: this.selectedCategories
         }
       },
       categoryProps () {
@@ -39,6 +42,7 @@
       sharedProps () {
         return {
           color: this.color,
+          activeTab: this.activeTab
         }
       }
     }

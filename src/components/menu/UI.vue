@@ -17,16 +17,18 @@
     computed: {
       ...mapState('layout', ['responsive']),
       ...mapState('app', ['color']),
-      ...mapState('menu', ['categories']),
+      ...mapState('menu', ['categories', 'tabs', 'activeTab']),
       ...mapGetters('menu', ['getSelectedCategories']),
       component() {
         return this.responsive ? 'Mobile' : 'Desktop'
       },
       props() {
         return {
+          tabs: this.tabs,
+          color: this.color,
+          activeTab: this.activeTab,
           categories: this.categories,
-          selectedCategories: this.getSelectedCategories,
-          color: this.color
+          selectedCategories: this.getSelectedCategories
         }
       }
     }

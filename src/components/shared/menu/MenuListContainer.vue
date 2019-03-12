@@ -8,49 +8,80 @@
             <v-btn icon>
                 <v-icon>search</v-icon>
             </v-btn>
+
+            <template v-slot:extension>
+                <v-tabs
+                        :value="tabKeys.indexOf(activeTab)"
+                        @change="onTabChange"
+                        :color="color"
+                        grow
+                >
+                    <v-tabs-slider color="yellow"></v-tabs-slider>
+
+                    <v-tab
+                            v-for="(tab, key, index) in tabs"
+                            :item-value="key"
+                            :key="key"
+                    >
+                        {{ tab.title }}
+                    </v-tab>
+                </v-tabs>
+            </template>
         </v-toolbar>
 
-        <v-slide-x-transition group mode="out-in" tag="div" class="pa-0 d-flex transition-custom">
+        <v-tabs-items :value="tabKeys.indexOf(activeTab)">
 
-            <v-flex class="py-0" xs12 v-for="category in selectedCategories" :key="category.id">
-                <v-subheader>{{ category.name }}</v-subheader>
+            <v-tab-item v-for="n in 3" :key="n">
+                <v-card flat>
+                    <v-card-text>
+                        <MenuTab v-bind="menuTabProps"/>
+                    </v-card-text>
+                </v-card>
+            </v-tab-item>
 
-                <v-flex class="pa-0">
-                    <v-divider></v-divider>
-                    <MenuList v-bind="menuListProps(category)"/>
-                </v-flex>
-            </v-flex>
-
-        </v-slide-x-transition>
+        </v-tabs-items>
     </div>
 </template>
 
 <script>
   import MenuList from '../../shared/menu/MenuList'
 
-  import {mapGetters} from 'vuex'
+  import {mapActions} from 'vuex'
+  import MenuTab from "./MenuTab";
 
   export default {
     props: {
-      selectedCategories: Array,
-      color: String
+      tabs: Object,
+      color: String,
+      activeTab: String,
+      selectedCategories: Array
+    },
+
+    data () {
+      return {
+        tabKeys: ['menu', 'special', 'launch']
+      }
     },
 
     components: {
+      MenuTab,
       MenuList,
     },
 
     computed: {
-      ...mapGetters('menu', ['getMenuByCategory']),
+      menuTabProps () {
+        return {
+          color: this.color,
+          selectedCategories: this.selectedCategories
+        }
+      }
     },
 
     methods: {
-      menuListProps(category) {
-        return {
-          items: this.getMenuByCategory(category.id),
-          color: this.color
-        }
-      },
+      ...mapActions('menu', ['setActiveTab']),
+      onTabChange(tab) {
+        this.setActiveTab(this.tabKeys[tab])
+      }
     }
   }
 </script>
