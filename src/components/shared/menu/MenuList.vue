@@ -1,9 +1,32 @@
 <template>
-
+    <v-slide-x-transition group mode="out-in" tag="ul" class="pa-0" color="transparent">
+        <v-flex v-for="item in items" xs12 :key="item.id" class="py-2 px-0">
+            <v-divider></v-divider>
+            <MenuItem :item="item" />
+        </v-flex>
+    </v-slide-x-transition>
 </template>
 
 <script>
-  export default {}
+  import MenuItem from './MenuItem'
+  export default {
+    components: {
+      MenuItem
+    },
+
+    props: {
+      items: Array
+    },
+
+    data() {
+      return {}
+    },
+
+    methods: {
+      onItemClick() {
+      }
+    }
+  }
 </script>
 
 <style scoped lang="stylus">

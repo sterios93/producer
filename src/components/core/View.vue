@@ -5,8 +5,7 @@
         <router-view />
       </v-fade-transition>
     </div>
-    <core-footer v-if="$route.name !== 'Maps'" />
-    <core-footer/>
+    <!--<core-footer v-if="$route.name !== 'Maps'"\  /><core-footer/>-->
     <CustomSnackBar/>
     <!--<AddMenuItem/>-->
   </v-content>
