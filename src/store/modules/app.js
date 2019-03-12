@@ -3,7 +3,8 @@ import { set, toggle } from '@/utils/vuex'
 export default {
   namespaced: true,
   state: {
-    drawer: null,
+    drawer: false,
+    toolbar: false,
     color: 'success',
     image: 'https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg',
     user: null,
@@ -12,7 +13,8 @@ export default {
     SET_DRAWER: set('drawer'),
     SET_IMAGE: set('image'),
     SET_COLOR: set('color'),
-    TOGGLE_DRAWER: toggle('drawer')
+    TOGGLE_DRAWER: toggle('drawer'),
+    TOGGLE_TOOLBAR: toggle('toolbar'),
   },
   getters: {},
   actions: {
@@ -28,5 +30,8 @@ export default {
     toggleDrawer({commit}, drawer) {
       commit('TOGGLE_DRAWER', drawer)
     },
+    toggleToolbar({commit}, toolbar) {
+      commit('TOGGLE_TOOLBAR', toolbar)
+    }
   }
 }
