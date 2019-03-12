@@ -1,7 +1,7 @@
 <template>
   <v-toolbar
     id="core-toolbar"
-
+    v-if="toolbar"
     flat
     prominent
     style="background: #eee;"
@@ -121,7 +121,8 @@ export default {
 
   computed: {
     ...mapState('authentication', ['isUserLogged']),
-    ...mapState('layout', ['responsive'])
+    ...mapState('layout', ['responsive']),
+    ...mapState('app', ['toolbar']),
   },
 
   methods: {

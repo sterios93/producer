@@ -1,126 +1,107 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-    grid-list-xl>
-    <v-layout
-      justify-center
-      align-center
-      wrap
-    >
-      <material-card
-        color="info"
-        title="Sign Up for free"
-        text="Complete your profile"
-      >
-        <v-form ref="form">
-          <v-container py-0>
-            <v-layout wrap justify-space-around>
-              <v-flex
-                xs12
-                md6
-              >
-                <v-text-field
-                  class="purple-input"
-                  label="Enter your e-mail address"
-                  v-model="email"
-                  :rules="emailRules"
-                  required></v-text-field>
-              </v-flex>
+  <v-container fill-height fluid grid-list-xl>
+    <v-layout justify-center align-center wrap>
+      <v-flex xs12 md10>
+        <material-card
+          color="purple darken-2"
+          title="Sign Up"
+          text="Create your profile"
+        >
+          <v-form ref="form">
+            <v-stepper v-model="activeStep">
+                <v-stepper-header>
+                  <v-stepper-step
+                   :complete="1 <= activeStep"
+                   step="1"
+                   :rules="[() => this.isPersonalInfoValid]"
+                   >
+                    Personal Information
+                     <small v-if="!this.isPersonalInfoValid">Please fill all fields correct.</small>
+                    </v-stepper-step>
 
-              <v-flex
-                xs12
-                md6>
-                <v-text-field
-                  class="purple-input"
-                  label="Enter your password"
-                  v-model="password"
-                  min="8"
-                  :append-icon="e1 ? 'visibility' : 'visibility_off'"
-                  :append-icon-cb="() => (e1 = !e1)"
-                  :type="e1 ? 'password' : 'text'"
-                  :rules="passwordRules"
-                  counter
-                  required
-                ></v-text-field>
-              </v-flex>
-              <v-flex
-                xs12
-                text-xs-right
-              >
-                <v-btn
-                  class="mx-0 font-weight-light"
-                  color="info"
-                  @click="submit" :class=" { 'blue darken-4 white--text' : valid, disabled: !valid }"
-                >
-                  Sign Up
-                </v-btn>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-form>
-      </material-card>
+                  <v-divider></v-divider>
+
+                  <v-stepper-step 
+                    :complete="2 <= activeStep"
+                    step="2"
+                    :rules="[() => this.isRestaurantInfoValid]"
+                    >Restaurant Information
+                    <small v-if="!this.isRestaurantInfoValid">Please fill all fields correct.</small>
+                    </v-stepper-step>
+
+                  <v-divider></v-divider>
+
+                  <v-stepper-step
+                    step="3" 
+                    >Adress Information</v-stepper-step>
+                </v-stepper-header>
+
+                <v-stepper-items>
+                  <!-- Personal information -->
+                  <v-stepper-content step="1">
+                    <personal-info-card/>
+                  </v-stepper-content>
+
+                  <!-- Restaurant information -->
+                  <v-stepper-content step="2">
+                    <restaurant-info-card/>
+                  </v-stepper-content>
+
+                  <!-- Adress Information -->
+                  <v-stepper-content step="3">
+                    <adress-info-card/>
+                  </v-stepper-content>
+                </v-stepper-items>
+
+            </v-stepper>
+          </v-form>
+        </material-card>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import PersonalInfoCard from '../components/signUp/PersonalInfoCard';
+import RestaurantInfoCard from '../components/signUp/RestaurantInfoCard';
+import AdressInfoCard from '../components/signUp/AdressInfoCard';
+import Map from '../components/shared/map/Map';
+
+import { mapActions, mapState } from 'vuex';
+
 export default {
+  name:'sign-up',
+  components: {
+    Map,
+    PersonalInfoCard,
+    RestaurantInfoCard,
+    AdressInfoCard
+  },
   data() {
     return {
-      valid: false,
-      e1: false,
-      password: '',
-      passwordRules: [
-        (v) => !!v || 'Password is required',
-      ],
-      email: '',
-      emailRules: [
-        (v) => !!v || 'E-mail is required',
-        (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-      ],
+    }
+  },
+  computed: {
+    ...mapState('signUp', [
+      'isPersonalInfoValid',
+      'isRestaurantInfoValid',
+      'activeStepNumber',
+    ]),
+    activeStep: {
+      get: function () {
+        return this.activeStepNumber
+      },
+      set: function (stepNumber) {
+        this.setActiveStepNumber(stepNumber);
+      }
     }
   },
   methods: {
     ...mapActions('authentication', ['postData']),
     ...mapActions('snackbar', ['setState']),
-    submit () {
-      if (this.$refs.form.validate()) {
-        let payload = {
-          email: this.email,
-          password: this.password
-        }
-
-        this.postData({action: 'register', payload})
-          .then((r) => {
-            if (r.success !== false) {
-              this.postData({action: 'login', payload})
-                .then(data => {
-                  if (data.success !== false) {
-                    this.$router.push({ path: 'maps' })
-                  }
-                })
-            } else {
-              this.setState({snackbar: true, message: r.err.name, color: 'red'})
-            }
-          })
-      }
-    },
-    clear() {
-      this.$refs.form.reset()
-    },
+    ...mapActions('signUp', ['setActiveStepNumber']),
   },
 }
 </script>
 
-<style scoped lang="stylus">
-  #app
-    background-image: url("https://images.unsplash.com/photo-1497733942558-e74c87ef89db?dpr=1&auto=compress,format&fit=crop&w=1650&h=&q=80&cs=tinysrgb&crop=");
-    background-size: cover;
-    overflow: hidden;
-
-  .loginOverlay
-    height: 100vh;
-    background: rgba(33, 150, 243, 0.1);
-</style>
+<style scoped lang="stylus"></style>

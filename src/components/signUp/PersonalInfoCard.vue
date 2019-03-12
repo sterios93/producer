@@ -1,0 +1,223 @@
+<template>
+    <v-container>
+        <v-layout wrap>
+            <v-flex xs12 md6>
+                <v-text-field
+                    class="purple-input"
+                    label="First Name (required)"
+                    v-model="firstName"
+                    :error-messages="firstNameErrors"
+                    required
+                    @input="validate('firstName')"
+                    @blur="validate('firstName')"
+                    >
+                </v-text-field>
+            </v-flex>
+
+            <v-flex xs12 md6>
+            <v-text-field
+                class="purple-input"
+                label="Last Name (required)"
+                v-model="lastName"
+                :error-messages="lastNameErrors"
+                required
+                @input="validate('lastName')"
+                @blur="validate('lastName')"
+                >
+            </v-text-field>
+            </v-flex>
+
+            <v-flex xs12 md6>
+            <v-text-field
+                class="purple-input"
+                label="E-mail (required)"
+                v-model="email"
+                :error-messages="emailErrors"
+                required
+                @input="validate('email')"
+                @blur="validate('email')"
+                >
+            </v-text-field>
+            </v-flex>
+
+            <v-flex xs12 md6>
+            <v-text-field
+                class="purple-input"
+                label="Phone number (required)"
+                v-model="phoneNumber"
+                :error-messages="phoneNumberErrors"
+                required
+                @input="validate('phoneNumber')"
+                @blur="validate('phoneNumber')"
+                >
+            </v-text-field>
+            </v-flex>
+
+
+            <v-flex xs12 md6>
+            <v-text-field
+                class="purple-input"
+                label="Password (required)"
+                :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+                v-model="password"
+                :error-messages="passwordErrors"
+                :type="showPassword ? 'text' : 'password'"
+                required
+                @click:append="showPassword = !showPassword"
+                @input="validate('password')"
+                @blur="validate('password')"
+                >
+            </v-text-field>
+            </v-flex>
+
+            <v-flex xs12 md6>
+            <v-text-field
+                class="purple-input"
+                label="Repeat Password (required)"
+                :append-icon="showRepeatPassword ? 'visibility' : 'visibility_off'"
+                v-model="passwordRepeat"
+                :error-messages="passwordRepeatErrors"
+                :type="showRepeatPassword ? 'text' : 'password'"
+                 @click:append="showRepeatPassword = !showRepeatPassword"
+                required
+                @input="validate('passwordRepeat')"
+                @blur="validate('passwordRepeat')"
+                >
+            </v-text-field>
+            </v-flex>
+
+            <v-flex>
+                <v-btn
+                color="primary"
+                @click="nextScreen"
+                >
+                Continue
+                </v-btn>
+
+                <v-btn flat>Cancel</v-btn>
+            </v-flex>
+        </v-layout>
+    </v-container> 
+</template>
+
+<script>
+import { mapActions } from 'vuex'
+import { validationMixin } from 'vuelidate'
+import { required, minLength, sameAs, email, numeric } from 'vuelidate/lib/validators';
+import { error } from 'util';
+
+    export default {
+        name: 'personal-info-card',
+        mixins: [validationMixin],
+        data () {
+            return {
+                firstName: null,
+                firstNameErrors: [],
+                lastName: null,
+                lastNameErrors: [],
+                email: null,
+                emailErrors: [],
+                phoneNumber: null,
+                phoneNumberErrors: [],
+                password: null,
+                passwordErrors: [],
+                passwordRepeat: null,
+                passwordRepeatErrors: [],
+                showPassword: false,
+                showRepeatPassword: false,
+                allFields: ['firstName', 'lastName', 'email', 'phoneNumber', 'password', 'passwordRepeat'],
+            }
+        },
+        methods: {
+            ...mapActions('signUp', [
+                'setPersonalInfo',
+                'setPersonalInfoInvalid',
+                'setPersonalInfoValid',
+                'setActiveStepNumber',
+            ]),
+            nextScreen() {
+                this.$v.$touch();
+                if (this.$v.$invalid) {
+                    this.setPersonalInfoInvalid();
+                } else {
+                    // Todo, check in the database if the email is not in use already
+                    this.setPersonalInfo({
+                        firstName: this.firstName,
+                        lastName: this.lastName,
+                        email: this.email,
+                        phoneNumber: this.phoneNumber,
+                        password: this.password,
+                    });
+                    this.setActiveStepNumber(2);
+                }
+            },
+            validate(target) {
+                // Reset the errors everytime, so you can have dynamic fresh array on every keystroke
+                this[target + 'Errors'] = [];
+                this.$v[target].$touch();
+
+                this.hasError() && this.setPersonalInfoInvalid();
+                !this.hasError() && this.setPersonalInfoValid();
+
+                this.checkRequired(target);
+                this.checkEmail(target);
+                this.checkNumeric(target);
+                this.checkLength(target);
+                this.checkSameAs(target)
+                return this[target + 'Errors']
+            },
+            hasError() {
+                return this.allFields.reduce((result, item) => {
+                    if (this.$v[item].$error) result.push(false)
+                    else result.push(true)
+                    return result
+                },[])
+                .includes(false)
+            },
+            checkEmail(target) {
+                (this.$v[target].email !== undefined) && !this.$v[target].email && !this[target + 'Errors'].includes('Must be valid e-mail') && this[target + 'Errors'].push('Must be valid e-mail');
+            },
+            checkNumeric(target) {
+                (this.$v[target].numeric !== undefined) && !this.$v[target].numeric && !this[target + 'Errors'].includes('Must be numeric') && this[target + 'Errors'].push('Must be numeric');
+            },
+            checkLength(target) {
+                (this.$v[target].minLength !== undefined) && !this.$v[target].minLength && !this[target + 'Errors'].includes('Must be minimum 5 characters long') && this[target + 'Errors'].push('Must be minimum 5 characters long');
+            },
+            checkSameAs(target) {
+                (this.$v[target].sameAsPassword !== undefined) && !this.$v[target].sameAsPassword && !this[target + 'Errors'].includes('Passwords must be the same') && this[target + 'Errors'].push('Passwords must be the same');
+            },
+            checkRequired(target){
+                !this.$v[target].required && this[target + 'Errors'].push('This field is required');
+            }
+        },
+        validations: {
+            firstName: {
+                required,
+            },
+            lastName: {
+                required
+            },
+            email: {
+                required,
+                email,
+            },
+            phoneNumber: {
+                required,
+                numeric
+            },
+            password: {
+                required,
+                minLength: minLength(5)
+            },
+            passwordRepeat: {
+                required,
+                minLength: minLength(5),
+                sameAsPassword: sameAs('password')
+            },
+        }
+    }
+</script>
+
+<style scoped lang="stylus">
+
+</style>

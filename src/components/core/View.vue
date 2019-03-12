@@ -50,8 +50,10 @@ export default {
 }
 </script>
 
-<style>
-#core-view {
-  padding-bottom: 100px;
-}
+<style lang="stylus">
+  #core-view
+    padding-bottom: 100px;
+    display: flex;
+    justify-content: center;
+    height: 100%;
 </style>
