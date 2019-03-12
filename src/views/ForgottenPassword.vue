@@ -78,7 +78,6 @@ import { required, email } from 'vuelidate/lib/validators';
         } else {
           let payload = {
             email: this.email,
-            password: this.password
           }
 
           // TODO fix the post request when the backend is ready.
