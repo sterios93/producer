@@ -1,7 +1,6 @@
 import { set, toggle } from '@/utils/vuex'
 
 const state = () => ({
-
 })
 
 export default {

@@ -1,8 +1,9 @@
 import { set, toggle } from '@/utils/vuex'
 import add from './add'
-import view from './view'
+import view from './edit'
 import list from './list'
 import shared from './shared'
+import edit from './edit'
 
 export default {
   namespaced: true,
@@ -11,6 +12,7 @@ export default {
     view: view.state(),
     list: list.state(),
     shared: shared.state(),
+    edit: edit.state(),
   },
   mutations: {
     ...add.mutations,

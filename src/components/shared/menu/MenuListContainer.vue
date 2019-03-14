@@ -84,21 +84,18 @@
 
     computed: {
       MainMListProps () {
-        console.log(this.$store.state.main)
         return {
           color: this.color,
           items: this.$store.state.main.list.items
         }
       },
       SpecialListProps () {
-        console.log(this.$store.state.special)
         return {
           color: this.color,
           items: this.$store.state.special.list.items
         }
       },
       LaunchListProps () {
-        console.log(this.$store.state.launch)
         return {
           color: this.color,
           items: this.$store.state.launch.list.items
