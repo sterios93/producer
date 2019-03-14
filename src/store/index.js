@@ -10,13 +10,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import modules from './modules'
+import launch from './modules/launch/index'
+import main from './modules/main/index'
+import special from './modules/special/index'
 
+import modules from './modules'
 Vue.use(Vuex)
 
 // Create a new store
 const store = new Vuex.Store({
-  modules,
+  modules: {
+    ...modules,
+    launch,
+    special,
+    main
+  },
 })
 
 export default store

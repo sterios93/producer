@@ -13,7 +13,7 @@
   import CategoryTabs from "../../shared/category/CategoryTabs";
   import MenuList from "../../shared/menu/MenuList";
 
-  import {mapGetters} from 'vuex'
+  import {mapState} from 'vuex'
 
   export default {
     props: {
@@ -21,11 +21,6 @@
       color: String
     },
 
-    data() {
-      return {
-        items: []
-      }
-    },
 
     components: {
       CategoryTabs,
@@ -33,7 +28,7 @@
     },
 
     computed: {
-      ...mapGetters('menu', ['getMenuByCategory']),
+      ...mapState('special', ['items']),
       menuListProps() {
         return {
           items: this.items,
@@ -48,13 +43,9 @@
       }
     },
 
-    created() {
-      this.items = this.getMenuByCategory(this.categories[0].id)
-    },
-
     methods: {
       onTabChange(id) {
-        this.items = this.getMenuByCategory(id)
+        // this.items = this.getMenuByCategory(id)
       }
     }
   }

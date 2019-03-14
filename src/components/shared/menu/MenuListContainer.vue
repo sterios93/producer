@@ -11,8 +11,7 @@
 
             <template v-slot:extension>
                 <v-tabs
-                        :value="tabKeys.indexOf(activeTab)"
-                        @change="onTabChange"
+                        v-model="activeTab"
                         :color="color"
                         grow
                 >
@@ -20,21 +19,36 @@
 
                     <v-tab
                             v-for="(tab, key, index) in tabs"
-                            :item-value="key"
                             :key="key"
                     >
-                        {{ tab.title }}
+                        {{ tab }}
                     </v-tab>
                 </v-tabs>
             </template>
         </v-toolbar>
 
-        <v-tabs-items :value="tabKeys.indexOf(activeTab)">
+        <v-tabs-items v-model="activeTab">
 
-            <v-tab-item v-for="n in 3" :key="n">
+            <v-tab-item>
                 <v-card flat>
                     <v-card-text>
-                        <MenuTab v-bind="menuTabProps"/>
+                        <MainList v-bind="MainMListProps" />
+                    </v-card-text>
+                </v-card>
+            </v-tab-item>
+
+            <v-tab-item>
+                <v-card flat>
+                    <v-card-text>
+                        <SpecialList v-bind="SpecialListProps" />
+                    </v-card-text>
+                </v-card>
+            </v-tab-item>
+
+            <v-tab-item>
+                <v-card flat>
+                    <v-card-text>
+                        <LaunchList v-bind="LaunchListProps" />
                     </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -44,45 +58,53 @@
 </template>
 
 <script>
-  import MenuList from '../../shared/menu/MenuList'
+  import LaunchList from '../../shared/menu/launch/List'
+  import MainList from '../../shared/menu/main/List'
+  import SpecialList from '../../shared/menu/special/List'
 
-  import {mapActions} from 'vuex'
-  import MenuTab from "./MenuTab";
+  import {mapState} from 'vuex'
 
   export default {
     props: {
-      tabs: Object,
       color: String,
-      activeTab: String,
-      selectedCategories: Array
     },
 
     data () {
       return {
-        tabKeys: ['menu', 'special', 'launch']
+        activeTab: null,
+        tabs: ['Main Menu', 'Special Menu', 'Launch Menu']
       }
     },
 
     components: {
-      MenuTab,
-      MenuList,
+      LaunchList,
+      MainList,
+      SpecialList
     },
 
     computed: {
-      menuTabProps () {
+      MainMListProps () {
+        console.log(this.$store.state.main)
         return {
           color: this.color,
-          selectedCategories: this.selectedCategories
+          items: this.$store.state.main.list.items
+        }
+      },
+      SpecialListProps () {
+        console.log(this.$store.state.special)
+        return {
+          color: this.color,
+          items: this.$store.state.special.list.items
+        }
+      },
+      LaunchListProps () {
+        console.log(this.$store.state.launch)
+        return {
+          color: this.color,
+          items: this.$store.state.launch.list.items
         }
       }
     },
-
-    methods: {
-      ...mapActions('menu', ['setActiveTab']),
-      onTabChange(tab) {
-        this.setActiveTab(this.tabKeys[tab])
-      }
-    }
   }
 </script>
 

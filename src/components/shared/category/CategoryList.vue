@@ -35,7 +35,7 @@
     },
 
     methods: {
-      ...mapActions('menu', ['toggleCategory']),
+      ...mapActions('categories', ['toggleCategory']),
       onItemSelected(id) {
         this.toggleCategory({id})
       }

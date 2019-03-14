@@ -1,7 +1,7 @@
 <template>
     <v-layout row wrap>
         <v-flex xs12 sm9 >
-            <MenuListContainer v-bind="{...menuListContainerProps, ...sharedProps}"/>
+            <MenuListContainer v-bind="{...sharedProps}"/>
         </v-flex>
         <v-flex xs12 sm3>
             <CategoryList v-bind="{...categoryProps, ...sharedProps}"/>
@@ -28,12 +28,6 @@
     },
 
     computed: {
-      menuListContainerProps () {
-        return {
-          tabs: this.tabs,
-          selectedCategories: this.selectedCategories
-        }
-      },
       categoryProps () {
         return {
           items: this.categories,

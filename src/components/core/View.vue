@@ -7,7 +7,7 @@
     </div>
     <!--<core-footer v-if="$route.name !== 'Maps'"\  /><core-footer/>-->
     <CustomSnackBar/>
-    <!--<AddMenuItem/>-->
+    <AddMenuItem/>
   </v-content>
 </template>
 
