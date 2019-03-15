@@ -48,7 +48,7 @@
             <v-tab-item>
                 <v-card flat>
                     <v-card-text>
-                        <LaunchList v-bind="LaunchListProps" />
+                        <LunchList v-bind="LunchListProps" />
                     </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-  import LaunchList from '../../shared/menu/launch/List'
+  import LunchList from '../../shared/menu/lunch/List'
   import MainList from '../../shared/menu/main/List'
   import SpecialList from '../../shared/menu/special/List'
 
@@ -72,12 +72,12 @@
     data () {
       return {
         activeTab: null,
-        tabs: ['Main Menu', 'Special Menu', 'Launch Menu']
+        tabs: ['Main Menu', 'Special Menu', 'Lunch Menu']
       }
     },
 
     components: {
-      LaunchList,
+      LunchList,
       MainList,
       SpecialList
     },
@@ -95,10 +95,10 @@
           items: this.$store.state.special.list.items
         }
       },
-      LaunchListProps () {
+      LunchListProps () {
         return {
           color: this.color,
-          items: this.$store.state.launch.list.items
+          items: this.$store.state.lunch.list.items
         }
       }
     },
