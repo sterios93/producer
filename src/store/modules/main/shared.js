@@ -8,7 +8,11 @@ export default {
   state,
   mutations: {},
   getters: {},
-  actions: {}
+  actions: {
+    saveItem({rootState, state, commit}, {action, payload}) {
+      return undefined;
+    }
+  }
 }
 
 

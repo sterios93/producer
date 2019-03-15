@@ -15,7 +15,15 @@ export default {
 			},
 		}
 	},
-	mutations: {},
+	mutations: {
+		SET_MENU_MODAL_VISIBILITY: (state, {key, value}) => {
+			state.menu[key].visibility = value
+		}
+	},
 	getters: {},
-	actions: {}
+	actions: {
+		setMenuModalVisibility({commit}, payload) {
+			commit('SET_MENU_MODAL_VISIBILITY', payload)
+		}
+	}
 }

@@ -5,21 +5,20 @@
         <router-view />
       </v-fade-transition>
     </div>
-    <!--<core-footer v-if="$route.name !== 'Maps'"\  /><core-footer/>-->
     <CustomSnackBar/>
-    <AddMenuItem/>
+    <AddMainMenuItem/>
   </v-content>
 </template>
 
 <script>
 import CustomSnackBar from '../material/CustomSnackBar'
-import AddMenuItem from '../custom/dialogs/AddMenuItem'
+import AddMainMenuItem from '../shared/menu/main/Add'
 import { mapActions, mapState } from 'vuex'
 
 export default {
   components: {
     CustomSnackBar,
-    AddMenuItem
+    AddMainMenuItem
   },
   metaInfo () {
     return {
