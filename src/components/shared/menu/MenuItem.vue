@@ -27,7 +27,12 @@
         <v-divider light></v-divider>
 
         <v-card-actions class="pa-3">
-            Rate this dish
+            <v-btn
+                    color="green"
+                    @click="readMore"
+            >
+                Read more
+            </v-btn>
             <v-spacer></v-spacer>
             <v-icon>star_border</v-icon>
             <v-icon>star_border</v-icon>
@@ -40,9 +45,18 @@
 </template>
 
 <script>
+    // TODO :: Show the read more button only for special offers and lunch offers. Dont show them when viewing the special offer view page or lunch view page.
   export default {
     props: {
       item: Object
+    },
+    data() {
+      return {}
+    },
+    methods: {
+      readMore() {
+        this.$router.push({ path: '/special-offer' })
+      },
     }
   }
 </script>
