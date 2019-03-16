@@ -29,7 +29,7 @@
             />
           </v-list-tile-avatar>
           <v-list-tile-title class="title">
-            Vuetify MD
+            LunchDeal 24
           </v-list-tile-title>
         </v-list-tile>
         <v-divider/>
@@ -64,12 +64,6 @@
           class="v-list-item v-list__tile--buy"
           to="/upgrade"
         >
-          <v-list-tile-action>
-            <v-icon>mdi-package-up</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title class="font-weight-light">
-            Upgrade To PRO
-          </v-list-tile-title>
         </v-list-tile>
       </v-layout>
     </v-img>
@@ -78,10 +72,7 @@
 
 <script>
 // Utilities
-import {
-    mapActions,
-    mapState
-} from 'vuex'
+import { mapActions,  mapState } from 'vuex'
 
 export default {
   data: () => ({
@@ -100,9 +91,15 @@ export default {
         userAccess: false
       },
       {
-        to: '/dashboard',
+        to: '/home',
         icon: 'mdi-view-dashboard',
-        text: 'Dashboard',
+        text: 'Home',
+        userAccess: true
+      },
+      {
+        to: '/menu',
+        icon: 'restaurant_menu',
+        text: 'Menu',
         userAccess: true
       },
       {
@@ -111,42 +108,6 @@ export default {
         text: 'User Profile',
         userAccess: true
       },
-      {
-        to: '/table-list',
-        icon: 'mdi-clipboard-outline',
-        text: 'Table List',
-        userAccess: true
-      },
-      {
-        to: '/typography',
-        icon: 'mdi-format-font',
-        text: 'Typography',
-        userAccess: true
-      },
-      {
-        to: '/icons',
-        icon: 'mdi-chart-bubble',
-        text: 'Icons',
-        userAccess: true
-      },
-      {
-        to: '/maps',
-        icon: 'mdi-map-marker',
-        text: 'Maps',
-        userAccess: true
-      },
-      {
-        to: '/notifications',
-        icon: 'mdi-bell',
-        text: 'Notifications',
-        userAccess: true
-      },
-      {
-        to: '/menu',
-        icon: 'menu',
-        text: 'Menu',
-        userAccess: true
-      }
     ],
   }),
   computed: {
