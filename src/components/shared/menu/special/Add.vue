@@ -19,6 +19,10 @@
                         </v-flex>
 
                         <v-flex xs12 sm6>
+                            <v-text-field label="Weight*" v-model="weight" required></v-text-field>
+                        </v-flex>
+
+                        <v-flex xs12 sm6>
                             <VFileUpload/>
                         </v-flex>
 
@@ -28,9 +32,11 @@
 
                         <v-flex xs12 sm6>
                             <v-autocomplete
-                                    v-model="category"
-                                    :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                                    label="Category"
+                                    v-model="specialItems"
+                                    :items="mainItems"
+                                    item-text="name"
+                                    item-value="id"
+                                    label="Menu Items"
                                     multiple
                             >
                                 <template v-slot:append-outer>
@@ -38,16 +44,12 @@
                                         <v-icon
                                                 :key="`icon-${isEditing}`"
                                                 color="success"
-                                                @click="createCategory"
+                                                @click="createItem"
                                         >add
                                         </v-icon>
                                     </v-slide-x-reverse-transition>
                                 </template>
                             </v-autocomplete>
-                        </v-flex>
-
-                        <v-flex xs12 sm6>
-                            <v-text-field label="Weight*" v-model="weight" required></v-text-field>
                         </v-flex>
 
                         <v-flex xs12>
@@ -87,7 +89,7 @@
         item: (state) => state.special.add,
         color: (state) => state.app.color,
         special: (state) => state.modals.menu.special,
-        categories: (state) => state.categories.items
+        mainItems: (state) => state.main.list.items,
       }),
       name: {
         get() {return this.item.name},
@@ -103,9 +105,9 @@
       price: {
         get() {return this.item.price},
         set(value) {this.setPrice(value)}},
-      category: {
-        get() {return this.item.category},
-        set(value) {this.setCategory(value)}
+      specialItems: {
+        get() {return this.item.items},
+        set(value) {this.setItems(value)}
       },
       description: {
         get() {return this.item.description},
@@ -127,7 +129,7 @@
         'setDescription',
         'setWeight',
         'setPrice',
-        'setCategory',
+        'setItems',
         'saveItem'
       ]),
       ...mapActions('modals', ['setMenuModalVisibility']),
@@ -137,8 +139,8 @@
       closeDialog() {
         this.setMenuModalVisibility({key: 'special', value: false})
       },
-      createCategory() {
-        // TODO :: create category
+      createItem() {
+        // TODO :: create menu item
       }
     }
   }
