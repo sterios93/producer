@@ -1,7 +1,6 @@
 <template>
     <v-layout>
         <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-            <img :src="imageUrl" height="100" v-if="imageUrl"/>
             <v-text-field label="Select Image" @click='pickFile' v-model='imageName'
                           append-outer-icon='attach_file'></v-text-field>
             <input
@@ -39,6 +38,10 @@
           fr.addEventListener('load', () => {
             this.imageUrl = fr.result
             this.imageFile = files[0] // this is an image file that can be sent to server...
+            this.$emit('file-picked', {
+              file: this.imageFile,
+              url: this.imageUrl
+            })
           })
         } else {
           this.imageName = ''

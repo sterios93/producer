@@ -19,7 +19,8 @@
                         </v-flex>
 
                         <v-flex xs12 sm6>
-                            <VFileUpload/>
+                            <img :src="pictureUrl" height="100" v-if="pictureUrl"/>
+                            <VFileUpload @file-picked="onFilePicked"/>
                         </v-flex>
 
                         <v-flex xs12 sm6>
@@ -98,6 +99,10 @@
         get() {return this.item.picture},
         set(value) {this.setPicture(value)}
       },
+      pictureUrl: {
+        get() {return this.item.pictureUrl},
+        set(value) {this.setPictureUrl(value)}
+      },
       weight: {
         get() {return this.item.weight},
         set(value) {this.setWeight(value)}
@@ -126,6 +131,7 @@
       ...mapActions('main', [
         'setName',
         'setPicture',
+        'setPictureUrl',
         'setDescription',
         'setWeight',
         'setPrice',
@@ -133,6 +139,10 @@
         'saveItem'
       ]),
       ...mapActions('modals', ['setMenuModalVisibility']),
+      onFilePicked({file, url}) {
+        this.pictureUrl = url
+        this.setPicture(file)
+      },
       onConfirm() {
         this.saveItem({action: 'add'})
       },
@@ -147,6 +157,5 @@
 </script>
 
 <style scoped lang="stylus">
-    .v-toolbar:not(.v-toolbar--fixed) .v-toolbar__content
-        margin-left: 0 !important
+
 </style>

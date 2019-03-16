@@ -1,9 +1,15 @@
 <template>
-    <v-dialog :value="special.visibility" @change="closeDialog" persistent max-width="800px">
+    <v-dialog
+            :value="special.visibility"
+            @change="closeDialog"
+            :fullscreen="special.fullscreen"
+            persistent
+            min-height="800px"
+            max-width="1200px">
         <v-card>
             <v-toolbar dark :color="color">
                 <v-card-title>
-                    <span class="headline">Create Dish</span>
+                    <span class="headline">Create Special Offer</span>
                 </v-card-title>
                 <h3 class="display-2 font-weight-regular"></h3>
                 <v-spacer></v-spacer>
@@ -19,11 +25,12 @@
                         </v-flex>
 
                         <v-flex xs12 sm6>
-                            <v-text-field label="Weight*" v-model="weight" required></v-text-field>
+                            <v-text-field label="Discount*" v-model="discount" required></v-text-field>
                         </v-flex>
 
                         <v-flex xs12 sm6>
-                            <VFileUpload/>
+                            <img :src="pictureUrl" height="100" v-if="pictureUrl"/>
+                            <VFileUpload @file-picked="onFilePicked"/>
                         </v-flex>
 
                         <v-flex xs12 sm6>
@@ -77,11 +84,17 @@
 
 <script>
   import VFileUpload from '../../../shared/VFileUpload'
-  import {mapState, mapActions} from 'vuex'
+  import {mapState, mapActions, mapGetters} from 'vuex'
 
   export default {
     components: {
       VFileUpload
+    },
+
+    data() {
+      return {
+        isEditing: false,
+      }
     },
 
     computed: {
@@ -89,8 +102,10 @@
         item: (state) => state.special.add,
         color: (state) => state.app.color,
         special: (state) => state.modals.menu.special,
+        mainVisibility: (state) => state.modals.menu.main.visibility,
         mainItems: (state) => state.main.list.items,
       }),
+      ...mapGetters('special', ['getPrice']),
       name: {
         get() {return this.item.name},
         set(value) {this.setName(value)}},
@@ -98,12 +113,16 @@
         get() {return this.item.picture},
         set(value) {this.setPicture(value)}
       },
-      weight: {
-        get() {return this.item.weight},
-        set(value) {this.setWeight(value)}
+      pictureUrl: {
+        get() {return this.item.pictureUrl},
+        set(value) {this.setPictureUrl(value)}
+      },
+      discount: {
+        get() {return this.item.discount},
+        set(value) {this.setDiscount(value)}
       },
       price: {
-        get() {return this.item.price},
+        get() {return this.getPrice},
         set(value) {this.setPrice(value)}},
       specialItems: {
         get() {return this.item.items},
@@ -115,38 +134,45 @@
       },
     },
 
-    data() {
-      return {
-        dialog: true,
-        isEditing: false,
-      }
+    watch: {
+      mainVisibility: 'mainVisibilityHandler'
     },
 
     methods: {
       ...mapActions('special', [
         'setName',
         'setPicture',
+        'setPictureUrl',
         'setDescription',
-        'setWeight',
+        'setDiscount',
         'setPrice',
         'setItems',
-        'saveItem'
+        'saveItem',
       ]),
-      ...mapActions('modals', ['setMenuModalVisibility']),
+      ...mapActions('modals', [
+        'setMenuModalVisibility',
+        'setFullscreen'
+      ]),
+      onFilePicked({file, url}) {
+        this.pictureUrl = url
+        this.setPicture(file)
+      },
       onConfirm() {
         this.saveItem({action: 'add'})
       },
       closeDialog() {
         this.setMenuModalVisibility({key: 'special', value: false})
       },
+      mainVisibilityHandler(visibility) {
+        this.setFullscreen({key: 'special', value: visibility})
+      },
       createItem() {
-        // TODO :: create menu item
+        this.setMenuModalVisibility({key: 'main', value: true})
       }
     }
   }
 </script>
 
 <style scoped lang="stylus">
-    .v-toolbar:not(.v-toolbar--fixed) .v-toolbar__content
-        margin-left: 0 !important
+
 </style>
