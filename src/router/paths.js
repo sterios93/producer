@@ -57,4 +57,8 @@ export default [
     path: '/forgotten-password',
     view: 'ForgottenPassword'
   },
+  {
+    path: '/special-offer',
+    view: 'SpecialOffer'
+  },
 ]
