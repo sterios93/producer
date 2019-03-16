@@ -7,7 +7,10 @@ const state = () => ({
   description: '',
   price: 0,
   items: [],
-  discount: 10
+  discount: 10,
+  schedule: null,
+  startDate: null,
+  endDate: null
 })
 
 export default {
@@ -20,6 +23,9 @@ export default {
     SET_DISCOUNT: (state, payload) => state.add.discount = payload,
     SET_ITEMS: (state, payload) => state.add.items = payload,
     SET_PRICE: (state, payload) => state.add.price = payload,
+    SET_SCHEDULE: (state, payload) => state.add.schedule = payload,
+    SET_START_DATE: (state, payload) => state.add.startDate = payload,
+    SET_END_DATE: (state, payload) => state.add.endDate = payload,
   },
   getters: {
     getPrice: (state) => {
@@ -36,9 +42,11 @@ export default {
     setDescription: ({commit}, payload) => commit('SET_DESCRIPTION', payload),
     setDiscount: ({commit}, payload) => commit('SET_DISCOUNT', payload),
     setPrice: ({commit}, payload) => commit('SET_PRICE', payload),
+    setSchedule: ({commit}, payload) => commit('SET_SCHEDULE', payload),
+    setStartDate: ({commit}, payload) => commit('SET_START_DATE', payload),
+    setEndDate: ({commit}, payload) => commit('SET_END_DATE', payload),
     setItems: ({commit, rootGetters}, payload) => {
       const sum = rootGetters['main/sumItemsPrice'](payload, 'list')
-      console.log(sum)
       commit('SET_PRICE', sum)
       commit('SET_ITEMS', payload)
     },

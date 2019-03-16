@@ -8,6 +8,7 @@
     <CustomSnackBar/>
     <AddMainMenuItem/>
     <AddSpecialMenuItem/>
+    <AddLunchMenuItem/>
   </v-content>
 </template>
 
