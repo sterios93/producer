@@ -29,7 +29,9 @@
                         <v-flex xs12 sm6>
                             <v-autocomplete
                                     v-model="category"
-                                    :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
+                                    :items="categories"
+                                    item-text="name"
+                                    item-value="id"
                                     label="Category"
                                     multiple
                             >
@@ -86,7 +88,8 @@
       ...mapState({
         item: (state) => state.main.add,
         color: (state) => state.app.color,
-        main: (state) => state.modals.menu.main
+        main: (state) => state.modals.menu.main,
+        categories: (state) => state.categories.items
       }),
       name: {
         get() {return this.item.name},

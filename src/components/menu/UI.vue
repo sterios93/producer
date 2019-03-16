@@ -17,7 +17,7 @@
     computed: {
       ...mapState('layout', ['responsive']),
       ...mapState('app', ['color']),
-      ...mapState('categories', ['categories']),
+      ...mapState('categories', ['items']),
       component() {
         return this.responsive ? 'Mobile' : 'Desktop'
       },
@@ -26,7 +26,7 @@
           tabs: this.tabs,
           color: this.color,
           activeTab: this.activeTab,
-          categories: this.categories,
+          categories: this.items,
         }
       }
     }

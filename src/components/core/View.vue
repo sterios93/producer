@@ -7,18 +7,23 @@
     </div>
     <CustomSnackBar/>
     <AddMainMenuItem/>
+    <AddSpecialMenuItem/>
   </v-content>
 </template>
 
 <script>
 import CustomSnackBar from '../material/CustomSnackBar'
 import AddMainMenuItem from '../shared/menu/main/Add'
+import AddSpecialMenuItem from '../shared/menu/special/Add'
+import AddLunchMenuItem from '../shared/menu/lunch/Add'
 import { mapActions, mapState } from 'vuex'
 
 export default {
   components: {
     CustomSnackBar,
-    AddMainMenuItem
+    AddMainMenuItem,
+    AddSpecialMenuItem,
+    AddLunchMenuItem
   },
   metaInfo () {
     return {
