@@ -5,46 +5,54 @@
                         <v-flex xs12  md6 >
                             <v-text-field
                                     label="First Name"
-                                    class="purple-input"/>
+                                    class="purple-input"
+                                    :value="userInfo.firstName"/>
                         </v-flex>
                         <v-flex xs12 md6 >
                             <v-text-field
                                     label="Last Name"
-                                    class="purple-input"/>
+                                    class="purple-input"
+                                    :value="userInfo.lastName"/>
                         </v-flex>
 
                         <v-flex xs12  md6 >
                             <v-text-field
                                     label="Email"
-                                    class="purple-input"/>
+                                    class="purple-input"
+                                    :value="userInfo.email"/>
                         </v-flex>
                         <v-flex xs12 md6 >
                             <v-text-field
                                     label="Phone number"
-                                    class="purple-input"/>
+                                    class="purple-input"
+                                    :value="userInfo.phoneNumber"/>
                         </v-flex>
 
 
                         <v-flex xs12  md6 >
                             <v-text-field
                                     label="Restaurant name"
-                                    class="purple-input"/>
+                                    class="purple-input"
+                                    :value="userInfo.restaurantName"/>
                         </v-flex>
                         <v-flex xs12 md6 >
                             <v-text-field
                                     label="Restaurant type"
-                                    class="purple-input"/>
+                                    class="purple-input"
+                                    :value="userInfo.restaurantType"/>
                         </v-flex>
 
                         <v-flex xs12  md6 >
                             <v-text-field
                                     label="Restaurant website"
-                                    class="purple-input"/>
+                                    class="purple-input"
+                                    :value="userInfo.restaurantWebsite"/>
                         </v-flex>
                         <v-flex xs12 md6 >
                             <v-text-field
                                     label="Restaurant number"
-                                    class="purple-input"/>
+                                    class="purple-input"
+                                    :value="userInfo.restaurantNumber"/>
                         </v-flex>
 
 
@@ -78,10 +86,7 @@
                                     label="Postal Code"
                                     type="number"/>
                         </v-flex>
-                        <v-flex
-                                xs12
-                                text-xs-right
-                        >
+                        <v-flex xs12 text-xs-right >
                             <v-btn
                                     class="mr-2 font-weight-light"
                                     color="orange"
@@ -106,10 +111,24 @@
 
 <script>
     import Map from '../shared/map/Map'
+    import {mapState} from 'vuex'
+
+
+    // TODO :: Fix the map logic
+    // TODO :: Add edit logic and validation
+
     export default {
       name: 'profile-card',
       components: {
         Map,
+      },
+      data() {
+        return {}
+      },
+      computed: {
+        ...mapState({
+          userInfo: (state) => state.userProfile,
+        }),
       }
     }
 </script>

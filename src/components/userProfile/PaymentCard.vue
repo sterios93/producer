@@ -5,12 +5,14 @@
                 <v-flex xs12>
                     <v-text-field
                             label="Card Number"
-                            class="purple-input"/>
+                            class="purple-input"
+                            :value="paymentInfo.cardNumber"/>
                 </v-flex>
                 <v-flex xs12>
                     <v-text-field
                             label="BIC Number"
-                            class="purple-input"/>
+                            class="purple-input"
+                            :value="paymentInfo.bic"/>
                 </v-flex>
 
                 <v-flex xs12 text-xs-right >
@@ -36,6 +38,22 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
+
+    // TODO :: Hide the card number ?
+    // TODO :: Add edit logic and validation
+    
+    export default {
+      name: 'payment-card',
+      data() {
+        return {}
+      },
+      computed: {
+        ...mapState({
+          paymentInfo: (state) => state.payInfo,
+        })
+      }
+    }
 
 </script>
 

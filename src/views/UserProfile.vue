@@ -25,6 +25,8 @@
 import ProfileCard from '../components/userProfile/ProfileCard'
 import PaymentCard from '../components/userProfile/PaymentCard'
 
+// TODO :: Change the active state of the payment information
+
 export default {
   name: 'user-profile',
   components: {
