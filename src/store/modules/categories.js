@@ -4,7 +4,7 @@ import {getData} from "../helpers";
 export default {
   namespaced: true,
   state: {
-    categories: [
+    items: [
       {
         id: 0,
         name: 'Cuban',
@@ -34,14 +34,14 @@ export default {
     
   },
   mutations: {
-    SET_CATEGORIES: set('categories'),
+    SET_CATEGORIES: set('items'),
     TOGGLE_CATEGORY: (state, {id}) => {
-      let category = state.categories.find((el => el.id === id))
+      let category = state.items.find((el => el.id === id))
       category.selected = !category.selected
     }
   },
   getters: {
-    getSelectedCategories: (state) => state.categories.filter(el => el.selected),
+    getSelectedCategories: (state) => state.items.filter(el => el.selected),
   }
   ,
   actions: {
