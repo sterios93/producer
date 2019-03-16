@@ -13,43 +13,52 @@
           color="green"
           title="Special offer"
         >
-          <v-flex xs12>
+          <v-layout wrap>
+
             <v-flex
               class="v-card-profile"
               d-flex>
-              <v-flex>
-                <v-avatar
-                  slot="offset"
-                  class="mx-auto d-block"
-                  size="260"
-                >
-                  <img src="https://api-content.prod.pizzahutaustralia.com.au//umbraco/api/Image/Get2?path=assets/products/menu/Veggie-Tandoori-LGE-Pizza-menu.jpg">
-                </v-avatar>
-              </v-flex>
-              <v-flex>
-                <v-card-text class="text-xs-center">
-                  <h3 class="category font-weight-bold mb-3">From 20.03.2019 to 23.03.2019</h3>
-                  <h3 class="card-title font-weight-light">Grande Pica Peperoni with Cheese !!</h3>
-                  <p class="card-description font-weight-light">Only now in our Restaurant. Order one
-                  picca and get the second one for free !</p>
-                  <p class="card-description font-weight-light">Also see our other offers bellow :)</p>
-                  <v-btn
-                    color="success"
-                    round
-                    class="font-weight-light"
-                  >Follow
-                  </v-btn>
-                  <v-btn
-                  color="orange"
-                  round
-                  class="font-weight-light"
-                  >EDIT
-                  </v-btn>
-                </v-card-text>
-              </v-flex>
+              <v-layout wrap>
+
+                <v-flex xs12 lg6>
+                  <v-avatar
+                          slot="offset"
+                          class="mx-auto d-block"
+                          size="260"
+                  >
+                    <img src="https://api-content.prod.pizzahutaustralia.com.au//umbraco/api/Image/Get2?path=assets/products/menu/Veggie-Tandoori-LGE-Pizza-menu.jpg">
+                  </v-avatar>
+                </v-flex>
+
+
+                <v-flex xs12 lg6>
+                  <v-card-text class="text-xs-center">
+                    <h3 class="category font-weight-bold mb-3">From 20.03.2019 to 23.03.2019</h3>
+                    <h3 class="card-title font-weight-light">Grande Pica Peperoni with Cheese !!</h3>
+                    <p class="card-description font-weight-light">Only now in our Restaurant. Order one
+                      picca and get the second one for free !</p>
+                    <p class="card-description font-weight-light">Also see our other offers bellow :)</p>
+                    <v-btn
+                            color="success"
+                            round
+                            class="font-weight-light"
+                    >Follow
+                    </v-btn>
+                    <v-btn
+                            color="orange"
+                            round
+                            class="font-weight-light"
+                    >EDIT
+                    </v-btn>
+                  </v-card-text>
+                </v-flex>
+
+              </v-layout>
+
+
             </v-flex>
 
-          </v-flex>
+          </v-layout>
           <v-flex
             xs12
             mt-5>

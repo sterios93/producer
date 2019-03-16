@@ -61,4 +61,8 @@ export default [
     path: '/special-offer',
     view: 'SpecialOffer'
   },
+  {
+    path: '/lunch-offer',
+    view: 'LunchOffer'
+  },
 ]
