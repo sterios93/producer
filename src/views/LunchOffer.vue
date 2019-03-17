@@ -50,6 +50,20 @@
                                                 class="font-weight-light"
                                         >EDIT
                                         </v-btn>
+
+                                        <v-btn
+                                                color="red"
+                                                round
+                                                class="font-weight-light"
+                                        >MENU
+                                        </v-btn>
+                                        <v-btn
+                                                color="blue"
+                                                round
+                                                class="font-weight-light"
+                                        >LUNCH OFFERS
+                                        </v-btn>
+
                                     </v-card-text>
                                 </v-flex>
 
