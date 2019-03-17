@@ -21,4 +21,6 @@
 
 <style lang="stylus">
   @import '~vuetify/src/stylus/main';
+  @import '~flatpickr/dist/flatpickr.css';
+
 </style>

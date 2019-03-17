@@ -1,5 +1,10 @@
 <template>
-    <v-dialog :value="main.visibility" @change="closeDialog" persistent max-width="800px">
+    <v-dialog
+            :value="main.visibility"
+            @change="closeDialog"
+            :fullscreen="main.fullscreen || responsive"
+            persistent
+            max-width="800px">
         <v-card>
             <v-toolbar dark :color="color">
                 <v-card-title>
@@ -39,7 +44,6 @@
                                 <template v-slot:append-outer>
                                     <v-slide-x-reverse-transition mode="out-in">
                                         <v-icon
-                                                :key="`icon-${isEditing}`"
                                                 color="success"
                                                 @click="createCategory"
                                         >add
@@ -88,6 +92,7 @@
     computed: {
       ...mapState({
         item: (state) => state.main.add,
+        responsive: (state) => state.layout.responsive,
         color: (state) => state.app.color,
         main: (state) => state.modals.menu.main,
         categories: (state) => state.categories.items
@@ -118,13 +123,6 @@
         get() {return this.item.description},
         set(value) {this.setDescription(value)}
       },
-    },
-
-    data() {
-      return {
-        dialog: true,
-        isEditing: false,
-      }
     },
 
     methods: {
