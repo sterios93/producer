@@ -21,50 +21,67 @@
                 <v-container grid-list-md>
                     <v-layout wrap>
 
-                        <v-flex xs12 sm6>
-                            <v-autocomplete
-                                    :value="chosenSpecialItems"
-                                    @input="onChosenSpecialItemsChange"
-                                    :items="allItems"
-                                    item-text="name"
-                                    item-value="id"
-                                    label="Menu Items"
-                                    multiple
-                            >
-                                <template v-slot:append-outer>
-                                    <v-slide-x-reverse-transition mode="out-in">
-                                        <v-icon
-                                                :key="`icon-${isEditing}`"
-                                                color="success"
-                                                @click="createItem"
-                                        >add
-                                        </v-icon>
-                                    </v-slide-x-reverse-transition>
-                                </template>
-                            </v-autocomplete>
+                        <v-flex xs12>
+                            <v-layout wrap>
+                                <v-flex xs12 sm6>
+                                    <v-autocomplete
+                                            :value="chosenSpecialItems"
+                                            @input="onChosenSpecialItemsChange"
+                                            :items="allItems"
+                                            item-text="name"
+                                            item-value="id"
+                                            label="Menu Items"
+                                            multiple
+                                    >
+                                        <template v-slot:append-outer>
+                                            <v-slide-x-reverse-transition mode="out-in">
+                                                <v-icon
+                                                        :key="`icon-${isEditing}`"
+                                                        color="success"
+                                                        @click="createItem"
+                                                >add
+                                                </v-icon>
+                                            </v-slide-x-reverse-transition>
+                                        </template>
+                                    </v-autocomplete>
+                                </v-flex>
+
+                                <v-flex xs12 sm6>
+                                    <v-autocomplete
+                                            :value="chosenMainItems"
+                                            @input="onChosenMainItemsChange"
+                                            :items="mainItems"
+                                            item-text="name"
+                                            item-value="id"
+                                            label="Menu Items"
+                                            multiple
+                                    >
+                                        <template v-slot:append-outer>
+                                            <v-slide-x-reverse-transition mode="out-in">
+                                                <v-icon
+                                                        :key="`icon-${isEditing}`"
+                                                        color="success"
+                                                        @click="createItem"
+                                                >add
+                                                </v-icon>
+                                            </v-slide-x-reverse-transition>
+                                        </template>
+                                    </v-autocomplete>
+                                </v-flex>
+                            </v-layout>
                         </v-flex>
 
-                        <v-flex xs12 sm6>
-                            <v-autocomplete
-                                    :value="chosenMainItems"
-                                    @input="onChosenMainItemsChange"
-                                    :items="mainItems"
-                                    item-text="name"
-                                    item-value="id"
-                                    label="Menu Items"
-                                    multiple
-                            >
-                                <template v-slot:append-outer>
-                                    <v-slide-x-reverse-transition mode="out-in">
-                                        <v-icon
-                                                :key="`icon-${isEditing}`"
-                                                color="success"
-                                                @click="createItem"
-                                        >add
-                                        </v-icon>
-                                    </v-slide-x-reverse-transition>
-                                </template>
-                            </v-autocomplete>
+
+                        <v-flex xs12>
+                            <v-layout wrap>
+                                <v-flex xs12 sm6>
+                                    <v-date-picker v-model="startDate" ></v-date-picker>
+                                </v-flex>
+
+                                <v-flex xs12 sm6>
+                                    <v-date-picker v-model="endDate" ></v-date-picker>
+                                </v-flex>
+                            </v-layout>
                         </v-flex>
 
                     </v-layout>
@@ -88,7 +105,9 @@
       return {
         isEditing: false,
         chosenSpecialItems: [],
-        chosenMainItems: []
+        chosenMainItems: [],
+        startDate: new Date().toISOString().substr(0, 10),
+        endDate: new Date().toISOString().substr(0, 10),
       }
     },
 

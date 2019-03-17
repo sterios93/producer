@@ -18,3 +18,7 @@
   vertical-align: unset;
 }
 </style>
+
+<style lang="stylus">
+  @import '~vuetify/src/stylus/main';
+</style>

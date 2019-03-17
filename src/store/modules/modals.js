@@ -13,7 +13,7 @@ export default {
 				fullscreen: false
 			},
 			lunch	: {
-				visibility: false,
+				visibility: true,
 				fullscreen: false
 			},
 		}

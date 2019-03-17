@@ -143,6 +143,10 @@ export default {
       }
     }
 
+    .v-list {
+      background: rgba(27, 27, 27, 0.74) !important;
+    }
+
     .v-image__image--contain {
       top: 9px;
       height: 60%;
