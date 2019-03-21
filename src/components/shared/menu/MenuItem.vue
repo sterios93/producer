@@ -1,7 +1,18 @@
 <template>
     <v-card color="white darken-2 text-xs-center">
 
+        <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn icon @click="onEditClick">
+                <v-icon color="grey">edit</v-icon>
+            </v-btn>
+            <v-btn icon @click="onDeleteClick">
+                <v-icon color="grey">delete</v-icon>
+            </v-btn>
+        </v-card-actions>
+
         <v-layout align-center justify-space-between row wrap fill-height>
+
             <v-flex xs12 sm3>
                 <v-img
                     :src="item.image"
@@ -45,7 +56,9 @@
 </template>
 
 <script>
-    // TODO :: Show the read more button only for special offers and lunch offers. Dont show them when viewing the special offer view page or lunch view page.
+  // TODO :: Show the read more button only for special offers and lunch offers. Dont show them when viewing the special offer view page or lunch view page.
+  import {mapActions} from 'vuex'
+
   export default {
     props: {
       item: Object
@@ -54,9 +67,25 @@
       return {}
     },
     methods: {
+      ...mapActions({
+        'setMenuModalVisibility': 'modals/setMenuModalVisibility',
+        'setMenuModalValues': 'main/setEditValues'
+      }),
       readMore() {
         this.$router.push({ path: '/special-offer' })
       },
+      onEditClick() {
+        this.setMenuModalVisibility({
+          key: 'main',
+          value: true,
+          action: 'edit'
+        })
+
+        this.setMenuModalValues(this.item)
+      },
+      onDeleteClick() {
+
+      }
     }
   }
 </script>

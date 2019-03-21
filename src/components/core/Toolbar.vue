@@ -30,6 +30,7 @@
         align-center
         layout
         py-2
+        v-if="isUserLogged"
       >
         <v-text-field
           v-if="!responsive"

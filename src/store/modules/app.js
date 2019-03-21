@@ -3,8 +3,9 @@ import { set, toggle } from '@/utils/vuex'
 export default {
   namespaced: true,
   state: {
-    drawer: false,
-    toolbar: false,
+    icons: true,
+    drawer: true,
+    toolbar: true,
     color: 'success',
     image: 'https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg',
     user: null,

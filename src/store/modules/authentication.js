@@ -8,7 +8,7 @@ export default {
     userId: localStorage.getItem('user_id') || null,
     token: localStorage.getItem('token') || null,
     route: 'user/',
-    isUserLogged: true // localStorage.getItem('token') !== null // toggle this for logged user
+    isUserLogged: localStorage.getItem('token') !== null // toggle this for logged user
   },
   mutations: {
     SET_TOKEN: set('token'),
@@ -19,7 +19,6 @@ export default {
   actions: {
     fetchUserData({rootState, state, commit}) {
       return fetch(rootState.settings.apiUrl + state.route).then(r => {
-        console.log(r)
       })
     },
     logout({commit}) {
@@ -30,24 +29,48 @@ export default {
       commit('SET_USER', {id: null})
     },
     postData({rootState, state, commit}, {action, payload}) {
-      return postData(rootState.settings.apiUrl + state.route + action)
-        .then(response => response.json())
-        .then(data => {
-          if (data.success !== false) {
-            if (action === 'login') {
-              const { token, userId } = data
-
-              localStorage.setItem('token', token)
-              // TODO investigate other options later
-              localStorage.setItem('user_id', userId)
-
-              commit('SET_TOKEN', token)
-              commit('SET_USER_ID', userId)
-              commit('SET_IS_USER_LOGGED', true)
-            }
-          }
-          return data
-        })
+      // TODO :: remove when backend is ready
+      let mockedUser = {
+        userId: 1,
+        token: 'TOKEN_EXAMPLE',
+        firstName: "Dobrin",
+        lastName: "Dimchev",
+        email: "dobkata.boost@abv.bg",
+        phoneNumber: "091239129030",
+        password: "123131231",
+        restaurantName: "Cepiqta",
+        restaurantType: "Mexican",
+        restaurantWebsite: "dobkata.com",
+        restaurantNumber: "12312312312",
+      }
+      commit('SET_USER_ID', mockedUser.userId)
+      commit('SET_IS_USER_LOGGED', true)
+  
+      localStorage.setItem('token', mockedUser.token)
+      localStorage.setItem('user_id', mockedUser.userId)
+      return {
+        success: true, //false,
+        msg: 'errors massage'
+      }
+  
+      // return postData(rootState.settings.apiUrl + state.route + action)
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     if (data.success !== false) {
+      //       if (action === 'login') {
+      //         const { token, userId } = data
+      //
+      //         localStorage.setItem('token', token)
+      //         // TODO investigate other options later
+      //         localStorage.setItem('user_id', userId)
+      //
+      //         commit('SET_TOKEN', token)
+      //         commit('SET_USER_ID', userId)
+      //         commit('SET_IS_USER_LOGGED', true)
+      //       }
+      //     }
+      //     return data
+      //   })
     }
   }
 }
