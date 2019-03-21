@@ -1,10 +1,20 @@
 <template>
     <v-layout row wrap>
 
-        <v-flex >
+        <v-flex>
             <v-layout wrap justify-center>
                 <v-flex xs12 v-if="isMainMenu">
                     <CategoryTabs v-bind="categoryProps" @on-tab-change="onTabChange"/>
+                </v-flex>
+                <v-flex xs12 class="controls">
+                    <v-btn
+                            @click="onControlsClicked"
+                            color="blue darken-2"
+                            dark
+                            fab
+                    >
+                        <v-icon>add</v-icon>
+                    </v-btn>
                 </v-flex>
                 <v-flex xs12 class="menu-list-mobile">
                     <component :is="menuComponent" v-bind="menuListProps"></component>
@@ -12,6 +22,7 @@
             </v-layout>
 
         </v-flex>
+
         <v-bottom-nav
                 :active.sync="selectedMenu"
                 :value="true"
@@ -45,6 +56,7 @@
                 <v-icon>place</v-icon>
             </v-btn>
         </v-bottom-nav>
+        <CustomsBottomSheet :controls="controls"></CustomsBottomSheet>
     </v-layout>
 </template>
 
@@ -54,7 +66,9 @@
   import MenuList from "../../shared/menu/MenuList";
   import SpecialList from '../../shared/menu/special/List'
 
-  import {mapState, mapGetters} from 'vuex'
+  import CustomsBottomSheet from '../../shared/CustomsBottomSheet'
+
+  import {mapState, mapGetters, mapActions} from 'vuex'
 
   export default {
     props: {
@@ -62,15 +76,17 @@
       color: String
     },
 
-    data () {
+    data() {
       return {
         selectedMenu: 'main',
-        category: this.categories[0]
+        category: this.categories[0],
+        controls: []
       }
     },
 
     components: {
       CategoryTabs,
+      CustomsBottomSheet,
       'lunch-menu': LunchList,
       'main-menu': MenuList,
       'special-menu': SpecialList
@@ -78,6 +94,32 @@
 
     created() {
       this.category = this.categories[0].id
+      this.controls = [
+        {
+          img: 'keep.png',
+          title: 'Create main menu product',
+          cb: () => this.setMenuModalVisibility({
+            key: 'main',
+            value: true
+          })
+        },
+        {
+          img: 'inbox.png',
+          title: 'Create special offer',
+          cb: () => this.setMenuModalVisibility({
+            key: 'special',
+            value: true
+          })
+        },
+        {
+          img: 'hangouts.png',
+          title: 'Create lunch offer',
+          cb: () => this.setMenuModalVisibility({
+            key: 'lunch',
+            value: true
+          })
+        }
+      ]
     },
 
     computed: {
@@ -104,13 +146,25 @@
 
     methods: {
       ...mapGetters('main', ['getMenuByCategory']),
+      ...mapActions({
+        'setBottomSheetVisibility': 'bottomSheet/setVisibility',
+        'setMenuModalVisibility': 'modals/setMenuModalVisibility'
+      }),
       onTabChange(id) {
         this.category = id
       },
+      onControlsClicked() {
+        this.setBottomSheetVisibility(true)
+      }
     }
   }
 </script>
 
 <style scoped lang="stylus">
-
+    .controls
+        >>> .v-btn
+            position: fixed
+            top: 80%
+            left: 80%
+            z-index: 3
 </style>
