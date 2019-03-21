@@ -1,19 +1,60 @@
 <template>
     <v-layout row wrap>
-        <v-flex xs12>
-            <CategoryTabs v-bind="categoryProps" @on-tab-change="onTabChange"/>
+
+        <v-flex >
+            <v-layout wrap justify-center>
+                <v-flex xs12 v-if="isMainMenu">
+                    <CategoryTabs v-bind="categoryProps" @on-tab-change="onTabChange"/>
+                </v-flex>
+                <v-flex xs12 class="menu-list-mobile">
+                    <component :is="menuComponent" v-bind="menuListProps"></component>
+                </v-flex>
+            </v-layout>
+
         </v-flex>
-        <v-flex xs12 class="menu-list-mobile">
-            <MenuList v-bind="menuListProps"/>
-        </v-flex>
+        <v-bottom-nav
+                :active.sync="selectedMenu"
+                :value="true"
+                fixed
+                color="white"
+        >
+            <v-btn
+                    color="teal"
+                    flat
+                    value="main"
+            >
+                <span>Main Menu</span>
+                <v-icon>history</v-icon>
+            </v-btn>
+
+            <v-btn
+                    color="teal"
+                    flat
+                    value="special"
+            >
+                <span>Special Menu</span>
+                <v-icon>favorite</v-icon>
+            </v-btn>
+
+            <v-btn
+                    color="teal"
+                    flat
+                    value="lunch"
+            >
+                <span>Lunch Menu</span>
+                <v-icon>place</v-icon>
+            </v-btn>
+        </v-bottom-nav>
     </v-layout>
 </template>
 
 <script>
   import CategoryTabs from "../../shared/category/CategoryTabs";
+  import LunchList from '../../shared/menu/lunch/List'
   import MenuList from "../../shared/menu/MenuList";
+  import SpecialList from '../../shared/menu/special/List'
 
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
 
   export default {
     props: {
@@ -21,18 +62,33 @@
       color: String
     },
 
+    data () {
+      return {
+        selectedMenu: 'main',
+        category: this.categories[0]
+      }
+    },
 
     components: {
       CategoryTabs,
-      MenuList
+      'lunch-menu': LunchList,
+      'main-menu': MenuList,
+      'special-menu': SpecialList
+    },
+
+    created() {
+      this.category = this.categories[0].id
     },
 
     computed: {
       ...mapState('special', ['items']),
+      menuComponent() {
+        return `${this.selectedMenu}-menu`
+      },
       menuListProps() {
         return {
-          items: this.items,
-          color: this.color
+          color: this.color,
+          items: this.isMainMenu ? this.getMenuByCategory()(this.category) : this.$store.state[this.selectedMenu].list.items
         }
       },
       categoryProps() {
@@ -40,19 +96,21 @@
           items: this.categories,
           color: this.color
         }
+      },
+      isMainMenu() {
+        return this.selectedMenu === 'main'
       }
     },
 
     methods: {
+      ...mapGetters('main', ['getMenuByCategory']),
       onTabChange(id) {
-        // this.items = this.getMenuByCategory(id)
-      }
+        this.category = id
+      },
     }
   }
 </script>
 
 <style scoped lang="stylus">
-    .menu-list-mobile
-        max-height: 82vh // TODO :: think of more generic way to do this
-        overflow-y: scroll
+
 </style>
