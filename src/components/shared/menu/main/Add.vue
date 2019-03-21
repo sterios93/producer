@@ -24,7 +24,7 @@
                         </v-flex>
 
                         <v-flex xs12 sm6>
-                            <img :src="pictureUrl" height="100" v-if="pictureUrl"/>
+                            <img :src="image" height="100" v-if="image"/>
                             <VFileUpload @file-picked="onFilePicked"/>
                         </v-flex>
 
@@ -91,7 +91,9 @@
 
     computed: {
       ...mapState({
-        item: (state) => state.main.add,
+        item(state) {
+          return state.main[this.main.action];
+        } ,
         responsive: (state) => state.layout.responsive,
         color: (state) => state.app.color,
         main: (state) => state.modals.menu.main,
@@ -99,29 +101,29 @@
       }),
       name: {
         get() {return this.item.name},
-        set(value) {this.setName(value)}},
+        set(value) {this.setName(value, this.main.action)}},
       picture: {
         get() {return this.item.picture},
-        set(value) {this.setPicture(value)}
+        set(value) {this.setPicture(value, this.main.action)}
       },
-      pictureUrl: {
-        get() {return this.item.pictureUrl},
-        set(value) {this.setPictureUrl(value)}
+      image: {
+        get() {return this.item.image},
+        set(value) {this.setPictureUrl(value, this.main.action)}
       },
       weight: {
         get() {return this.item.weight},
-        set(value) {this.setWeight(value)}
+        set(value) {this.setWeight(value, this.main.action)}
       },
       price: {
         get() {return this.item.price},
-        set(value) {this.setPrice(value)}},
+        set(value) {this.setPrice(value, this.main.action)}},
       category: {
         get() {return this.item.category},
-        set(value) {this.setCategory(value)}
+        set(value) {this.setCategory(value, this.main.action)}
       },
       description: {
         get() {return this.item.description},
-        set(value) {this.setDescription(value)}
+        set(value) {this.setDescription(value, this.main.action)}
       },
     },
 
@@ -138,14 +140,14 @@
       ]),
       ...mapActions('modals', ['setMenuModalVisibility']),
       onFilePicked({file, url}) {
-        this.pictureUrl = url
-        this.setPicture(file)
+        this.image = url
+        this.setPicture(file, this.main.action)
       },
       onConfirm() {
-        this.saveItem({action: 'add'})
+        this.saveItem({action: this.main.action})
       },
       closeDialog() {
-        this.setMenuModalVisibility({key: 'main', value: false})
+        this.setMenuModalVisibility({key: 'main', value: false, action: 'add'})
       },
       createCategory() {
         // TODO :: create category
