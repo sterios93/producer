@@ -65,7 +65,7 @@
                 <v-btn
                   class="font-weight-light"
                   color="success"
-                  @click="submit" 
+                  @click="submit"
                 >
                   Sign in
                 </v-btn>
@@ -122,7 +122,7 @@ import { required, email } from 'vuelidate/lib/validators';
           this.postData({action: 'login', payload})
             .then(data => {
               if (data.success !== false) {
-                this.$router.push({ path: 'maps' })
+                this.$router.push({ path: 'menu' })
               } else {
                 this.setState({snackbar: true, message: data.msg, color: 'red'})
                 this.clear();
