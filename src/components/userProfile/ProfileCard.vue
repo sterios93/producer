@@ -62,7 +62,11 @@
                                     class="purple-input"/>
                         </v-flex>
                         <v-flex xs12 md12>
-                            <Map></Map>
+                            <Map
+                                :center="{ lat: 42.649435, lng: 23.354145 }"
+                                :marker="{ lat: 42.649435, lng: 23.354145 }">
+                            </Map>
+
                         </v-flex>
                         <v-flex
                                 xs12

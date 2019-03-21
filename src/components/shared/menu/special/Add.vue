@@ -2,7 +2,7 @@
     <v-dialog
             :value="special.visibility"
             @change="closeDialog"
-            :fullscreen="special.fullscreen"
+            :fullscreen="special.fullscreen || responsive"
             persistent
             min-height="800px"
             max-width="1200px">
@@ -46,10 +46,9 @@
                                     label="Menu Items"
                                     multiple
                             >
-                                <template v-slot:append-outer>
+                                <template v-slot:append>
                                     <v-slide-x-reverse-transition mode="out-in">
                                         <v-icon
-                                                :key="`icon-${isEditing}`"
                                                 color="success"
                                                 @click="createItem"
                                         >add
@@ -57,6 +56,84 @@
                                     </v-slide-x-reverse-transition>
                                 </template>
                             </v-autocomplete>
+                        </v-flex>
+
+                        <v-flex xs12>
+                            <v-layout align-center justify-center row fill-height wrap>
+                                <v-flex xs12 sm6>
+                                    <v-menu
+                                            v-model="startDate.visible"
+                                            :close-on-content-click="false"
+                                            :nudge-right="40"
+                                            lazy
+                                            transition="scale-transition"
+                                            offset-y
+                                            full-width
+                                            min-width="290px"
+                                    >
+                                        <template v-slot:activator="{ on }">
+                                            <v-text-field
+                                                    v-model="startDate.value"
+                                                    label="Start Date"
+                                                    append-icon="event"
+                                                    readonly
+                                                    v-on="on"
+                                            ></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="startDate.value"
+                                                       @input="startDate.visible = false"></v-date-picker>
+                                    </v-menu>
+                                </v-flex>
+
+                                <v-flex xs12 sm6>
+                                    <v-menu
+                                            v-model="endDate.visible"
+                                            :close-on-content-click="false"
+                                            :nudge-right="40"
+                                            lazy
+                                            transition="scale-transition"
+                                            offset-y
+                                            full-width
+                                            min-width="290px"
+                                    >
+                                        <template v-slot:activator="{ on }">
+                                            <v-text-field
+                                                    v-model="endDate.value"
+                                                    label="End Date"
+                                                    append-icon="event"
+                                                    readonly
+                                                    v-on="on"
+                                            ></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="endDate.value"
+                                                       @input="endDate.visible = false"></v-date-picker>
+                                    </v-menu>
+                                </v-flex>
+                            </v-layout>
+                        </v-flex>
+
+                        <v-flex xs12>
+                            <v-layout row wrap>
+                                <v-flex xs12 sm6>
+                                    <v-flex xs12>
+                                        <CustomDatePicker
+                                                :options="startDate"
+                                                @date-changed="onStartDateChange"
+                                                @time-changed="onStartTimeChange"
+                                        />
+                                    </v-flex>
+                                </v-flex>
+
+                                <v-flex xs12 sm6>
+                                    <v-flex xs12>
+                                        <CustomDatePicker
+                                                :options="endDate"
+                                                @date-changed="onEndDateChange"
+                                                @time-changed="onEndTimeChange"
+                                        />
+                                    </v-flex>
+                                </v-flex>
+                            </v-layout>
                         </v-flex>
 
                         <v-flex xs12>
@@ -84,22 +161,35 @@
 
 <script>
   import VFileUpload from '../../../shared/VFileUpload'
+  import CustomDatePicker from '../../CustomDatePicker'
   import {mapState, mapActions, mapGetters} from 'vuex'
+
 
   export default {
     components: {
-      VFileUpload
+      VFileUpload,
+      CustomDatePicker
     },
 
     data() {
       return {
-        isEditing: false,
+        startDate: {
+          date: new Date().toISOString().substr(0, 10),
+          time: '12:00',
+          visible: false
+        },
+        endDate: {
+          date: new Date().toISOString().substr(0, 10),
+          time: '12:00',
+          visible: false
+        },
       }
     },
 
     computed: {
       ...mapState({
         item: (state) => state.special.add,
+        responsive: (state) => state.layout.responsive,
         color: (state) => state.app.color,
         special: (state) => state.modals.menu.special,
         mainVisibility: (state) => state.modals.menu.main.visibility,
@@ -108,7 +198,8 @@
       ...mapGetters('special', ['getPrice']),
       name: {
         get() {return this.item.name},
-        set(value) {this.setName(value)}},
+        set(value) {this.setName(value)}
+      },
       picture: {
         get() {return this.item.picture},
         set(value) {this.setPicture(value)}
@@ -123,7 +214,8 @@
       },
       price: {
         get() {return this.getPrice},
-        set(value) {this.setPrice(value)}},
+        set(value) {this.setPrice(value)}
+      },
       specialItems: {
         get() {return this.item.items},
         set(value) {this.setItems(value)}
@@ -135,7 +227,15 @@
     },
 
     watch: {
-      mainVisibility: 'mainVisibilityHandler'
+      mainVisibility: 'mainVisibilityHandler',
+      startDate: {
+        deep: true,
+        handler: 'startDateHandler'
+      },
+      endDate: {
+        deep: true,
+        handler: 'endDateHandler'
+      },
     },
 
     methods: {
@@ -147,12 +247,32 @@
         'setDiscount',
         'setPrice',
         'setItems',
+        'setStartDate',
+        'setEndDate',
         'saveItem',
       ]),
       ...mapActions('modals', [
         'setMenuModalVisibility',
         'setFullscreen'
       ]),
+      onStartTimeChange(value) {
+        this.startDate.time = value
+      },
+      onEndTimeChange(value) {
+        this.startDate.time = value
+      },
+      onStartDateChange(value) {
+        this.startDate.date = value
+      },
+      onEndDateChange(value) {
+        this.endDate.date = value
+      },
+      startDateHandler(value) {
+        this.setStartDate(value)
+      },
+      endDateHandler(value) {
+        this.setEndDate(value)
+      },
       onFilePicked({file, url}) {
         this.pictureUrl = url
         this.setPicture(file)

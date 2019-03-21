@@ -8,7 +8,10 @@
             ></v-text-field>
             </v-flex>
             <v-flex xs12>
-                <Map></Map>
+                <Map
+                        :center="{ lat: 42.649435, lng: 23.354145 }"
+                        :marker="{ lat: 42.649435, lng: 23.354145 }">
+                </Map>
             </v-flex>
             <v-flex>
                 <v-btn color="primary" @click="stepClick(2)">Back</v-btn>
