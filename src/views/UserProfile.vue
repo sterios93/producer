@@ -3,7 +3,7 @@
     <v-layout justify-center wrap >
       <v-flex  xs12 md8 >
         <material-card
-                color="green"
+                :color="isProfileCardValid ? 'green' : 'red'"
                 title="Edit Profile"
                 text="Complete your profile">
             <profile-card></profile-card>
@@ -24,6 +24,7 @@
 <script>
 import ProfileCard from '../components/userProfile/ProfileCard'
 import PaymentCard from '../components/userProfile/PaymentCard'
+import {mapState} from 'vuex'
 
 // TODO :: Change the active state of the payment information
 
@@ -33,6 +34,11 @@ export default {
     Map,
     ProfileCard,
     PaymentCard,
+  },
+  computed:{
+    ...mapState({
+      isProfileCardValid: (state) => state.userProfile.isProfileValid,
+    })
   }
 }
 </script>
