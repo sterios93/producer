@@ -37,20 +37,17 @@
 
         <v-divider light></v-divider>
 
-        <v-card-actions class="pa-3">
+        <v-card-actions
+                v-if="isSpecial"
+                class="pa-3">
             <v-btn
-                    v-if="isSpecial"
                     color="green"
                     @click="readMore"
             >
                 Read more
             </v-btn>
             <v-spacer></v-spacer>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
+            <div class="body-2 red--text">EXPIRES AT: {{item.endDate}}</div>
         </v-card-actions>
 
     </v-card>
