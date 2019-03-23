@@ -107,10 +107,7 @@
                                     :disabled="!inEditMode"/>
                         </v-flex>
                         <v-flex xs12 md12>
-                            <Map
-                                :center="{ lat: 42.649435, lng: 23.354145 }"
-                                :marker="{ lat: 42.649435, lng: 23.354145 }">
-                            </Map>
+                            <Map></Map>
 
                         </v-flex>
                         <v-flex

@@ -1,10 +1,13 @@
 <template>
   <div class="mt-5">
+
     <gmap-map
             :options="{styles: styles}"
             :center="center"
             :zoom="16"
             style="width:100%;  height: 400px;"
+            ref="map"
+            @dblclick="addCustomMarker"
     >
       <gmap-marker
               :position="marker"
@@ -14,13 +17,10 @@
 </template>
 
 <script>
-
   export default {
-    props: ['center', 'marker'],
     data() {
       return {
-        // center: { lat: 42.649435, lng: 23.354145 },
-        // marker: { lat: 42.649435, lng: 23.354145 },
+        center: {},
         styles: [
           {
             featureType: 'all',
@@ -188,7 +188,43 @@
             ],
           },
         ],
+        marker: null,
       };
     },
+    mounted() {
+      this.geolocate();
+    },
+    methods: {
+      geolocate: function() {
+          navigator.geolocation.getCurrentPosition(position => {
+            this.center = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            this.marker = {
+              lat: this.center.lat,
+              lng: this.center.lng,
+            };
+
+          });
+      },
+      addCustomMarker(e) {
+        const lat = e.latLng.lat()
+        const lng = e.latLng.lng()
+
+        this.marker = {
+          lat: lat,
+          lng: lng,
+        }
+        this.reversGeoCode();
+      },
+      reversGeoCode() {
+        // TODO :: we need access to the Geocoding api
+        // TODO :: we need access to the Autocompleete api
+        fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyAfYAgsxbh9FIJw1lAUc3B_t3ujOTrDRT4')
+                .then(res => console.error(res));
+      }
+    }
   };
 </script>
