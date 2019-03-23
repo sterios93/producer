@@ -4,7 +4,7 @@ const state = () => ({
   items: [
     {
       id: 0,
-      description: 'asdasdasd',
+      description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',
       discount: 10,
       items: [
         {
@@ -60,9 +60,9 @@ const state = () => ({
           description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
         },
       ],
-      name: 'Dobrin Yonkov',
+      name: 'Grande Pica Peperoni with Cheese',
       picture: null,
-      image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+      image: 'https://api-content.prod.pizzahutaustralia.com.au//umbraco/api/Image/Get2?path=assets/products/menu/Veggie-Tandoori-LGE-Pizza-menu.jpg',
       price: 160,
       schedule: null,
       startDate: '2019-09-10 12:00',
