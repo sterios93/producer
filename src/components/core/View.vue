@@ -6,9 +6,9 @@
       </v-fade-transition>
     </div>
     <CustomSnackBar/>
-    <AddMainMenuItem/>
-    <AddSpecialMenuItem/>
-    <AddLunchMenuItem/>
+    <AddMainMenuItem />
+    <AddSpecialMenuItem />
+    <AddLunchMenuItem />
   </v-content>
 </template>
 

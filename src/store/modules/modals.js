@@ -7,17 +7,17 @@ export default {
 			main: {
 				visibility: false,
 				fullscreen: false,
-				action: ''
+				action: 'add'
 			},
 			special: {
 				visibility: false,
 				fullscreen: false,
-				action: ''
+				action: 'add'
 			},
 			lunch	: {
 				visibility: false,
 				fullscreen: false,
-				action: ''
+				action: 'add'
 			},
 		}
 	},

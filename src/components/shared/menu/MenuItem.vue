@@ -1,7 +1,7 @@
 <template>
     <v-card color="white darken-2 text-xs-center">
 
-        <v-card-actions>
+        <v-card-actions v-if="isEditable">
             <v-spacer></v-spacer>
             <v-btn icon @click="onEditClick">
                 <v-icon color="grey">edit</v-icon>
@@ -39,6 +39,7 @@
 
         <v-card-actions class="pa-3">
             <v-btn
+                    v-if="isSpecial"
                     color="green"
                     @click="readMore"
             >
@@ -61,7 +62,22 @@
 
   export default {
     props: {
-      item: Object
+      item: {
+        type: Object,
+        default: () => {},
+      },
+      isEditable: {
+        type: Boolean,
+        default: false,
+      },
+      isSpecial: {
+        type: Boolean,
+        default: false,
+      },
+      type: {
+        type: String,
+        default: 'main',
+      }
     },
     data() {
       return {}
@@ -76,7 +92,7 @@
       },
       onEditClick() {
         this.setMenuModalVisibility({
-          key: 'main',
+          key: this.type,
           value: true,
           action: 'edit'
         })

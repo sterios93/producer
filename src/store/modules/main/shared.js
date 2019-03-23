@@ -13,7 +13,10 @@ export default {
     SET_DESCRIPTION: (state, {payload, action}) => state[action].description = payload,
     SET_WEIGHT: (state, {payload, action}) => state[action].weight = payload,
     SET_PRICE: (state, {payload, action}) => state[action].price = payload,
-    SET_CATEGORY: (state, {payload, action}) => state[action].category = payload,
+    SET_CATEGORY: (state, {payload, action}) => {
+      console.log(action)
+      state[action].category = payload
+    },
   },
   getters: {
     sumItemsPrice: (state) => (ids, action) => {
@@ -27,13 +30,13 @@ export default {
       return undefined;
     },
     // TODO consider moving to 'shared' module
-    setName: ({commit}, payload, action) => commit('SET_NAME', {payload, action}),
-    setPicture: ({commit}, payload, action) => commit('SET_PICTURE', {payload, action}),
-    setPictureUrl: ({commit}, payload, action) => commit('SET_PICTURE_URL', {payload, action}),
-    setDescription: ({commit}, payload, action) => commit('SET_DESCRIPTION', {payload, action}),
-    setWeight: ({commit}, payload, action) => commit('SET_WEIGHT', {payload, action}),
-    setPrice: ({commit}, payload, action) => commit('SET_PRICE', {payload, action}),
-    setCategory: ({commit}, payload, action) => commit('SET_CATEGORY', {payload, action}),
+    setName: ({commit}, {payload, action}) => {commit('SET_NAME', {payload, action})},
+    setPicture: ({commit}, {payload, action}) => commit('SET_PICTURE', {payload, action}),
+    setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
+    setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
+    setWeight: ({commit}, {payload, action}) => commit('SET_WEIGHT', {payload, action}),
+    setPrice: ({commit}, {payload, action}) => commit('SET_PRICE', {payload, action}),
+    setCategory: ({commit}, {payload, action}) => commit('SET_CATEGORY', {payload, action}),
   }
 }
 

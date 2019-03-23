@@ -39,7 +39,6 @@
                                     item-text="name"
                                     item-value="id"
                                     label="Category"
-                                    multiple
                             >
                                 <template v-slot:append-outer>
                                     <v-slide-x-reverse-transition mode="out-in">
@@ -90,9 +89,12 @@
     },
 
     computed: {
+      action() {
+        return this.main.action
+      },
       ...mapState({
         item(state) {
-          return state.main[this.main.action];
+          return state.main[this.action];
         } ,
         responsive: (state) => state.layout.responsive,
         color: (state) => state.app.color,
@@ -101,29 +103,29 @@
       }),
       name: {
         get() {return this.item.name},
-        set(value) {this.setName(value, this.main.action)}},
+        set(value) {this.setName({payload: value, action: this.action})}},
       picture: {
         get() {return this.item.picture},
-        set(value) {this.setPicture(value, this.main.action)}
+        set(value) {this.setPicture(value, this.action)}
       },
       image: {
         get() {return this.item.image},
-        set(value) {this.setPictureUrl(value, this.main.action)}
+        set(value) {this.setPictureUrl(value, this.action)}
       },
       weight: {
         get() {return this.item.weight},
-        set(value) {this.setWeight(value, this.main.action)}
+        set(value) {this.setWeight(value, this.action)}
       },
       price: {
         get() {return this.item.price},
-        set(value) {this.setPrice(value, this.main.action)}},
+        set(value) {this.setPrice(value, this.action)}},
       category: {
         get() {return this.item.category},
-        set(value) {this.setCategory(value, this.main.action)}
+        set(value) {this.setCategory(value, this.action)}
       },
       description: {
         get() {return this.item.description},
-        set(value) {this.setDescription(value, this.main.action)}
+        set(value) {this.setDescription(value, this.action)}
       },
     },
 
@@ -141,13 +143,13 @@
       ...mapActions('modals', ['setMenuModalVisibility']),
       onFilePicked({file, url}) {
         this.image = url
-        this.setPicture(file, this.main.action)
+        this.setPicture(file, this.action)
       },
       onConfirm() {
-        this.saveItem({action: this.main.action})
+        this.saveItem({action: this.action})
       },
       closeDialog() {
-        this.setMenuModalVisibility({key: 'main', value: false, action: 'add'})
+        this.setMenuModalVisibility({key: 'main', value: false, action: this.action})
       },
       createCategory() {
         // TODO :: create category
