@@ -119,13 +119,13 @@
     computed: {
       ...mapState({
         item: function (state) {return state.lunch[this.action]},
+        color: (state) => state.modals.menu.lunch.color,
         lunch: (state) => state.modals.menu.lunch,
         action: (state) => state.modals.menu.lunch.action,
-        responsive: (state) => state.layout.responsive,
         allItems: (state) => state.lunch.shared.allItems,
-        color: (state) => state.app.color,
-        mainVisibility: (state) => state.modals.menu.main.visibility,
         mainItems: (state) => state.main.list.items,
+        responsive: (state) => state.layout.responsive,
+        mainVisibility: (state) => state.modals.menu.main.visibility,
       }),
       discount: {
         get() {return this.item.discount},
@@ -173,16 +173,25 @@
 
     methods: {
       ...mapActions('lunch', [
-        'setDiscount',
         'setItems',
-        'setStartDate',
-        'setEndDate',
         'saveItem',
+        'setEndDate',
+        'setDiscount',
+        'setStartDate',
       ]),
       ...mapActions('modals', [
-        'setMenuModalVisibility',
-        'setFullscreen'
+        'setFullscreen',
+        'setMenuModalVisibility'
       ]),
+      onConfirm() {
+        this.saveItem({action: this.action})
+      },
+      createItem() {
+        this.setMenuModalVisibility({key: 'main', value: true})
+      },
+      closeDialog() {
+        this.setMenuModalVisibility({key: 'lunch', value: false})
+      },
       onStartTimeChange(value) {
         this.startDate = {
           ...this.startDate,
@@ -213,17 +222,8 @@
           ...(chosenMainItems ? chosenMainItems : this.chosenMainItems)
         ]
       },
-      onConfirm() {
-        this.saveItem({action: this.action})
-      },
-      closeDialog() {
-        this.setMenuModalVisibility({key: 'lunch', value: false})
-      },
       mainVisibilityHandler(visibility) {
         this.setFullscreen({key: 'lunch', value: visibility})
-      },
-      createItem() {
-        this.setMenuModalVisibility({key: 'main', value: true})
       }
     }
   }

@@ -123,11 +123,12 @@ import {
 export default {
   data: () => ({
     colors: [
-      'primary',
-      'info',
+      'light-green darken-3',
+      'indigo',
+      'danger',
       'success',
-      'warning',
-      'danger'
+      'teal darken-1',
+      'indigo lighten-1',
     ],
     images: [
       'https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-1.23832d31.jpg',

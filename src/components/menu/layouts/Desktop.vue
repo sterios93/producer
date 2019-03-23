@@ -37,14 +37,14 @@
     props: {
       tabs: Object,
       color: String,
+      activeTab: String,
       categories: Array,
-      selectedCategories: Array,
-      activeTab: String
+      selectedCategories: Array
     },
 
     components: {
-      MenuListContainer,
       CategoryList,
+      MenuListContainer,
       CustomsBottomSheet
     },
 
@@ -93,8 +93,8 @@
     },
     methods: {
       ...mapActions({
-        'setBottomSheetVisibility': 'bottomSheet/setVisibility',
-        'setMenuModalVisibility': 'modals/setMenuModalVisibility'
+        'setMenuModalVisibility': 'modals/setMenuModalVisibility',
+        'setBottomSheetVisibility': 'bottomSheet/setVisibility'
       }),
       onControlsClicked() {
         this.setBottomSheetVisibility(true)

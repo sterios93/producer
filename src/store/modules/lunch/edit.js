@@ -43,12 +43,12 @@ export default {
         time: endDate[1],
         visible: true
       }
-      
-      commit('SET_DISCOUNT', {payload: discount, action: 'edit'})
+  
       commit('SET_ITEMS', {payload: items, action: 'edit'})
+      commit('SET_DISCOUNT', {payload: discount, action: 'edit'})
       commit('SET_SCHEDULE', {payload: schedule, action: 'edit'})
-      commit('SET_START_DATE', {payload: startDate, action: 'edit'})
       commit('SET_END_DATE', {payload: endDate, action: 'edit'})
+      commit('SET_START_DATE', {payload: startDate, action: 'edit'})
     }
   }
 }

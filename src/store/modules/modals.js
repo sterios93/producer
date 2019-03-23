@@ -7,17 +7,20 @@ export default {
 			main: {
 				visibility: false,
 				fullscreen: false,
-				action: 'add'
+				action: 'add',
+				color: 'blue-grey lighten-2',
 			},
 			special: {
 				visibility: false,
 				fullscreen: false,
-				action: 'add'
+				action: 'add',
+				color: 'blue-grey lighten-1',
 			},
 			lunch	: {
 				visibility: false,
 				fullscreen: false,
-				action: 'add'
+				action: 'add',
+				color: 'teal darken-1',
 			},
 		}
 	},

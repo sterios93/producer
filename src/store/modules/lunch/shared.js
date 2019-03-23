@@ -44,23 +44,22 @@ const state = () => ({
 export default {
   state,
   mutations: {
-    SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
     SET_ITEMS: (state, {payload, action}) => state[action].items = payload,
+    SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
     SET_SCHEDULE: (state, {payload, action}) => state[action].schedule = payload,
-    SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
     SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
+    SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
   },
   getters: {},
   actions: {
     saveItem({rootState, state, commit}, {action, payload}) {
       return undefined;
     },
-    // TODO consider moving to 'shared' module
-    setDiscount: ({commit}, {payload, action}) => commit('SET_DISCOUNT', {payload, action}),
     setItems: ({commit}, {payload, action}) => commit('SET_ITEMS', {payload, action}),
+    setEndDate: ({commit}, {payload, action}) => commit('SET_END_DATE', {payload, action}),
+    setDiscount: ({commit}, {payload, action}) => commit('SET_DISCOUNT', {payload, action}),
     setSchedule: ({commit}, {payload, action}) => commit('SET_SCHEDULE', {payload, action}),
     setStartDate: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
-    setEndDate: ({commit}, {payload, action}) => commit('SET_END_DATE', {payload, action}),
   }
 }
 

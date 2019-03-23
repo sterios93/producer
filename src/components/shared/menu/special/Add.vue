@@ -127,32 +127,32 @@
     computed: {
       ...mapState({
         item: function (state) { return state.special[this.action]},
-        special: (state) => state.modals.menu.special,
+        color: (state) => state.modals.menu.special.color,
         action: (state) => state.modals.menu.special.action,
-        responsive: (state) => state.layout.responsive,
-        color: (state) => state.app.color,
-        mainVisibility: (state) => state.modals.menu.main.visibility,
+        special: (state) => state.modals.menu.special,
         mainItems: (state) => state.main.list.items,
+        responsive: (state) => state.layout.responsive,
+        mainVisibility: (state) => state.modals.menu.main.visibility,
       }),
       name: {
         get() {return this.item.name},
         set(value) {this.setName({payload: value, action: this.action})}
       },
-      picture: {
-        get() {return this.item.picture},
-        set(value) {this.setPicture({payload: value, action: this.action})}
-      },
       image: {
         get() {return this.item.image},
         set(value) {this.setPictureUrl({payload: value, action: this.action})}
+      },
+      price: {
+        get() {return this.$store.getters['special/getPrice'](this.action)},
+        set(value) {this.setPrice({payload: value, action: this.action})}
       },
       discount: {
         get() {return this.item.discount},
         set(value) {this.setDiscount({payload: value, action: this.action})}
       },
-      price: {
-        get() {return this.$store.getters['special/getPrice'](this.action)},
-        set(value) {this.setPrice({payload: value, action: this.action})}
+      picture: {
+        get() {return this.item.picture},
+        set(value) {this.setPicture({payload: value, action: this.action})}
       },
       specialItems: {
         get() {return this.item.items},
@@ -191,20 +191,33 @@
     methods: {
       ...mapActions('special', [
         'setName',
-        'setPicture',
-        'setPictureUrl',
-        'setDescription',
-        'setDiscount',
         'setPrice',
         'setItems',
-        'setStartDate',
-        'setEndDate',
         'saveItem',
+        'setEndDate',
+        'setPicture',
+        'setDiscount',
+        'setStartDate',
+        'setPictureUrl',
+        'setDescription',
       ]),
       ...mapActions('modals', [
-        'setMenuModalVisibility',
-        'setFullscreen'
+        'setFullscreen',
+        'setMenuModalVisibility'
       ]),
+      onConfirm() {
+        this.saveItem({action: this.action})
+      },
+      createItem() {
+        this.setMenuModalVisibility({key: 'main', value: true})
+      },
+      closeDialog() {
+        this.setMenuModalVisibility({key: 'special', value: false})
+      },
+      onFilePicked({file, url}) {
+        this.image = url
+        this.setPicture({payload: file, action: this.action})
+      },
       onStartTimeChange(value) {
         this.startDate = {
           ...this.startDate,
@@ -229,21 +242,8 @@
           date: value
         }
       },
-      onFilePicked({file, url}) {
-        this.image = url
-        this.setPicture({payload: file, action: this.action})
-      },
-      onConfirm() {
-        this.saveItem({action: this.action})
-      },
-      closeDialog() {
-        this.setMenuModalVisibility({key: 'special', value: false})
-      },
       mainVisibilityHandler(visibility) {
         this.setFullscreen({key: 'special', value: visibility})
-      },
-      createItem() {
-        this.setMenuModalVisibility({key: 'main', value: true})
       }
     }
   }

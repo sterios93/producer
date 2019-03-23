@@ -95,36 +95,33 @@
     },
 
     computed: {
-      action() {
-        return this.main.action
-      },
       ...mapState({
-        item(state) {
-          return state.main[this.action];
-        } ,
-        responsive: (state) => state.layout.responsive,
-        color: (state) => state.app.color,
+        item(state) {return state.main[this.action];} ,
         main: (state) => state.modals.menu.main,
+        color: (state) => state.modals.menu.main.color,
+        action: (state) => state.modals.menu.main.action,
+        responsive: (state) => state.layout.responsive,
         categories: (state) => state.categories.items
       }),
+
       name: {
         get() {return this.item.name},
         set(value) {this.setName({payload: value, action: this.action})}},
-      picture: {
-        get() {return this.item.picture},
-        set(value) {this.setPicture({payload: value, action: this.action})}
-      },
       image: {
         get() {return this.item.image},
         set(value) {this.setPictureUrl({payload: value, action: this.action})}
       },
+      price: {
+        get() {return this.item.price},
+        set(value) {this.setPrice({payload: value, action: this.action})}},
       weight: {
         get() {return this.item.weight},
         set(value) {this.setWeight({payload: value, action: this.action})}
       },
-      price: {
-        get() {return this.item.price},
-        set(value) {this.setPrice({payload: value, action: this.action})}},
+      picture: {
+        get() {return this.item.picture},
+        set(value) {this.setPicture({payload: value, action: this.action})}
+      },
       category: {
         get() {return this.item.category},
         set(value) {this.setCategory({payload: value, action: this.action})}
@@ -138,24 +135,24 @@
     methods: {
       ...mapActions('main', [
         'setName',
-        'setPicture',
-        'setPictureUrl',
-        'setDescription',
-        'setWeight',
         'setPrice',
+        'saveItem',
+        'setWeight',
+        'setPicture',
         'setCategory',
-        'saveItem'
+        'setPictureUrl',
+        'setDescription'
       ]),
       ...mapActions('modals', ['setMenuModalVisibility']),
-      onFilePicked({file, url}) {
-        this.image = url
-        this.setPicture({payload: file, action: this.action})
-      },
       onConfirm() {
         this.saveItem({action: this.action})
       },
       closeDialog() {
         this.setMenuModalVisibility({key: 'main', value: false})
+      },
+      onFilePicked({file, url}) {
+        this.image = url
+        this.setPicture({payload: file, action: this.action})
       },
       createCategory() {
         // TODO :: create category

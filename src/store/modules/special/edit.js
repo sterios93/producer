@@ -55,15 +55,15 @@ export default {
       }
       
       commit('SET_NAME', {payload: name, action: 'edit'})
-      commit('SET_PICTURE', {payload: picture, action: 'edit'})
-      commit('SET_PICTURE_URL', {payload: image, action: 'edit'})
-      commit('SET_DESCRIPTION', {payload: description, action: 'edit'})
-      commit('SET_DISCOUNT', {payload: discount, action: 'edit'})
       commit('SET_ITEMS', {payload: items, action: 'edit'})
       commit('SET_PRICE', {payload: price, action: 'edit'})
+      commit('SET_PICTURE', {payload: picture, action: 'edit'})
       commit('SET_SCHEDULE', {payload: schedule, action: 'edit'})
-      commit('SET_START_DATE', {payload: startDate, action: 'edit'})
+      commit('SET_DISCOUNT', {payload: discount, action: 'edit'})
       commit('SET_END_DATE', {payload: endDate, action: 'edit'})
+      commit('SET_START_DATE', {payload: startDate, action: 'edit'})
+      commit('SET_PICTURE_URL', {payload: image, action: 'edit'})
+      commit('SET_DESCRIPTION', {payload: description, action: 'edit'})
     }
   }
 }

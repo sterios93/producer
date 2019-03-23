@@ -72,8 +72,8 @@
 
   export default {
     props: {
-      categories: Array,
-      color: String
+      color: String,
+      categories: Array
     },
 
     data() {
@@ -87,8 +87,8 @@
     components: {
       CategoryTabs,
       CustomsBottomSheet,
-      'lunch-menu': LunchList,
       'main-menu': MenuList,
+      'lunch-menu': LunchList,
       'special-menu': SpecialList
     },
 
@@ -124,6 +124,9 @@
 
     computed: {
       ...mapState('special', ['items']),
+      isMainMenu() {
+        return this.selectedMenu === 'main'
+      },
       menuComponent() {
         return `${this.selectedMenu}-menu`
       },
@@ -138,17 +141,14 @@
           items: this.categories,
           color: this.color
         }
-      },
-      isMainMenu() {
-        return this.selectedMenu === 'main'
       }
     },
 
     methods: {
       ...mapGetters('main', ['getMenuByCategory']),
       ...mapActions({
-        'setBottomSheetVisibility': 'bottomSheet/setVisibility',
-        'setMenuModalVisibility': 'modals/setMenuModalVisibility'
+        'setMenuModalVisibility': 'modals/setMenuModalVisibility',
+        'setBottomSheetVisibility': 'bottomSheet/setVisibility'
       }),
       onTabChange(id) {
         this.category = id
