@@ -150,7 +150,7 @@
           return {
             date: this.item.startDate.date || new Date().toISOString().substr(0, 10),
             time: this.item.startDate.time || '12:00',
-            visible: false
+            visible: this.item.startDate.visible || false
           }
         },
         set(value) {
@@ -162,7 +162,7 @@
           return {
             date: this.item.endDate.date || new Date().toISOString().substr(0, 10),
             time: this.item.endDate.time || '12:00',
-            visible: false
+            visible: this.item.startDate.visible || false
           }
         },
         set(value) {

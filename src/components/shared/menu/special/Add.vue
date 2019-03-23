@@ -29,8 +29,14 @@
                         </v-flex>
 
                         <v-flex xs12 sm6>
-                            <img :src="pictureUrl" height="100" v-if="pictureUrl"/>
-                            <VFileUpload @file-picked="onFilePicked"/>
+                            <v-layout>
+                                <v-flex xs2>
+                                    <img :src="image" height="50" v-if="image"/>
+                                </v-flex>
+                                <v-flex xs10>
+                                    <VFileUpload @file-picked="onFilePicked"/>
+                                </v-flex>
+                            </v-layout>
                         </v-flex>
 
                         <v-flex xs12 sm6>
@@ -43,6 +49,7 @@
                                     :items="mainItems"
                                     item-text="name"
                                     item-value="id"
+                                    return-object
                                     label="Menu Items"
                                     multiple
                             >
@@ -56,60 +63,6 @@
                                     </v-slide-x-reverse-transition>
                                 </template>
                             </v-autocomplete>
-                        </v-flex>
-
-                        <v-flex xs12>
-                            <v-layout align-center justify-center row fill-height wrap>
-                                <v-flex xs12 sm6>
-                                    <v-menu
-                                            v-model="startDate.visible"
-                                            :close-on-content-click="false"
-                                            :nudge-right="40"
-                                            lazy
-                                            transition="scale-transition"
-                                            offset-y
-                                            full-width
-                                            min-width="290px"
-                                    >
-                                        <template v-slot:activator="{ on }">
-                                            <v-text-field
-                                                    v-model="startDate.value"
-                                                    label="Start Date"
-                                                    append-icon="event"
-                                                    readonly
-                                                    v-on="on"
-                                            ></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="startDate.value"
-                                                       @input="startDate.visible = false"></v-date-picker>
-                                    </v-menu>
-                                </v-flex>
-
-                                <v-flex xs12 sm6>
-                                    <v-menu
-                                            v-model="endDate.visible"
-                                            :close-on-content-click="false"
-                                            :nudge-right="40"
-                                            lazy
-                                            transition="scale-transition"
-                                            offset-y
-                                            full-width
-                                            min-width="290px"
-                                    >
-                                        <template v-slot:activator="{ on }">
-                                            <v-text-field
-                                                    v-model="endDate.value"
-                                                    label="End Date"
-                                                    append-icon="event"
-                                                    readonly
-                                                    v-on="on"
-                                            ></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="endDate.value"
-                                                       @input="endDate.visible = false"></v-date-picker>
-                                    </v-menu>
-                                </v-flex>
-                            </v-layout>
                         </v-flex>
 
                         <v-flex xs12>
@@ -171,71 +124,68 @@
       CustomDatePicker
     },
 
-    data() {
-      return {
-        startDate: {
-          date: new Date().toISOString().substr(0, 10),
-          time: '12:00',
-          visible: false
-        },
-        endDate: {
-          date: new Date().toISOString().substr(0, 10),
-          time: '12:00',
-          visible: false
-        },
-      }
-    },
-
     computed: {
       ...mapState({
-        item: (state) => state.special.add,
+        item: function (state) { return state.special[this.action]},
+        special: (state) => state.modals.menu.special,
+        action: (state) => state.modals.menu.special.action,
         responsive: (state) => state.layout.responsive,
         color: (state) => state.app.color,
-        special: (state) => state.modals.menu.special,
         mainVisibility: (state) => state.modals.menu.main.visibility,
         mainItems: (state) => state.main.list.items,
       }),
-      ...mapGetters('special', ['getPrice']),
       name: {
         get() {return this.item.name},
-        set(value) {this.setName(value)}
+        set(value) {this.setName({payload: value, action: this.action})}
       },
       picture: {
         get() {return this.item.picture},
-        set(value) {this.setPicture(value)}
+        set(value) {this.setPicture({payload: value, action: this.action})}
       },
-      pictureUrl: {
-        get() {return this.item.pictureUrl},
-        set(value) {this.setPictureUrl(value)}
+      image: {
+        get() {return this.item.image},
+        set(value) {this.setPictureUrl({payload: value, action: this.action})}
       },
       discount: {
         get() {return this.item.discount},
-        set(value) {this.setDiscount(value)}
+        set(value) {this.setDiscount({payload: value, action: this.action})}
       },
       price: {
-        get() {return this.getPrice},
-        set(value) {this.setPrice(value)}
+        get() {return this.$store.getters['special/getPrice'](this.action)},
+        set(value) {this.setPrice({payload: value, action: this.action})}
       },
       specialItems: {
         get() {return this.item.items},
-        set(value) {this.setItems(value)}
+        set(value) {this.setItems({payload: value, action: this.action})}
       },
       description: {
         get() {return this.item.description},
-        set(value) {this.setDescription(value)}
+        set(value) {this.setDescription({payload: value, action: this.action})}
       },
-    },
-
-    watch: {
-      mainVisibility: 'mainVisibilityHandler',
       startDate: {
-        deep: true,
-        handler: 'startDateHandler'
+        get() {
+          return {
+            date: this.item.startDate.date || new Date().toISOString().substr(0, 10),
+            time: this.item.startDate.time || '12:00',
+            visible: false
+          }
+        },
+        set(value) {
+          this.setStartDate({payload: value, action: this.action})
+        }
       },
       endDate: {
-        deep: true,
-        handler: 'endDateHandler'
-      },
+        get() {
+          return {
+            date: this.item.endDate.date || new Date().toISOString().substr(0, 10),
+            time: this.item.endDate.time || '12:00',
+            visible: false
+          }
+        },
+        set(value) {
+          this.setEndDate({payload: value, action: this.action})
+        }
+      }
     },
 
     methods: {
@@ -256,29 +206,35 @@
         'setFullscreen'
       ]),
       onStartTimeChange(value) {
-        this.startDate.time = value
+        this.startDate = {
+          ...this.startDate,
+          time: value
+        }
       },
       onEndTimeChange(value) {
-        this.startDate.time = value
+        this.endDate = {
+          ...this.endDate,
+          time: value
+        }
       },
       onStartDateChange(value) {
-        this.startDate.date = value
+        this.startDate = {
+          ...this.startDate,
+          date: value
+        }
       },
       onEndDateChange(value) {
-        this.endDate.date = value
-      },
-      startDateHandler(value) {
-        this.setStartDate(value)
-      },
-      endDateHandler(value) {
-        this.setEndDate(value)
+        this.endDate = {
+          ...this.endDate,
+          date: value
+        }
       },
       onFilePicked({file, url}) {
-        this.pictureUrl = url
-        this.setPicture(file)
+        this.image = url
+        this.setPicture({payload: file, action: this.action})
       },
       onConfirm() {
-        this.saveItem({action: 'add'})
+        this.saveItem({action: this.action})
       },
       closeDialog() {
         this.setMenuModalVisibility({key: 'special', value: false})

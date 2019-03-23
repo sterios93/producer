@@ -85,7 +85,6 @@
     methods: {
       ...mapActions({
         'setMenuModalVisibility': 'modals/setMenuModalVisibility',
-        'setMenuModalValues': 'main/setEditValues'
       }),
       readMore() {
         this.$router.push({ path: '/special-offer' })
@@ -97,7 +96,9 @@
           action: 'edit'
         })
 
-        this.setMenuModalValues(this.item)
+        this.$store.dispatch(`${this.type}/setEditValues`, {
+          payload: this.item
+        })
       },
       onDeleteClick() {
 

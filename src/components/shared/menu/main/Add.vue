@@ -24,8 +24,14 @@
                         </v-flex>
 
                         <v-flex xs12 sm6>
-                            <img :src="image" height="100" v-if="image"/>
-                            <VFileUpload @file-picked="onFilePicked"/>
+                            <v-layout>
+                                <v-flex xs2>
+                                    <img :src="image" height="50" v-if="image"/>
+                                </v-flex>
+                                <v-flex xs10>
+                                    <VFileUpload @file-picked="onFilePicked"/>
+                                </v-flex>
+                            </v-layout>
                         </v-flex>
 
                         <v-flex xs12 sm6>
@@ -143,7 +149,7 @@
       ...mapActions('modals', ['setMenuModalVisibility']),
       onFilePicked({file, url}) {
         this.image = url
-        this.setPicture(file, this.action)
+        this.setPicture({payload: file, action: this.action})
       },
       onConfirm() {
         this.saveItem({action: this.action})
