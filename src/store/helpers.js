@@ -26,3 +26,13 @@ export const getData = (url, query, token) => {
     referrer: "no-referrer",
   })
 }
+
+export const formatDate = (date) => {
+  let dateArray = date.split(' ')
+  return {
+    date: dateArray[0],
+    time: dateArray[1],
+    visible: false
+  }
+}
+

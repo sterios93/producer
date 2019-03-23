@@ -26,17 +26,16 @@
                           class="mx-auto d-block"
                           size="260"
                   >
-                    <img src="https://api-content.prod.pizzahutaustralia.com.au//umbraco/api/Image/Get2?path=assets/products/menu/Veggie-Tandoori-LGE-Pizza-menu.jpg">
+                    <img :src="image">
                   </v-avatar>
                 </v-flex>
 
 
                 <v-flex xs12 lg6>
                   <v-card-text class="text-xs-center">
-                    <h3 class="category font-weight-bold mb-3">From 20.03.2019 to 23.03.2019</h3>
-                    <h3 class="card-title font-weight-light">Grande Pica Peperoni with Cheese !!</h3>
-                    <p class="card-description font-weight-light">Only now in our Restaurant. Order one
-                      picca and get the second one for free !</p>
+                    <h3 class="category font-weight-bold mb-3">From {{startDate.date}}:{{startDate.time}} to {{endDate.date}}:{{endDate.time}}</h3>
+                    <h3 class="card-title font-weight-light">{{name}}</h3>
+                    <p class="card-description font-weight-light">{{description}}</p>
                     <p class="card-description font-weight-light">Also see our other offers bellow :)</p>
                     <v-btn
                             color="success"
@@ -45,6 +44,7 @@
                     >Follow
                     </v-btn>
                     <v-btn
+                            @click="onEditClick"
                             color="orange"
                             round
                             class="font-weight-light"
@@ -67,7 +67,6 @@
 
               </v-layout>
 
-
             </v-flex>
 
           </v-layout>
@@ -75,7 +74,7 @@
             xs12
             mt-5>
             <v-flex
-              v-for="item in specialOfferItems"
+              v-for="item in items"
               :key="item.id"
               xs12
               class="py-2 px-0">
@@ -93,19 +92,53 @@
 
 <script>
 import MenuItem from '../components/shared/menu/MenuItem'
-
+import {mapActions, mapState} from 'vuex'
 export default {
   name: 'SpecialOffer',
+  props: {
+    id: String || Number
+  },
+  data() {
+    return {
+    }
+  },
   components: {
     MenuItem
   },
-  data () {
-    return {}
-  },
   computed: {
-    specialOfferItems () {
-      return this.$store.state.special.list.items.slice(0, 3)
-    }
+    ...mapState('special', {
+      name: (state) => state.view.name,
+      image: (state) => state.view.image,
+      price: (state) => state.view.price, // TODO
+      items: (state) => state.view.items,
+      endDate: (state) => state.view.endDate,
+      discount: (state) => state.view.discount, // TODO
+      startDate: (state) => state.view.startDate,
+      description: (state) => state.view.description,
+    }),
+  },
+  created() {
+    this.fetchItem({payload: this.id, action: 'view'})
+            .then(item => this.item = item)
+  },
+  methods: {
+    ...mapActions({
+      'fetchItem': 'special/fetchItem',
+      'setMenuModalVisibility': 'modals/setMenuModalVisibility',
+    }),
+    onEditClick() {
+      this.setMenuModalVisibility({
+        key: 'special',
+        value: true,
+        action: 'edit'
+      })
+
+      // TODO :: consider making new request for edit
+      this.$store.dispatch(`special/setItemValues`, {
+        payload: this.item,
+        action: 'edit'
+      })
+    },
   }
 }
 </script>

@@ -15,7 +15,7 @@ export default {
   mutations: {},
   getters: {},
   actions: {
-    setEditValues ({commit}, {payload}) {
+    setItemValues ({commit}, {payload}) {
       let {
         name,
         picture,
