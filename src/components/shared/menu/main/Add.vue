@@ -25,10 +25,10 @@
 
                         <v-flex xs12 sm6>
                             <v-layout>
-                                <v-flex xs2>
-                                    <img :src="image" height="50" v-if="image"/>
+                                <v-flex v-if="image" xs2>
+                                    <img :src="image" height="50"/>
                                 </v-flex>
-                                <v-flex xs10>
+                                <v-flex xs12>
                                     <VFileUpload @file-picked="onFilePicked"/>
                                 </v-flex>
                             </v-layout>
@@ -143,7 +143,10 @@
         'setPictureUrl',
         'setDescription'
       ]),
-      ...mapActions('modals', ['setMenuModalVisibility']),
+      ...mapActions('modals', [
+        'setModalVisibility',
+        'setMenuModalVisibility'
+      ]),
       onConfirm() {
         this.saveItem({action: this.action})
       },
@@ -155,7 +158,7 @@
         this.setPicture({payload: file, action: this.action})
       },
       createCategory() {
-        // TODO :: create category
+        this.setModalVisibility({key: 'category', value: true})
       }
     }
   }

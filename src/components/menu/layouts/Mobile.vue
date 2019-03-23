@@ -118,6 +118,14 @@
             key: 'lunch',
             value: true
           })
+        },
+        {
+          img: 'hangouts.png',
+          title: 'Create category',
+          cb: () => this.setModalVisibility({
+            key: 'category',
+            value: true
+          })
         }
       ]
     },
@@ -147,8 +155,9 @@
     methods: {
       ...mapGetters('main', ['getMenuByCategory']),
       ...mapActions({
+        'setModalVisibility': 'modals/setModalVisibility',
         'setMenuModalVisibility': 'modals/setMenuModalVisibility',
-        'setBottomSheetVisibility': 'bottomSheet/setVisibility'
+        'setBottomSheetVisibility': 'bottomSheet/setVisibility',
       }),
       onTabChange(id) {
         this.category = id

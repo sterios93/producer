@@ -73,6 +73,14 @@
             key: 'lunch',
             value: true
           })
+        },
+        {
+          img: 'hangouts.png',
+          title: 'Create category',
+          cb: () => this.setModalVisibility({
+            key: 'category',
+            value: true
+          })
         }
       ]
     },
@@ -93,6 +101,7 @@
     },
     methods: {
       ...mapActions({
+        'setModalVisibility': 'modals/setModalVisibility',
         'setMenuModalVisibility': 'modals/setMenuModalVisibility',
         'setBottomSheetVisibility': 'bottomSheet/setVisibility'
       }),

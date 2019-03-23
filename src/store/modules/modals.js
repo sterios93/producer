@@ -3,6 +3,10 @@ import { set, toggle } from '@/utils/vuex'
 export default {
 	namespaced: true,
 	state: {
+		category: {
+			visibility: false,
+			color: 'teal darken-1',
+		},
 		menu: {
 			main: {
 				visibility: false,
@@ -25,21 +29,27 @@ export default {
 		}
 	},
 	mutations: {
+		SET_FULLSCREEN: (state, {key, value}) => {
+			state.menu[key].fullscreen = value
+		},
+		SET_MODAL_VISIBILITY: (state, {key, value}) => {
+			state[key].visibility = value
+		},
 		SET_MENU_MODAL_VISIBILITY: (state, {key, value, action = 'add'}) => {
 			state.menu[key].visibility = value
 			state.menu[key].action = action
-		},
-		SET_FULLSCREEN: (state, {key, value}) => {
-			state.menu[key].fullscreen = value
 		}
 	},
 	getters: {},
 	actions: {
-		setMenuModalVisibility({commit}, payload) {
-			commit('SET_MENU_MODAL_VISIBILITY', payload)
-		},
 		setFullscreen({commit}, payload) {
 			commit('SET_FULLSCREEN', payload)
+		},
+		setModalVisibility({commit}, payload) {
+			commit('SET_MODAL_VISIBILITY', payload)
+		},
+		setMenuModalVisibility({commit}, payload) {
+			commit('SET_MENU_MODAL_VISIBILITY', payload)
 		}
 	}
 }

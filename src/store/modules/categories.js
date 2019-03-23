@@ -1,5 +1,5 @@
 import {set, toggle} from '@/utils/vuex'
-import {getData} from "../helpers";
+import {getData, postData} from "../helpers";
 
 export default {
   namespaced: true,
@@ -31,14 +31,20 @@ export default {
         selected: false
       }
     ],
-    
+    current: {
+      name: '',
+      id: null
+    }
   },
   mutations: {
+    SET_CATEGORY: set('current'),
     SET_CATEGORIES: set('items'),
     TOGGLE_CATEGORY: (state, {id}) => {
       let category = state.items.find((el => el.id === id))
       category.selected = !category.selected
-    }
+    },
+    ADD_NEW_CATEGORY: (state, payload) => state.items.push(payload),
+    SET_CATEGORY_NAME: (state, payload) => state.current.name = payload
   },
   getters: {
     getSelectedCategories: (state) => state.items.filter(el => el.selected),
@@ -51,5 +57,15 @@ export default {
     toggleCategory({commit}, payload) {
       commit('TOGGLE_CATEGORY', payload)
     },
+    setCategory({commit}, payload) {
+      commit('SET_CATEGORY', payload)
+    },
+    setCategoryName({commit}, payload) {
+      commit('SET_CATEGORY_NAME', payload)
+    },
+    saveItem({commit, rootState, state}) {
+      postData({payload: state.category, url})
+        .then((data) => commit('ADD_NEW_CATEGORY', data))
+    }
   }
 }
