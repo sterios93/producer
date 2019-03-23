@@ -32,7 +32,8 @@ export default [
     view: 'ForgottenPassword'
   },
   {
-    path: '/special-offer',
+    path: '/special-offer/:id',
+    props: true,
     view: 'SpecialOffer'
   },
   {

@@ -11,7 +11,7 @@
             </v-btn>
         </v-card-actions>
 
-        <v-layout align-center justify-space-between row wrap fill-height>
+        <v-layout py-1 align-center justify-space-between row wrap fill-height>
 
             <v-flex xs12 sm3>
                 <v-img
@@ -84,7 +84,7 @@
         'setMenuModalVisibility': 'modals/setMenuModalVisibility',
       }),
       readMore() {
-        this.$router.push({ path: '/special-offer' })
+        this.$router.push({ path: '/special-offer/' + this.item.id })
       },
       onEditClick() {
         this.setMenuModalVisibility({
@@ -93,8 +93,9 @@
           action: 'edit'
         })
 
-        this.$store.dispatch(`${this.type}/setEditValues`, {
-          payload: this.item
+        this.$store.dispatch(`${this.type}/setItemValues`, {
+          payload: this.item,
+          action: 'edit'
         })
       },
       onDeleteClick() {
