@@ -22,7 +22,7 @@ export default {
 		}
 	},
 	mutations: {
-		SET_MENU_MODAL_VISIBILITY: (state, {key, value, action}) => {
+		SET_MENU_MODAL_VISIBILITY: (state, {key, value, action = 'add'}) => {
 			state.menu[key].visibility = value
 			state.menu[key].action = action
 		},

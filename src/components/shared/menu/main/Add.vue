@@ -106,26 +106,26 @@
         set(value) {this.setName({payload: value, action: this.action})}},
       picture: {
         get() {return this.item.picture},
-        set(value) {this.setPicture(value, this.action)}
+        set(value) {this.setPicture({payload: value, action: this.action})}
       },
       image: {
         get() {return this.item.image},
-        set(value) {this.setPictureUrl(value, this.action)}
+        set(value) {this.setPictureUrl({payload: value, action: this.action})}
       },
       weight: {
         get() {return this.item.weight},
-        set(value) {this.setWeight(value, this.action)}
+        set(value) {this.setWeight({payload: value, action: this.action})}
       },
       price: {
         get() {return this.item.price},
-        set(value) {this.setPrice(value, this.action)}},
+        set(value) {this.setPrice({payload: value, action: this.action})}},
       category: {
         get() {return this.item.category},
-        set(value) {this.setCategory(value, this.action)}
+        set(value) {this.setCategory({payload: value, action: this.action})}
       },
       description: {
         get() {return this.item.description},
-        set(value) {this.setDescription(value, this.action)}
+        set(value) {this.setDescription({payload: value, action: this.action})}
       },
     },
 
@@ -149,7 +149,7 @@
         this.saveItem({action: this.action})
       },
       closeDialog() {
-        this.setMenuModalVisibility({key: 'main', value: false, action: this.action})
+        this.setMenuModalVisibility({key: 'main', value: false})
       },
       createCategory() {
         // TODO :: create category
