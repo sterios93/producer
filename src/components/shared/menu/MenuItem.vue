@@ -84,7 +84,7 @@
         'setMenuModalVisibility': 'modals/setMenuModalVisibility',
       }),
       readMore() {
-        this.$router.push({ path: '/special-offer/' + this.item.id })
+        this.$router.push({ path: `/${this.type}-offer/${this.item.id}`})
       },
       onEditClick() {
         this.setMenuModalVisibility({
