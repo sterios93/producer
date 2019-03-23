@@ -25,12 +25,12 @@
                             <v-layout wrap>
                                 <v-flex xs12 sm6>
                                     <v-autocomplete
-                                            :value="chosenSpecialItems"
-                                            @input="onChosenSpecialItemsChange"
+                                            v-model="chosenLunchItems"
                                             :items="allItems"
                                             item-text="name"
                                             item-value="id"
-                                            label="Menu Items"
+                                            return-object
+                                            label="Lunch Items"
                                             multiple
                                     >
                                         <template v-slot:append>
@@ -47,11 +47,11 @@
 
                                 <v-flex xs12 sm6>
                                     <v-autocomplete
-                                            :value="chosenMainItems"
-                                            @input="onChosenMainItemsChange"
+                                            v-model="chosenMainItems"
                                             :items="mainItems"
                                             item-text="name"
                                             item-value="id"
+                                            return-object
                                             label="Menu Items"
                                             multiple
                                     >
@@ -116,110 +116,114 @@
       CustomDatePicker
     },
 
-    data() {
-      return {
-        chosenSpecialItems: [],
-        chosenMainItems: [],
-        startDate: {
-          date: new Date().toISOString().substr(0, 10),
-          time: '12:00',
-          visible: false
-        },
-        endDate: {
-          date: new Date().toISOString().substr(0, 10),
-          time: '12:00',
-          visible: false
-        },
-      }
-    },
-
     computed: {
       ...mapState({
-        item: (state) => state.lunch.add,
-        responsive: (state) => state.layout.responsive,
-        allItems: (state) => state.lunch.shared.allItems,
-        color: (state) => state.app.color,
+        item: function (state) {return state.lunch[this.action]},
+        color: (state) => state.modals.menu.lunch.color,
         lunch: (state) => state.modals.menu.lunch,
-        mainVisibility: (state) => state.modals.menu.main.visibility,
+        action: (state) => state.modals.menu.lunch.action,
+        allItems: (state) => state.lunch.shared.allItems,
         mainItems: (state) => state.main.list.items,
+        responsive: (state) => state.layout.responsive,
+        mainVisibility: (state) => state.modals.menu.main.visibility,
       }),
       discount: {
         get() {return this.item.discount},
-        set(value) {this.setDiscount(value)}
+        set(value) {this.setDiscount({payload: value, action: this.action})}
       },
       lunchItems: {
         // TODO :: all these arrays may cause performance issues (consider implementation whit add/remove item)
         // TODO :: may need to separate in different array because of equal id's (items from main and items from lunch)
         get() {return this.item.items},
-        set(value) {this.setItems(value)}
+        set(value) {this.setItems({payload: value, action: this.action})}
       },
-    },
-
-    watch: {
-      mainVisibility: 'mainVisibilityHandler',
+      chosenLunchItems: {
+        get() {return this.lunchItems.filter(el => el.isLunchOnly)},
+        set(value) {this.updateItems(value, null)}
+      },
+      chosenMainItems: {
+        get() {return this.lunchItems.filter(el => !el.isLunchOnly)},
+        set(value) {this.updateItems(null, value)}
+      },
       startDate: {
-        deep: true,
-        handler: 'startDateHandler'
+        get() {
+          return {
+            date: this.item.startDate.date || new Date().toISOString().substr(0, 10),
+            time: this.item.startDate.time || '12:00',
+            visible: this.item.startDate.visible || false
+          }
+        },
+        set(value) {
+          this.setStartDate({payload: value, action: this.action})
+        }
       },
       endDate: {
-        deep: true,
-        handler: 'endDateHandler'
+        get() {
+          return {
+            date: this.item.endDate.date || new Date().toISOString().substr(0, 10),
+            time: this.item.endDate.time || '12:00',
+            visible: this.item.startDate.visible || false
+          }
+        },
+        set(value) {
+          this.setEndDate({payload: value, action: this.action})
+        }
       },
     },
 
     methods: {
       ...mapActions('lunch', [
-        'setDiscount',
         'setItems',
-        'setStartDate',
-        'setEndDate',
         'saveItem',
+        'setEndDate',
+        'setDiscount',
+        'setStartDate',
       ]),
       ...mapActions('modals', [
-        'setMenuModalVisibility',
-        'setFullscreen'
+        'setFullscreen',
+        'setMenuModalVisibility'
       ]),
-      onStartTimeChange(value) {
-        this.startDate.time = value
-      },
-      onEndTimeChange(value) {
-        this.startDate.time = value
-      },
-      onStartDateChange(value) {
-        this.startDate.date = value
-      },
-      onEndDateChange(value) {
-        this.endDate.date = value
-      },
-      startDateHandler(value) {
-        this.setStartDate(value)
-      },
-      endDateHandler(value) {
-        this.setEndDate(value)
-      },
-      // TODO :: all these arrays may cause performance issues (consider implementation whit add/remove item)
-      onChosenSpecialItemsChange(value) {
-        this.chosenSpecialItems = value
-        this.updateItems()
-      },
-      onChosenMainItemsChange(value) {
-        this.chosenMainItems = value
-        this.updateItems()
-      },
-      updateItems() {
-        this.lunchItems = [...this.chosenSpecialItems, ...this.chosenMainItems]
-      },
       onConfirm() {
-        this.saveItem({action: 'add'})
+        this.saveItem({action: this.action})
+      },
+      createItem() {
+        this.setMenuModalVisibility({key: 'main', value: true})
       },
       closeDialog() {
         this.setMenuModalVisibility({key: 'lunch', value: false})
       },
+      onStartTimeChange(value) {
+        this.startDate = {
+          ...this.startDate,
+          time: value
+        }
+      },
+      onEndTimeChange(value) {
+        this.endDate = {
+          ...this.endDate,
+          time: value
+        }
+      },
+      onStartDateChange(value) {
+        this.startDate = {
+          ...this.startDate,
+          date: value
+        }
+      },
+      onEndDateChange(value) {
+        this.endDate = {
+          ...this.endDate,
+          date: value
+        }
+      },
+      updateItems(chosenLunchItems, chosenMainItems) {
+        this.lunchItems = [
+          ...(chosenLunchItems ? chosenLunchItems : this.chosenLunchItems),
+          ...(chosenMainItems ? chosenMainItems : this.chosenMainItems)
+        ]
+      },
       mainVisibilityHandler(visibility) {
         this.setFullscreen({key: 'lunch', value: visibility})
-      },
-      createItem() {
-        this.setMenuModalVisibility({key: 'main', value: true})
       }
     }
   }

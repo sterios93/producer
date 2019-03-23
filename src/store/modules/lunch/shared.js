@@ -3,10 +3,11 @@ import { set, toggle } from '@/utils/vuex'
 const state = () => ({
   allItems: [
     {
-      id: 11,
+      id: 21,
       name: 'Lor12331em',
       image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
       price: 40,
+      isLunchOnly: true,
       category: {
         id: 0,
         name: 'Cuban'
@@ -14,10 +15,11 @@ const state = () => ({
       description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
     },
     {
-      id: 0,
+      id: 23,
       name: 'Lor123123123em1',
       image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
       price: 40,
+      isLunchOnly: true,
       category: {
         id: 0,
         name: 'Cuban'
@@ -25,10 +27,11 @@ const state = () => ({
       description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
     },
     {
-      id: 1,
+      id: 24,
       name: 'Lore13123m2',
       image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
       price: 40,
+      isLunchOnly: true,
       category: {
         id: 0,
         name: 'Cuban'
@@ -40,12 +43,23 @@ const state = () => ({
 
 export default {
   state,
-  mutations: {},
+  mutations: {
+    SET_ITEMS: (state, {payload, action}) => state[action].items = payload,
+    SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
+    SET_SCHEDULE: (state, {payload, action}) => state[action].schedule = payload,
+    SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
+    SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
+  },
   getters: {},
   actions: {
     saveItem({rootState, state, commit}, {action, payload}) {
       return undefined;
-    }
+    },
+    setItems: ({commit}, {payload, action}) => commit('SET_ITEMS', {payload, action}),
+    setEndDate: ({commit}, {payload, action}) => commit('SET_END_DATE', {payload, action}),
+    setDiscount: ({commit}, {payload, action}) => commit('SET_DISCOUNT', {payload, action}),
+    setSchedule: ({commit}, {payload, action}) => commit('SET_SCHEDULE', {payload, action}),
+    setStartDate: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
   }
 }
 

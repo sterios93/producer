@@ -6,7 +6,7 @@ export default {
     icons: true,
     drawer: true,
     toolbar: true,
-    color: 'success',
+    color: 'teal darken-1',
     image: 'https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg',
     user: null,
   },

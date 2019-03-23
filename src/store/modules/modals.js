@@ -7,22 +7,25 @@ export default {
 			main: {
 				visibility: false,
 				fullscreen: false,
-				action: ''
+				action: 'add',
+				color: 'blue-grey lighten-2',
 			},
 			special: {
 				visibility: false,
 				fullscreen: false,
-				action: ''
+				action: 'add',
+				color: 'blue-grey lighten-1',
 			},
 			lunch	: {
 				visibility: false,
 				fullscreen: false,
-				action: ''
+				action: 'add',
+				color: 'teal darken-1',
 			},
 		}
 	},
 	mutations: {
-		SET_MENU_MODAL_VISIBILITY: (state, {key, value, action}) => {
+		SET_MENU_MODAL_VISIBILITY: (state, {key, value, action = 'add'}) => {
 			state.menu[key].visibility = value
 			state.menu[key].action = action
 		},

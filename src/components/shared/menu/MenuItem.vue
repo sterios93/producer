@@ -1,7 +1,7 @@
 <template>
     <v-card color="white darken-2 text-xs-center">
 
-        <v-card-actions>
+        <v-card-actions v-if="isEditable">
             <v-spacer></v-spacer>
             <v-btn icon @click="onEditClick">
                 <v-icon color="grey">edit</v-icon>
@@ -37,7 +37,9 @@
 
         <v-divider light></v-divider>
 
-        <v-card-actions class="pa-3">
+        <v-card-actions
+                v-if="isSpecial"
+                class="pa-3">
             <v-btn
                     color="green"
                     @click="readMore"
@@ -45,11 +47,7 @@
                 Read more
             </v-btn>
             <v-spacer></v-spacer>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
+            <div class="body-2 red--text">EXPIRES AT: {{item.endDate}}</div>
         </v-card-actions>
 
     </v-card>
@@ -61,7 +59,22 @@
 
   export default {
     props: {
-      item: Object
+      item: {
+        type: Object,
+        default: () => {},
+      },
+      isEditable: {
+        type: Boolean,
+        default: false,
+      },
+      isSpecial: {
+        type: Boolean,
+        default: false,
+      },
+      type: {
+        type: String,
+        default: 'main',
+      }
     },
     data() {
       return {}
@@ -69,19 +82,20 @@
     methods: {
       ...mapActions({
         'setMenuModalVisibility': 'modals/setMenuModalVisibility',
-        'setMenuModalValues': 'main/setEditValues'
       }),
       readMore() {
         this.$router.push({ path: '/special-offer' })
       },
       onEditClick() {
         this.setMenuModalVisibility({
-          key: 'main',
+          key: this.type,
           value: true,
           action: 'edit'
         })
 
-        this.setMenuModalValues(this.item)
+        this.$store.dispatch(`${this.type}/setEditValues`, {
+          payload: this.item
+        })
       },
       onDeleteClick() {
 

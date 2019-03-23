@@ -89,16 +89,16 @@
           items: this.$store.state.main.list.items
         }
       },
-      SpecialListProps () {
-        return {
-          color: this.color,
-          items: this.$store.state.special.list.items
-        }
-      },
       LunchListProps () {
         return {
           color: this.color,
           items: this.$store.state.lunch.list.items
+        }
+      },
+      SpecialListProps () {
+        return {
+          color: this.color,
+          items: this.$store.state.special.list.items
         }
       }
     },

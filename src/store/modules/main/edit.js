@@ -15,11 +15,11 @@ export default {
   mutations: {},
   getters: {},
   actions: {
-    setEditValues ({commit}, payload) {
+    setEditValues ({commit}, {payload}) {
       let {
         name,
         picture,
-        pictureUrl,
+        image,
         description,
         weight,
         price,
@@ -27,12 +27,12 @@ export default {
       } = payload
       
       commit('SET_NAME', {payload: name, action: 'edit'})
-      commit('SET_PICTURE', {payload: picture, action: 'edit'})
-      commit('SET_PICTURE_URL', {payload: pictureUrl, action: 'edit'})
-      commit('SET_DESCRIPTION', {payload: description, action: 'edit'})
-      commit('SET_WEIGHT', {payload: weight, action: 'edit'})
       commit('SET_PRICE', {payload: price, action: 'edit'})
+      commit('SET_WEIGHT', {payload: weight, action: 'edit'})
+      commit('SET_PICTURE', {payload: picture, action: 'edit'})
       commit('SET_CATEGORY', {payload: category, action: 'edit'})
+      commit('SET_PICTURE_URL', {payload: image, action: 'edit'})
+      commit('SET_DESCRIPTION', {payload: description, action: 'edit'})
     }
   }
 }
