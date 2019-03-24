@@ -4,6 +4,7 @@ import Vue from 'vue';
 
 Vue.use(VueGoogleMaps, {
   load: {
-    // key: 'AIzaSyBX5GhH6HqvkzK_i_o0BX15z5voegJd0Vg',
+    key: 'AIzaSyAfYAgsxbh9FIJw1lAUc3B_t3ujOTrDRT4',
+    libraries: 'places'
   },
 });
