@@ -37,7 +37,8 @@ export default [
     view: 'SpecialOffer'
   },
   {
-    path: '/lunch-offer',
+    path: '/lunch-offer/:id',
+    props: true,
     view: 'LunchOffer'
   },
 ]

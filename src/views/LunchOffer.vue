@@ -33,11 +33,7 @@
 
                                 <v-flex xs12 lg6>
                                     <v-card-text class="text-xs-center">
-                                        <h3 class="category font-weight-bold mb-3">Tuesday 20.03.2019</h3>
-                                        <h3 class="card-title font-weight-light">Grande Pica Peperoni with Cheese !!</h3>
-                                        <p class="card-description font-weight-light">Only now in our Restaurant. Order one
-                                            picca and get the second one for free !</p>
-                                        <p class="card-description font-weight-light">Also see our other offers bellow :)</p>
+                                        <h3 class="category font-weight-bold mb-3">{{startDate.date}}</h3>
                                         <v-btn
                                                 color="success"
                                                 round
@@ -45,6 +41,8 @@
                                         >Follow
                                         </v-btn>
                                         <v-btn
+                                                dark
+                                                @click="onEditClick"
                                                 color="orange"
                                                 round
                                                 class="font-weight-light"
@@ -52,12 +50,14 @@
                                         </v-btn>
 
                                         <v-btn
+                                                dark
                                                 color="red"
                                                 round
                                                 class="font-weight-light"
                                         >MENU
                                         </v-btn>
                                         <v-btn
+                                                dark
                                                 color="blue"
                                                 round
                                                 class="font-weight-light"
@@ -77,7 +77,7 @@
                             xs12
                             mt-5>
                         <v-flex
-                                v-for="item in specialOfferItems"
+                                v-for="item in items"
                                 :key="item.id"
                                 xs12
                                 class="py-2 px-0">
@@ -95,9 +95,13 @@
 
 <script>
   import MenuItem from '../components/shared/menu/MenuItem'
+  import {mapActions, mapState} from 'vuex'
 
   export default {
     name: 'SpecialOffer',
+    props: {
+      id: String || Number
+    },
     components: {
       MenuItem
     },
@@ -105,9 +109,39 @@
       return {}
     },
     computed: {
-      specialOfferItems () {
-        return this.$store.state.lunch.list.items.slice(0, 3)
-      }
+      ...mapState('lunch', {
+        name: (state) => state.view.name,
+        image: (state) => state.view.image,
+        price: (state) => state.view.price, // TODO
+        items: (state) => state.view.items,
+        endDate: (state) => state.view.endDate,
+        discount: (state) => state.view.discount, // TODO
+        startDate: (state) => state.view.startDate,
+        description: (state) => state.view.description,
+      }),
+    },
+    created() {
+      this.fetchItem({payload: this.id, action: 'view'})
+        .then(item => this.item = item)
+    },
+    methods: {
+      ...mapActions({
+        'fetchItem': 'lunch/fetchItem',
+        'setMenuModalVisibility': 'modals/setMenuModalVisibility',
+      }),
+      onEditClick() {
+        this.setMenuModalVisibility({
+          key: 'lunch',
+          value: true,
+          action: 'edit'
+        })
+
+        // TODO :: consider making new request for edit
+        this.$store.dispatch(`lunch/setItemValues`, {
+          payload: this.item,
+          action: 'edit'
+        })
+      },
     }
   }
 </script>
