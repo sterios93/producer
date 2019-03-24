@@ -96,21 +96,34 @@
 
                 <v-btn flat>Cancel</v-btn>
             </v-flex>
+
+            <v-flex>
+                <vue-recaptcha
+                        @verify="onVerify"
+                        @expired="onExpired"
+                        sitekey="6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-"
+                        ref="recaptcha">
+                </vue-recaptcha>
+            </v-flex>
         </v-layout>
-    </v-container> 
+    </v-container>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
 import { validationMixin } from 'vuelidate'
 import { required, minLength, sameAs, email, numeric } from 'vuelidate/lib/validators';
-import { error } from 'util';
+import VueRecaptcha from 'vue-recaptcha';
 
     export default {
         name: 'personal-info-card',
         mixins: [validationMixin],
+        components: {
+          VueRecaptcha
+        },
         data () {
             return {
+                recaptchaVerified: false,
                 firstName: null,
                 firstNameErrors: [],
                 lastName: null,
@@ -135,9 +148,19 @@ import { error } from 'util';
                 'setPersonalInfoValid',
                 'setActiveStepNumber',
             ]),
+          onVerify: function (response) {
+            this.recaptchaVerified = response;
+          },
+          onExpired: function () {
+            this.recaptchaVerified = false;
+          },
+          resetRecaptcha () {
+            this.$refs.recaptcha.reset();
+            this.recaptchaVerified = false;
+          },
             nextScreen() {
                 this.$v.$touch();
-                if (this.$v.$invalid) {
+                if (this.$v.$invalid || !this.recaptchaVerified) {
                     this.setPersonalInfoInvalid();
                 } else {
                     // Todo, check in the database if the email is not in use already
@@ -148,7 +171,8 @@ import { error } from 'util';
                         phoneNumber: this.phoneNumber,
                         password: this.password,
                     });
-                    this.setActiveStepNumber(2);
+                  this.resetRecaptcha();
+                  this.setActiveStepNumber(2);
                 }
             },
             validate(target) {
@@ -190,6 +214,9 @@ import { error } from 'util';
                 !this.$v[target].required && this[target + 'Errors'].push('This field is required');
             }
         },
+      beforeDestroy(){
+          this.resetRecaptcha();
+      },
         validations: {
             firstName: {
                 required,
