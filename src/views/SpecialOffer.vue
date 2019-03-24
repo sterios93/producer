@@ -39,11 +39,13 @@
                     <p class="card-description font-weight-light">Also see our other offers bellow :)</p>
                     <v-btn
                             color="success"
+                            dark
                             round
                             class="font-weight-light"
                     >Follow
                     </v-btn>
                     <v-btn
+                            dark
                             @click="onEditClick"
                             color="orange"
                             round
@@ -51,12 +53,14 @@
                     >EDIT
                     </v-btn>
                     <v-btn
+                            dark
                             color="red"
                             round
                             class="font-weight-light"
                     >MENU
                     </v-btn>
                     <v-btn
+                            dark
                             color="blue"
                             round
                             class="font-weight-light"

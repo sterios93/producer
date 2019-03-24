@@ -46,8 +46,6 @@ export default {
       return undefined;
     },
     fetchItem({dispatch, commit}, {payload, action}) {
-  
-      
       let mockData = {
         id: 0,
         description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',

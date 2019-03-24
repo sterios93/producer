@@ -1,6 +1,7 @@
 import { set, toggle } from '@/utils/vuex'
 
 const state = () => ({
+  id: null,
   name: '',
   picture: null,
   image: '',
