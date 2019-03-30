@@ -1,5 +1,5 @@
 <template>
-    <v-slide-x-transition group mode="out-in" tag="div" class="pa-0 d-flex transition-custom">
+    <v-slide-x-transition  v-if="!isCategoriesEmpty" group mode="out-in" tag="div" class="pa-0 d-flex transition-custom">
 
         <v-flex class="py-0" xs12 v-for="category in getSelectedCategories" :key="category.id">
             <v-subheader>{{ category.name }}</v-subheader>
@@ -10,13 +10,21 @@
             </v-flex>
         </v-flex>
 
+
+
     </v-slide-x-transition>
+
+    <v-flex v-else :key="1" class="pa-0 transition-custom" >
+        <v-subheader>All products</v-subheader>
+        <MenuList :items="items"/>
+    </v-flex>
+
 </template>
 
 <script>
   import MenuList from '../MenuList'
 
-  import {mapGetters} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
 
   export default {
     props: {
@@ -28,8 +36,14 @@
     },
 
     computed: {
+      ...mapState({
+        items: (state) => state.main.list.items
+      }),
       ...mapGetters('main', ['getMenuByCategory']),
       ...mapGetters('categories', ['getSelectedCategories']),
+      isCategoriesEmpty() {
+        return this.getSelectedCategories.length === 0
+      }
     },
 
     methods: {
