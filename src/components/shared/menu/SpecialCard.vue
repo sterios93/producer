@@ -103,7 +103,7 @@
           action: 'edit'
         })
 
-        this.$store.dispatch(`${this.type}/setItemValues`, {
+        this.$store.dispatch(`${this.type}/setItem`, {
           payload: this.item,
           action: 'edit'
         })
@@ -122,8 +122,8 @@
         border-top: 2px solid white
         border-left: 2px solid white
         border-right: 2px solid white
-        border-top-left-radius: 25px
-        border-top-right-radius: 25px
+        border-top-left-radius: 30px
+        border-top-right-radius: 30px
         padding 5px !important
     .discount-label
         position absolute

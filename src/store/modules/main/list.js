@@ -98,11 +98,27 @@ const state = () => ({
 
 export default {
   state,
-  mutations: {},
+  actions: {
+    addItem({commit}, payload) {
+      commit('ADD_ITEM', payload)
+    },
+    updateItem({commit}, payload) {
+      commit('UPDATE_ITEM', payload)
+    }
+  },
   getters: {
     getMenuByCategory: (state) => (id) => state.list.items.filter(el => id === el.category.id),
   },
-  actions: {}
+  mutations: {
+    ADD_ITEM: (state, payload) => state.list.items.push(payload),
+    UPDATE_ITEM: (state, payload) => {
+      let items = state.list.items
+      let index = items.findIndex(el => el.id === payload.id)
+      if (index !== -1) {
+        items[index] = payload
+      }
+    }
+  }
 }
 
 
