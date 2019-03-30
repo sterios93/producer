@@ -1,20 +1,19 @@
 <template>
     <div class="overflow-y-scroll overflow-x-hidden">
-        <v-slide-x-transition group mode="out-in" tag="ul" class="pa-0 layout d-flex row wrap" color="transparent">
-            <v-flex v-for="item in items" xs12 :key="item.id" class="pa-2 px-0">
-                <v-divider></v-divider>
-                <MenuItem v-bind="menuItemProps" :item="item"/>
+        <v-slide-x-transition group mode="out-in" tag="ul" class="pa-0 flex layout row wrap" color="transparent">
+            <v-flex v-for="item in items" xs12 lg6 xl4 :key="item.id" class="pa-2 px-0">
+                <SpecialCard v-bind="menuItemProps" :item="item"/>
             </v-flex>
         </v-slide-x-transition>
     </div>
 </template>
 
 <script>
-  import MenuItem from '../MenuItem'
+  import SpecialCard from '../SpecialCard'
 
   export default {
     components: {
-      MenuItem
+      SpecialCard
     },
 
     props: {
@@ -24,9 +23,10 @@
     computed: {
       menuItemProps() {
         return {
+          type: 'lunch',
+          colors: ['#70c06b', '#30b0c0'],
           isSpecial: true,
-          isEditable: true,
-          type: 'lunch'
+          isEditable: true
         }
       }
     },

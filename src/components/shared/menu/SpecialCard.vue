@@ -1,7 +1,7 @@
 <template>
     <v-flex xs12>
         <v-layout row justify-center>
-            <v-flex xs10 class="special-date-container">
+            <v-flex xs10 class="special-date-container" :style="containerStyle">
                 <v-layout row>
                     <v-flex class="text-xs-center white--text date-font">
                         <span>{{item.startDate}}</span>
@@ -16,19 +16,21 @@
             </v-flex>
         </v-layout>
         <v-card>
-            <h4 class="ma-0 text-xs-center">{{item.name}}</h4>
-            <v-img
-                    class="white--text"
-                    height="150px"
-                    :src="item.image"
-            >
-            </v-img>
-            <v-card-title>
-                <div class="text-truncate">{{item.description}}</div>
-            </v-card-title>
+            <div v-if="isSpecial">
+                <h4 class="ma-0 text-xs-center">{{item.name}}</h4>
+                <v-img
+                        class="white--text"
+                        height="150px"
+                        :src="imagePath"
+                >
+                </v-img>
+                <v-card-title>
+                    <div class="text-truncate">{{item.description}}</div>
+                </v-card-title>
+            </div>
             <v-card-actions>
                 <v-btn flat color="info" @click="readMore">Explore</v-btn>
-                <div class="ribbon"><span>- {{item.discount}} %</span></div>
+                <div v-if="isSpecial" class="ribbon"><span>{{ribbonText}}</span></div>
                 <v-flex></v-flex>
                 <v-btn icon @click="onEditClick" v-if="isEditable">
                     <v-icon color="orange">edit</v-icon>
@@ -63,10 +65,29 @@
       type: {
         type: String,
         default: 'main',
+      },
+      colors: {
+        type: Array,
+        default: () => ['#2980b9', '#5dbfff'],
       }
     },
     data() {
-      return {}
+      return {
+        defaultImage: 'img/default-menu-v2.jpg'
+      }
+    },
+    computed: {
+      ribbonText() {
+        return this.type === 'lunch' ? this.type : `- ${this.item.discount} %`
+      },
+      imagePath() {
+        return this.item.image || this.defaultImage
+      },
+      containerStyle() {
+        return {
+          background: `linear-gradient(${this.colors[0]} 0%, ${this.colors[1]} 100%)`
+        }
+      }
     },
     methods: {
       ...mapActions({
@@ -104,7 +125,6 @@
         border-top-left-radius: 25px
         border-top-right-radius: 25px
         padding 5px !important
-        background: linear-gradient(#2980b9 0%, #5dbfff 100%);
     .discount-label
         position absolute
         right 0

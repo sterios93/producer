@@ -9,12 +9,10 @@
 </template>
 
 <script>
-  import MenuItem from '../MenuItem'
-  import SpecialCard from './SpecialCard'
+  import SpecialCard from '../SpecialCard'
 
   export default {
     components: {
-      MenuItem,
       SpecialCard
     },
 
