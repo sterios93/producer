@@ -17,17 +17,7 @@
                     </v-btn>
                 </v-flex>
                 <v-flex xs12 class="menu-list-mobile">
-
-                    <v-container grid-list-xl>
-                        <v-layout row wrap>
-                            <component
-                                    :is="menuComponent"
-                                    v-for="(item,index) in menuListProps.items"
-                                    :key="index"
-                                    :item="item"
-                                    v-bind="menuListProps" />
-                        </v-layout>
-                    </v-container>
+                    <component :is="menuComponent" v-bind="menuListProps"></component>
                 </v-flex>
             </v-layout>
 

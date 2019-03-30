@@ -129,6 +129,7 @@ export default {
       'success',
       'teal darken-1',
       'indigo lighten-1',
+      'second',
     ],
     images: [
       'https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-1.23832d31.jpg',
