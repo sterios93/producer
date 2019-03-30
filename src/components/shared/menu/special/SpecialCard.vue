@@ -1,45 +1,45 @@
 <template>
-        <v-flex xs12 md6>
-                <v-layout row justify-center>
-                    <v-flex xs10 class="special-date-container">
-                        <v-layout row>
-                            <v-flex class="text-xs-center white--text date-font">
-                                <span>{{item.startDate}}</span>
-                            </v-flex>
-                            <v-flex text-xs-center white--text date-font>
-                                <v-icon>calendar_today</v-icon>
-                            </v-flex>
-                            <v-flex class="text-xs-center white--text date-font">
-                                <span>{{item.endDate}}</span>
-                            </v-flex>
-                        </v-layout>
+    <v-flex xs12>
+        <v-layout row justify-center>
+            <v-flex xs10 class="special-date-container">
+                <v-layout row>
+                    <v-flex class="text-xs-center white--text date-font">
+                        <span>{{item.startDate}}</span>
+                    </v-flex>
+                    <v-flex text-xs-center white--text date-font>
+                        <v-icon>calendar_today</v-icon>
+                    </v-flex>
+                    <v-flex class="text-xs-center white--text date-font">
+                        <span>{{item.endDate}}</span>
                     </v-flex>
                 </v-layout>
-            <v-card>
-                <h4 class="ma-0 text-xs-center">{{item.name}}</h4>
-                <v-img
-                        class="white--text"
-                        height="150px"
-                        :src="item.image"
-                >
-                </v-img>
-                <v-card-title>
-                    <div class="text-truncate">{{item.description}}</div>
-                </v-card-title>
-                <v-card-actions>
-                    <v-btn flat color="info" @click="readMore">Explore</v-btn>
-                    <div class="ribbon"><span>- {{item.discount}} %</span></div>
-                    <v-flex></v-flex>
-                    <v-btn icon @click="onEditClick" v-if="isEditable">
-                        <v-icon color="orange">edit</v-icon>
-                    </v-btn>
-                    <v-btn icon @click="onDeleteClick" v-if="isEditable">
-                        <v-icon color="red">delete</v-icon>
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
+            </v-flex>
+        </v-layout>
+        <v-card>
+            <h4 class="ma-0 text-xs-center">{{item.name}}</h4>
+            <v-img
+                    class="white--text"
+                    height="150px"
+                    :src="item.image"
+            >
+            </v-img>
+            <v-card-title>
+                <div class="text-truncate">{{item.description}}</div>
+            </v-card-title>
+            <v-card-actions>
+                <v-btn flat color="info" @click="readMore">Explore</v-btn>
+                <div class="ribbon"><span>- {{item.discount}} %</span></div>
+                <v-flex></v-flex>
+                <v-btn icon @click="onEditClick" v-if="isEditable">
+                    <v-icon color="orange">edit</v-icon>
+                </v-btn>
+                <v-btn icon @click="onDeleteClick" v-if="isEditable">
+                    <v-icon color="red">delete</v-icon>
+                </v-btn>
+            </v-card-actions>
+        </v-card>
 
-        </v-flex>
+    </v-flex>
 </template>
 
 <script>
