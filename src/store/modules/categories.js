@@ -1,5 +1,5 @@
 import {set, toggle} from '@/utils/vuex'
-import {getData, postData} from "../helpers";
+import {getData, postData} from "../../utils/helpers";
 
 export default {
   namespaced: true,

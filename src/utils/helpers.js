@@ -36,3 +36,7 @@ export const formatDate = (date) => {
   }
 }
 
+export const reverseFormatDate = ({date, time}) => {
+  return [date, time].join(' ')
+}
+
