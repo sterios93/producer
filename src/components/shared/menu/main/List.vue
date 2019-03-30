@@ -10,9 +10,9 @@
         </v-flex>
     </v-slide-x-transition>
 
-    <v-flex v-else :key="1" class="pa-0 transition-custom" >
+    <v-flex v-else  class="pa-1">
         <v-subheader>All products</v-subheader>
-        <MenuList :items="items"/>
+        <MenuList class="pa-1 transition-custom" :items="items"/>
     </v-flex>
 
 </template>
@@ -59,5 +59,6 @@
         flex-direction: row
         flex-wrap: wrap
         max-height: 70vh
-        overflow-y: scroll
+        overflow-y scroll
+        overflow-x hidden
 </style>
