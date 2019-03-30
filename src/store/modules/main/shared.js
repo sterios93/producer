@@ -49,7 +49,8 @@ export default {
             dispatch('updateItem', data)
           }
           resolve({
-            success: true
+            message: 'Not today',
+            success: false
           })
         }, 1000)
       })

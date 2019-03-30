@@ -205,9 +205,19 @@
         'setFullscreen',
         'setMenuModalVisibility'
       ]),
+      ...mapActions('snackbar', {
+        setSnackbar: 'setState'
+      }),
       onConfirm() {
         this.saveItem({action: this.action})
-      },
+          .then((data) => {
+            if (!data.success) {
+              return this.setSnackbar({snackbar: true, message: data.message, color: 'red'})
+            }
+            this.closeDialog()
+            return this.setSnackbar({snackbar: true, message: 'Updated successfully', color: 'success'})
+          })
+          .catch((err) => this.setSnackbar({snackbar: true, message: err.message, color: 'red'}))      },
       createItem() {
         this.setMenuModalVisibility({key: 'main', value: true})
       },
