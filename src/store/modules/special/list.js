@@ -69,7 +69,7 @@ const state = () => ({
       endDate: '2019-10-10 12:00',
     },
     {
-      id: 0,
+      id: 1,
       description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',
       discount: 10,
       items: [
@@ -135,7 +135,7 @@ const state = () => ({
       endDate: '2019-10-10 12:00',
     },
     {
-      id: 0,
+      id: 2,
       description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',
       discount: 10,
       items: [
@@ -201,7 +201,7 @@ const state = () => ({
       endDate: '2019-10-10 12:00',
     },
     {
-      id: 0,
+      id: 3,
       description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',
       discount: 10,
       items: [

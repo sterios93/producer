@@ -38,15 +38,11 @@
             </v-tab-item>
 
             <v-tab-item>
-                <v-container grid-list-xl>
-                    <v-layout row wrap>
-                        <SpecialList
-                                v-for="(item,index) in SpecialListProps.items"
-                                :key="index"
-                                :item="item"
-                                v-bind="SpecialListProps" />
-                    </v-layout>
-                </v-container>
+                <v-card flat>
+                    <v-card-text>
+                        <SpecialList v-bind="SpecialListProps" />
+                    </v-card-text>
+                </v-card>
             </v-tab-item>
 
             <v-tab-item>
