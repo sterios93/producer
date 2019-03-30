@@ -1,21 +1,19 @@
 <template>
-    <v-slide-x-transition group mode="out-in" tag="ul" class="pa-0" color="transparent">
-        <v-flex v-for="item in items" xs12 :key="item.id" class="py-2 px-0">
-            <v-divider></v-divider>
-            <MenuItem v-bind="menuItemProps" :item="item"/>
-        </v-flex>
-    </v-slide-x-transition>
+            <SpecialCard v-bind="menuItemProps" :item="item"/>
 </template>
 
 <script>
   import MenuItem from '../MenuItem'
+  import SpecialCard from './SpecialCard'
 
   export default {
     components: {
-      MenuItem
+      MenuItem,
+      SpecialCard
     },
 
     props: {
+      item: Object,
       items: Array
     },
 
