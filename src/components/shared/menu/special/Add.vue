@@ -116,7 +116,7 @@
   import VFileUpload from '../../../shared/VFileUpload'
   import CustomDatePicker from '../../CustomDatePicker'
   import {mapState, mapActions, mapGetters} from 'vuex'
-
+  import {formatDate, reverseFormatDate} from '../../../../utils/helpers'
 
   export default {
     components: {
@@ -164,28 +164,34 @@
       },
       startDate: {
         get() {
+          if (this.item.startDate) {
+            return formatDate(this.item.startDate)
+          }
           return {
-            date: this.item.startDate.date || new Date().toISOString().substr(0, 10),
-            time: this.item.startDate.time || '12:00',
+            date: new Date().toISOString().substr(0, 10),
+            time: '12:00',
             visible: false
           }
         },
         set(value) {
-          this.setStartDate({payload: value, action: this.action})
+          this.setStartDate({payload: reverseFormatDate(value), action: this.action})
         }
       },
       endDate: {
         get() {
+          if (this.item.endDate) {
+            return formatDate(this.item.endDate)
+          }
           return {
-            date: this.item.endDate.date || new Date().toISOString().substr(0, 10),
-            time: this.item.endDate.time || '12:00',
+            date: new Date().toISOString().substr(0, 10),
+            time: '13:00',
             visible: false
           }
         },
         set(value) {
-          this.setEndDate({payload: value, action: this.action})
+          this.setEndDate({payload: reverseFormatDate(value), action: this.action})
         }
-      }
+      },
     },
 
     methods: {
