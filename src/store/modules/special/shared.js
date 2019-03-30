@@ -1,5 +1,5 @@
 import { set, toggle } from '@/utils/vuex'
-import {formatDate, getData} from "../../helpers";
+import {formatDate, getData} from "../../../utils/helpers";
 
 const state = () => ({
 
