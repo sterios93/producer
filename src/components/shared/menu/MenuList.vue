@@ -1,5 +1,5 @@
 <template>
-    <v-slide-x-transition group mode="out-in" tag="ul" class="pa-0" color="transparent">
+    <v-slide-x-transition group mode="out-in" tag="ul" class="pa-0 transition-custom" color="transparent">
         <v-flex v-for="item in items" xs12 :key="item.id" class="py-2 px-0">
             <MenuItem v-bind="menuItemProps" :item="item" />
         </v-flex>
@@ -39,5 +39,9 @@
 </script>
 
 <style scoped lang="stylus">
-
+    .transition-custom
+        width: 100%
+        flex-wrap: wrap
+        overflow-y: scroll
+        flex-direction: row
 </style>
