@@ -1,6 +1,5 @@
 <template>
-    <v-slide-x-transition group mode="out-in" tag="div" class="pa-0 d-flex transition-custom">
-
+    <v-slide-x-transition  v-if="!isCategoriesEmpty" group mode="out-in" tag="div" class="pa-0 d-flex transition-custom">
         <v-flex class="py-0" xs12 v-for="category in getSelectedCategories" :key="category.id">
             <v-subheader>{{ category.name }}</v-subheader>
 
@@ -9,14 +8,19 @@
                 <MenuList v-bind="menuListProps(category)"/>
             </v-flex>
         </v-flex>
-
     </v-slide-x-transition>
+
+    <v-flex v-else  class="pa-1">
+        <v-subheader>All products</v-subheader>
+        <MenuList class="pa-1 transition-custom" :items="items"/>
+    </v-flex>
+
 </template>
 
 <script>
   import MenuList from '../MenuList'
 
-  import {mapGetters} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
 
   export default {
     props: {
@@ -28,8 +32,14 @@
     },
 
     computed: {
+      ...mapState({
+        items: (state) => state.main.list.items
+      }),
       ...mapGetters('main', ['getMenuByCategory']),
       ...mapGetters('categories', ['getSelectedCategories']),
+      isCategoriesEmpty() {
+        return this.getSelectedCategories.length === 0
+      }
     },
 
     methods: {
@@ -45,8 +55,10 @@
 
 <style scoped lang="stylus">
     .transition-custom
+        width: 100%
         flex-direction: row
         flex-wrap: wrap
-        max-height: 80vh
-        overflow-y: scroll
+        max-height: 70vh
+        overflow-y scroll
+        overflow-x hidden
 </style>

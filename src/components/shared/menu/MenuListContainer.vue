@@ -1,30 +1,20 @@
 <template>
     <div>
         <v-toolbar :color="color" dark>
-            <v-toolbar-title class="title font-weight-light mb-2 white--text">Dishes</v-toolbar-title>
+            <v-tabs
+                    v-model="activeTab"
+                    :color="color"
+                    grow
+            >
+                <v-tabs-slider color="yellow"></v-tabs-slider>
 
-            <v-spacer></v-spacer>
-
-            <v-btn icon>
-                <v-icon>search</v-icon>
-            </v-btn>
-
-            <template v-slot:extension>
-                <v-tabs
-                        v-model="activeTab"
-                        :color="color"
-                        grow
+                <v-tab
+                        v-for="(tab, key, index) in tabs"
+                        :key="key"
                 >
-                    <v-tabs-slider color="yellow"></v-tabs-slider>
-
-                    <v-tab
-                            v-for="(tab, key, index) in tabs"
-                            :key="key"
-                    >
-                        {{ tab }}
-                    </v-tab>
-                </v-tabs>
-            </template>
+                    {{ tab }}
+                </v-tab>
+            </v-tabs>
         </v-toolbar>
 
         <v-tabs-items v-model="activeTab">
@@ -106,9 +96,5 @@
 </script>
 
 <style scoped lang="stylus">
-    .transition-custom
-        flex-direction: row
-        flex-wrap: wrap
-        max-height: 80vh
-        overflow-y: scroll
+
 </style>
