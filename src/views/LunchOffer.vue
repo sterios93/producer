@@ -123,6 +123,7 @@
     created() {
       this.fetchItem({payload: this.id, action: 'view'})
         .then(item => this.item = item)
+        .then(item => this.item = item)
     },
     methods: {
       ...mapActions({
@@ -137,7 +138,7 @@
         })
 
         // TODO :: consider making new request for edit
-        this.$store.dispatch(`lunch/setItemValues`, {
+        this.$store.dispatch(`lunch/setItem`, {
           payload: this.item,
           action: 'edit'
         })

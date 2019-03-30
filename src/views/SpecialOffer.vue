@@ -124,6 +124,7 @@ export default {
   created() {
     this.fetchItem({payload: this.id, action: 'view'})
             .then(item => this.item = item)
+            .then(item => this.item = item)
   },
   methods: {
     ...mapActions({

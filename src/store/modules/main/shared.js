@@ -7,6 +7,7 @@ const state = () => ({
 export default {
   state,
   mutations: {
+    SET_ITEM: (state, {payload, action}) => state[action] = payload,
     SET_NAME: (state, {payload, action}) => state[action].name = payload,
     SET_PRICE: (state, {payload, action}) => state[action].price = payload,
     SET_WEIGHT: (state, {payload, action}) => state[action].weight = payload,
@@ -23,9 +24,7 @@ export default {
     }
   },
   actions: {
-    saveItem({rootState, state, commit}, {action, payload}) {
-      return undefined;
-    },
+    setItem: ({commit}, {payload, action}) => commit('SET_ITEM', {payload, action}),
     setName: ({commit}, {payload, action}) => {commit('SET_NAME', {payload, action})},
     setPrice: ({commit}, {payload, action}) => commit('SET_PRICE', {payload, action}),
     setWeight: ({commit}, {payload, action}) => commit('SET_WEIGHT', {payload, action}),
@@ -33,6 +32,28 @@ export default {
     setCategory: ({commit}, {payload, action}) => commit('SET_CATEGORY', {payload, action}),
     setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
     setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
+    saveItem({rootState, state, commit, dispatch}, {action}) {
+      return new Promise(resolve => {
+        let data = state[action]
+        // TODO :: fake request
+      
+        setTimeout(() => {
+          if (action === 'add') {
+            dispatch('addItem', {
+              ...data,
+              // TODO :: fake id
+              id: Math.random() * 1000
+            })
+            // dispatch('addItem', data)
+          } else if (action === 'edit') {
+            dispatch('updateItem', data)
+          }
+          resolve({
+            success: true
+          })
+        }, 1000)
+      })
+    },
   }
 }
 

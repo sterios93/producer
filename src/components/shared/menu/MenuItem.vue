@@ -93,7 +93,7 @@
           action: 'edit'
         })
 
-        this.$store.dispatch(`${this.type}/setItemValues`, {
+        this.$store.dispatch(`${this.type}/setItem`, {
           payload: this.item,
           action: 'edit'
         })

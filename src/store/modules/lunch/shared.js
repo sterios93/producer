@@ -1,5 +1,6 @@
 import { set, toggle } from '@/utils/vuex'
 import {formatDate} from "../../helpers";
+import logger from "vuex/dist/logger";
 
 const state = () => ({
   allItems: [
@@ -45,21 +46,53 @@ const state = () => ({
 export default {
   state,
   mutations: {
+    SET_ITEM: (state, {payload, action}) => state[action] = payload,
     SET_ITEMS: (state, {payload, action}) => state[action].items = payload,
     SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
     SET_SCHEDULE: (state, {payload, action}) => state[action].schedule = payload,
     SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
     SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
   },
-  getters: {},
+  getters: {
+    getItem: (state) => (action) => {
+      return {
+        id,
+        items,
+        discount,
+        schedule,
+        startDate,
+        endDate,
+      } = state[action]
+    }
+  },
   actions: {
+    setItem: ({commit}, {payload, action}) => commit('SET_ITEM', {payload, action}),
     setItems: ({commit}, {payload, action}) => commit('SET_ITEMS', {payload, action}),
     setEndDate: ({commit}, {payload, action}) => commit('SET_END_DATE', {payload, action}),
     setDiscount: ({commit}, {payload, action}) => commit('SET_DISCOUNT', {payload, action}),
     setSchedule: ({commit}, {payload, action}) => commit('SET_SCHEDULE', {payload, action}),
     setStartDate: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
-    saveItem({rootState, state, commit}, {action, payload}) {
-      return undefined;
+    saveItem({rootState, state, commit, dispatch}, {action}) {
+      return new Promise(resolve => {
+        let data = state[action]
+        // TODO :: fake request
+        
+        setTimeout(() => {
+          if (action === 'add') {
+            dispatch('addItem', {
+              ...data,
+              // TODO :: fake id
+              id: Math.random() * 1000
+            })
+            // dispatch('addItem', data)
+          } else if (action === 'edit') {
+            dispatch('updateItem', data)
+          }
+          resolve({
+            success: true
+          })
+        }, 1000)
+      })
     },
     fetchItem({dispatch, commit}, {payload, action}) {
       let mockData = {
@@ -135,7 +168,7 @@ export default {
         endDate: '2019-10-10 12:00',
       }
     
-      dispatch('setItemValues', {payload: mockData, action})
+      dispatch('setItem', {payload: mockData, action})
     
       return Promise.resolve(mockData)
     
@@ -145,28 +178,9 @@ export default {
       // let token = ''
       // return getData(url, query, token)
       //   .then((data) => {
-      //     dispatch('setItemValues', {payload: data, action})
+      //     dispatch('setItem', {payload: data, action})
       //   })
     },
-    setItemValues ({commit}, {payload, action}) {
-      let {
-        items,
-        discount,
-        schedule,
-        startDate,
-        endDate,
-      } = payload
-  
-      endDate = formatDate(endDate)
-      startDate = formatDate(startDate)
-    
-      commit('SET_ITEMS', {payload: items, action})
-      commit('SET_DISCOUNT', {payload: discount, action})
-      commit('SET_SCHEDULE', {payload: schedule, action})
-      commit('SET_END_DATE', {payload: endDate, action})
-      commit('SET_START_DATE', {payload: startDate, action})
-    }
-  
   }
 }
 

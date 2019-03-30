@@ -8,6 +8,7 @@ const state = () => ({
 export default {
   state,
   mutations: {
+    SET_ITEM: (state, {payload, action}) => state[action] = payload,
     SET_NAME: (state, {payload, action}) => state[action].name = payload,
     SET_ITEMS: (state, {payload, action}) => state[action].items = payload,
     SET_PRICE: (state, {payload, action}) => state[action].price = payload,
@@ -28,6 +29,7 @@ export default {
     }
   },
   actions: {
+    setItem: ({commit}, {payload, action}) => commit('SET_ITEM', {payload, action}),
     setName: ({commit}, {payload, action}) => commit('SET_NAME', {payload, action}),
     setPrice: ({commit}, {payload, action}) => commit('SET_PRICE', {payload, action}),
     setEndDate: ({commit}, {payload, action}) => commit('SET_END_DATE', {payload, action}),
@@ -42,8 +44,27 @@ export default {
       const sum = getters['sumItemsPrice'](action)
       commit('SET_PRICE', {payload: sum, action})
     },
-    saveItem({rootState, state, commit}, {action, payload}) {
-      return undefined;
+    saveItem({rootState, state, commit, dispatch}, {action}) {
+      return new Promise(resolve => {
+        let data = state[action]
+        // TODO :: fake request
+      
+        setTimeout(() => {
+          if (action === 'add') {
+            dispatch('addItem', {
+              ...data,
+              // TODO :: fake id
+              id: Math.random() * 1000
+            })
+            // dispatch('addItem', data)
+          } else if (action === 'edit') {
+            dispatch('updateItem', data)
+          }
+          resolve({
+            success: true
+          })
+        }, 1000)
+      })
     },
     fetchItem({dispatch, commit}, {payload, action}) {
       let mockData = {
@@ -113,7 +134,7 @@ export default {
         endDate: '2019-10-10 12:00',
       }
       
-      dispatch('setItemValues', {payload: mockData, action})
+      dispatch('setItem', {payload: mockData, action})
   
       return Promise.resolve(mockData)
   
@@ -123,25 +144,8 @@ export default {
       // let token = ''
       // return getData(url, query, token)
       //   .then((data) => {
-      //     dispatch('setItemValues', {payload: data, action})
+      //     dispatch('setItem', {payload: data, action})
       //   })
-    },
-    setItemValues ({commit}, {payload, action}) {
-      let {name, picture, image, description, discount, items, price, schedule, startDate, endDate} = payload
-      
-      endDate = formatDate(endDate)
-      startDate = formatDate(startDate)
-      
-      commit('SET_NAME', {payload: name, action})
-      commit('SET_ITEMS', {payload: items, action})
-      commit('SET_PRICE', {payload: price, action})
-      commit('SET_PICTURE', {payload: picture, action})
-      commit('SET_SCHEDULE', {payload: schedule, action})
-      commit('SET_DISCOUNT', {payload: discount, action})
-      commit('SET_END_DATE', {payload: endDate, action})
-      commit('SET_START_DATE', {payload: startDate, action})
-      commit('SET_PICTURE_URL', {payload: image, action})
-      commit('SET_DESCRIPTION', {payload: description, action})
     },
   }
 }
