@@ -1,6 +1,6 @@
 <template>
     <v-dialog
-            :value="special.visibility"
+            :value="visibility"
             @change="closeDialog"
             :fullscreen="special.fullscreen || responsive"
             persistent
@@ -21,11 +21,22 @@
                 <v-container grid-list-md>
                     <v-layout wrap>
                         <v-flex xs12>
-                            <v-text-field label="Name*" v-model="name" required></v-text-field>
+                            <v-text-field
+                                    label="Name*"
+                                    v-model="name"
+                                    :error-messages="nameErrors"
+                                    @blur="validate('name')"
+                            ></v-text-field>
                         </v-flex>
 
                         <v-flex xs12 sm6>
-                            <v-text-field label="Discount*" v-model="discount" required></v-text-field>
+                            <v-text-field
+                                    label="Discount*"
+                                    v-model="discount"
+                                    numeric
+                                    :error-messages="discountErrors"
+                                    @blur="validate('discount')"
+                            ></v-text-field>
                         </v-flex>
 
                         <v-flex xs12 sm6>
@@ -40,7 +51,12 @@
                         </v-flex>
 
                         <v-flex xs12 sm6>
-                            <v-text-field label="Price*" v-model="price" required></v-text-field>
+                            <v-text-field
+                                    label="Price*"
+                                    :disabled="true"
+                                    v-model="price"
+                                    required
+                            ></v-text-field>
                         </v-flex>
 
                         <v-flex xs12 sm6>
@@ -52,6 +68,8 @@
                                     return-object
                                     label="Menu Items"
                                     multiple
+                                    :error-messages="specialItemsErrors"
+                                    @blur="validate('specialItems')"
                             >
                                 <template v-slot:append>
                                     <v-slide-x-reverse-transition mode="out-in">
@@ -71,6 +89,7 @@
                                     <v-flex xs12>
                                         <CustomDatePicker
                                                 :options="startDate"
+                                                :error-messages="startDateErrors"
                                                 @date-changed="onStartDateChange"
                                                 @time-changed="onStartTimeChange"
                                         />
@@ -81,6 +100,7 @@
                                     <v-flex xs12>
                                         <CustomDatePicker
                                                 :options="endDate"
+                                                :error-messages="endDateErrors"
                                                 @date-changed="onEndDateChange"
                                                 @time-changed="onEndTimeChange"
                                         />
@@ -105,7 +125,7 @@
             </v-card-text>
 
             <v-card-actions class="px-5 pb-5">
-                <v-btn color="blue darken-1" block @click="onConfirm">Save</v-btn>
+                <v-btn color="blue darken-1 white--text" :disabled="!isEveryThingValid"  block @click="onConfirm">Save</v-btn>
             </v-card-actions>
 
         </v-card>
@@ -115,6 +135,11 @@
 <script>
   import VFileUpload from '../../../shared/VFileUpload'
   import CustomDatePicker from '../../CustomDatePicker'
+
+  import moment from 'moment'
+
+  import { validationMixin } from 'vuelidate'
+  import { required, numeric } from 'vuelidate/lib/validators'
   import {mapState, mapActions, mapGetters} from 'vuex'
   import {formatDate, reverseFormatDate} from '../../../../utils/helpers'
 
@@ -122,6 +147,31 @@
     components: {
       VFileUpload,
       CustomDatePicker
+    },
+
+    mixins: [validationMixin],
+
+    data() {
+      return {
+        visibility: false,
+        nameErrors: [],
+        endDateErrors: [],
+        discountErrors: [],
+        startDateErrors: [],
+        specialItemsErrors: [],
+        allFields: [
+          'name',
+          'discount',
+          'specialItems',
+        ],
+        today: {
+          date: new Date().toISOString().substr(0, 10),
+          time: '12:00',
+          visible: false
+        },
+        isFormValid: false,
+        isFormValidForced: true,
+      }
     },
 
     computed: {
@@ -134,47 +184,64 @@
         responsive: (state) => state.layout.responsive,
         mainVisibility: (state) => state.modals.menu.main.visibility,
       }),
+      isEveryThingValid() {
+        return this.isFormValid && this.isFormValidForced
+      },
       name: {
         get() {return this.item.name},
-        set(value) {this.setName({payload: value, action: this.action})}
+        set(value) {
+          this.setName({payload: value, action: this.action})
+          this.validate('name')
+        }
       },
       image: {
         get() {return this.item.image},
-        set(value) {this.setPictureUrl({payload: value, action: this.action})}
+        set(value) {
+          this.setPictureUrl({payload: value, action: this.action})
+        }
       },
       price: {
         get() {return this.$store.getters['special/getPrice'](this.action)},
-        set(value) {this.setPrice({payload: value, action: this.action})}
+        set(value) {
+          this.setPrice({payload: value, action: this.action})
+        }
       },
       discount: {
         get() {return this.item.discount},
-        set(value) {this.setDiscount({payload: value, action: this.action})}
+        set(value) {
+          this.setDiscount({payload: value, action: this.action})
+          this.validate('discount')
+        }
       },
       picture: {
         get() {return this.item.picture},
-        set(value) {this.setPicture({payload: value, action: this.action})}
+        set(value) {
+          this.setPicture({payload: value, action: this.action})
+        }
       },
       specialItems: {
         get() {return this.item.items},
-        set(value) {this.setItems({payload: value, action: this.action})}
+        set(value) {
+          this.setItems({payload: value, action: this.action})
+          this.validate('specialItems')
+        }
       },
       description: {
         get() {return this.item.description},
-        set(value) {this.setDescription({payload: value, action: this.action})}
+        set(value) {
+          this.setDescription({payload: value, action: this.action})
+        }
       },
       startDate: {
         get() {
           if (this.item.startDate) {
             return formatDate(this.item.startDate)
           }
-          return {
-            date: new Date().toISOString().substr(0, 10),
-            time: '12:00',
-            visible: false
-          }
+          return this.today
         },
         set(value) {
           this.setStartDate({payload: reverseFormatDate(value), action: this.action})
+          this.validateDates(value, this.endDate)
         }
       },
       endDate: {
@@ -182,20 +249,35 @@
           if (this.item.endDate) {
             return formatDate(this.item.endDate)
           }
-          return {
-            date: new Date().toISOString().substr(0, 10),
-            time: '13:00',
-            visible: false
-          }
+          return this.today
         },
         set(value) {
           this.setEndDate({payload: reverseFormatDate(value), action: this.action})
+          this.validateDates(this.startDate, value)
         }
       },
     },
 
+    created() {
+      this.endDate = this.today
+      this.startDate = this.today
+
+      this.isFormValid = this.action !== 'add'
+    },
+
+    mounted() {
+      setTimeout(() => {
+        this.visibility = true
+      }, 100)
+    },
+
+    beforeDestroy() {
+      this.action === 'add' && this.reset(this.action)
+    },
+
     methods: {
       ...mapActions('special', [
+        'reset',
         'setName',
         'setPrice',
         'setItems',
@@ -215,6 +297,21 @@
         setSnackbar: 'setState'
       }),
       onConfirm() {
+        this.allFields.forEach(el => this.validate(el))
+        this.validateDates(this.startDate, this.endDate)
+        // TODO :: send the data to the database
+        this.$v.$touch();
+        console.log(this.$v.$invalid)
+        console.log(this.hasError())
+        if (this.$v.$invalid || this.hasError()) {
+          this.setFormValid(false)
+          this.setSnackbar({snackbar: true, message: 'Please fill correct all fields.', color: 'red'});
+        } else {
+          this.onFormValid();
+          this.setFormValid(true);
+        }
+      },
+      onFormValid() {
         this.saveItem({action: this.action})
           .then((data) => {
             if (!data.success) {
@@ -228,7 +325,10 @@
         this.setMenuModalVisibility({key: 'main', value: true})
       },
       closeDialog() {
-        this.setMenuModalVisibility({key: 'special', value: false})
+        this.visibility = false
+        setTimeout(() => {
+          this.setMenuModalVisibility({key: 'special', value: false})
+        }, 200)
       },
       onFilePicked({file, url}) {
         this.image = url
@@ -260,7 +360,67 @@
       },
       mainVisibilityHandler(visibility) {
         this.setFullscreen({key: 'special', value: visibility})
+      },
+      /** ---- Validations ---- **/
+      setFormValid(isValid) {
+        this.isFormValid = isValid
+      },
+      setFormValidForced(isValid) {
+        this.isFormValidForced = isValid
+      },
+      validate(target) {
+        // Reset the errors everytime, so you can have dynamic fresh array on every keystroke
+        this[target + 'Errors'] = []
+        this.$v[target].$touch()
+
+        this.setFormValid(!this.hasError())
+
+        this.checkRequired(target)
+        this.checkNumeric(target)
+        return this[target + 'Errors']
+      },
+      validateDates(...dates) {
+        let isEndDateInThePast = this.checkDates(...dates)
+        this.setFormValidForced(!isEndDateInThePast)
+        if (isEndDateInThePast) {
+          this.endDateErrors = ['End date is in the past']
+        } else {
+          this.endDateErrors = []
+        }
+      },
+      hasError() {
+        return this.allFields
+          .reduce((result, item) => {
+            result.push(!this.$v[item].$error)
+            return result
+          }, [])
+          .includes(false)
+      },
+      checkNumeric(target) {
+        (this.$v[target].numeric !== undefined) && !this.$v[target].numeric && !this[target + 'Errors'].includes('Must be numeric') && this[target + 'Errors'].push('Must be numeric')
+      },
+      checkRequired(target) {
+        !this.$v[target].required && this[target + 'Errors'].push('This field is required')
+      },
+      /* ---- CUSTOM ---- */
+      checkDates(startDate, endDate) {
+        let parsedEndDate = moment(reverseFormatDate(endDate))
+        let parsedStartDate = moment(reverseFormatDate(startDate))
+
+        return parsedEndDate < parsedStartDate
       }
+    },
+    validations: {
+      name: {
+        required
+      },
+      discount: {
+        required,
+        numeric
+      },
+      specialItems: {
+        required
+      },
     }
   }
 </script>
