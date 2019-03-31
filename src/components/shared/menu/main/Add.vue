@@ -1,6 +1,6 @@
 <template>
     <v-dialog
-            :value="main.visibility"
+            :value="visibility"
             @change="closeDialog"
             :fullscreen="main.fullscreen || responsive"
             persistent
@@ -20,7 +20,12 @@
                 <v-container grid-list-md>
                     <v-layout wrap>
                         <v-flex xs12>
-                            <v-text-field label="Name*" v-model="name" required></v-text-field>
+                            <v-text-field
+                                    label="Name*"
+                                    v-model="name"
+                                    :error-messages="nameErrors"
+                                    @blur="validate('name')"
+                            ></v-text-field>
                         </v-flex>
 
                         <v-flex xs12 sm6>
@@ -35,7 +40,13 @@
                         </v-flex>
 
                         <v-flex xs12 sm6>
-                            <v-text-field label="Price*" v-model="price" required></v-text-field>
+                            <v-text-field
+                                    label="Price*"
+                                    v-model="price"
+                                    numeric
+                                    :error-messages="priceErrors"
+                                    @blur="validate('price')"
+                            ></v-text-field>
                         </v-flex>
 
                         <v-flex xs12 sm6>
@@ -44,7 +55,9 @@
                                     :items="categories"
                                     item-text="name"
                                     item-value="id"
-                                    label="Category"
+                                    label="Category*"
+                                    :error-messages="categoryErrors"
+                                    @blur="validate('category')"
                             >
                                 <template v-slot:append-outer>
                                     <v-slide-x-reverse-transition mode="out-in">
@@ -59,7 +72,12 @@
                         </v-flex>
 
                         <v-flex xs12 sm6>
-                            <v-text-field label="Weight*" v-model="weight" required></v-text-field>
+                            <v-text-field
+                                    label="Weight*"
+                                    v-model="weight"
+                                    :error-messages="weightErrors"
+                                    @blur="validate('weight')"
+                            ></v-text-field>
                         </v-flex>
 
                         <v-flex xs12>
@@ -78,7 +96,7 @@
             </v-card-text>
 
             <v-card-actions class="px-5 pb-5">
-                <v-btn color="blue darken-1" block @click="onConfirm">Save</v-btn>
+                <v-btn color="blue darken-1 white--text" :disabled="!isFormValid" block @click="onConfirm">Save</v-btn>
             </v-card-actions>
 
         </v-card>
@@ -88,48 +106,100 @@
 <script>
   import VFileUpload from '../../../shared/VFileUpload'
   import {mapState, mapActions} from 'vuex'
+  import { validationMixin } from 'vuelidate'
+  import { required, numeric } from 'vuelidate/lib/validators'
 
   export default {
     components: {
       VFileUpload
     },
 
+    mixins: [validationMixin],
+
+    data() {
+      return {
+        visibility: false,
+        nameErrors: [],
+        imageErrors: [],
+        priceErrors: [],
+        weightErrors: [],
+        pictureErrors: [],
+        categoryErrors: [],
+        descriptionErrors: [],
+        allFields: [
+          'name',
+          'price',
+          'weight',
+          'category',
+        ],
+        isFormValid: false,
+      }
+    },
+
     computed: {
       ...mapState({
-        item(state) {return state.main[this.action];} ,
+        item(state) {return state.main[this.action]},
         main: (state) => state.modals.menu.main,
         color: (state) => state.modals.menu.main.color,
         action: (state) => state.modals.menu.main.action,
         responsive: (state) => state.layout.responsive,
         categories: (state) => state.categories.items
       }),
-
       name: {
         get() {return this.item.name},
-        set(value) {this.setName({payload: value, action: this.action})}},
+        set(value) {
+          this.setName({payload: value, action: this.action})
+        }
+      },
       image: {
         get() {return this.item.image},
-        set(value) {this.setPictureUrl({payload: value, action: this.action})}
+        set(value) {
+          this.setPictureUrl({payload: value, action: this.action})
+          this.validate('image');
+        }
       },
       price: {
         get() {return this.item.price},
-        set(value) {this.setPrice({payload: value, action: this.action})}},
+        set(value) {
+          this.setPrice({payload: value, action: this.action})
+          this.validate('price');
+        }
+      },
       weight: {
         get() {return this.item.weight},
-        set(value) {this.setWeight({payload: value, action: this.action})}
+        set(value) {
+          this.setWeight({payload: value, action: this.action})
+          this.validate('weight');
+        }
       },
       picture: {
         get() {return this.item.picture},
-        set(value) {this.setPicture({payload: value, action: this.action})}
+        set(value) {
+          this.setPicture({payload: value, action: this.action})
+          this.validate('picture');
+        }
       },
       category: {
         get() {return this.item.category},
-        set(value) {this.setCategory({payload: value, action: this.action})}
+        set(value) {
+          this.setCategory({payload: value, action: this.action})
+          this.validate('category');
+        }
       },
       description: {
         get() {return this.item.description},
-        set(value) {this.setDescription({payload: value, action: this.action})}
+        set(value) {
+          this.setDescription({payload: value, action: this.action})
+          this.validate('description');
+        }
       },
+    },
+
+    mounted() {
+      setTimeout(() => {
+        this.visibility = true
+      }, 100)
+      this.isFormValid = this.action !== 'add'
     },
 
     methods: {
@@ -151,6 +221,18 @@
         setSnackbar: 'setState'
       }),
       onConfirm() {
+        this.allFields.forEach(el => this.validate(el))
+        // TODO :: send the data to the database
+        this.$v.$touch();
+        if (this.$v.$invalid || this.hasError()) {
+          this.setFormValid(false)
+          this.setSnackbar({snackbar: true, message: 'Please fill correct all fields.', color: 'red'});
+        } else {
+          this.onFormValid();
+          this.setFormValid(true);
+        }
+      },
+      onFormValid() {
         this.saveItem({action: this.action})
           .then((data) => {
             if (!data.success) {
@@ -162,7 +244,10 @@
           .catch((err) => this.setSnackbar({snackbar: true, message: err.message, color: 'red'}))
       },
       closeDialog() {
-        this.setMenuModalVisibility({key: 'main', value: false})
+        this.visibility = false
+        setTimeout(() => {
+          this.setMenuModalVisibility({key: 'main', value: false})
+        }, 200)
       },
       onFilePicked({file, url}) {
         this.image = url
@@ -170,7 +255,52 @@
       },
       createCategory() {
         this.setModalVisibility({key: 'category', value: true})
+      },
+      /** ---- Validations ---- **/
+      setFormValid(isValid) {
+        this.isFormValid = isValid
+      },
+      validate(target) {
+        // Reset the errors everytime, so you can have dynamic fresh array on every keystroke
+        this[target + 'Errors'] = []
+        this.$v[target].$touch()
+
+        this.setFormValid(!this.hasError())
+
+        this.checkRequired(target)
+        this.checkNumeric(target)
+        return this[target + 'Errors']
+      },
+      hasError() {
+        return this.allFields
+          .reduce((result, item) => {
+            result.push(!this.$v[item].$error)
+            return result
+          }, [])
+          .includes(false)
+      },
+      checkNumeric(target) {
+        (this.$v[target].numeric !== undefined) && !this.$v[target].numeric && !this[target + 'Errors'].includes('Must be numeric') && this[target + 'Errors'].push('Must be numeric')
+      },
+      checkRequired(target) {
+        !this.$v[target].required && this[target + 'Errors'].push('This field is required')
       }
+    },
+    validations: {
+      name: {
+        required
+      },
+      price: {
+        required,
+        numeric
+      },
+      weight: {
+        required,
+        numeric
+      },
+      category: {
+        required
+      },
     }
   }
 </script>

@@ -8,9 +8,9 @@
     <CustomSnackBar/>
 
     <AddCategory />
-    <AddMainMenuItem />
-    <AddSpecialMenuItem />
-    <AddLunchMenuItem />
+    <AddMainMenuItem v-if="mainVisibility" />
+    <AddLunchMenuItem v-if="lunchVisibility" />
+    <AddSpecialMenuItem v-if="specialVisibility" />
   </v-content>
 </template>
 
@@ -37,6 +37,11 @@
     },
     computed: {
       ...mapState('layout', ['responsive']),
+      ...mapState('modals', {
+        mainVisibility: (state) => state.menu.main.visibility,
+        lunchVisibility: (state) => state.menu.lunch.visibility,
+        specialVisibility: (state) => state.menu.special.visibility,
+      }),
     },
     mounted() {
       this.onResponsiveInverted()
