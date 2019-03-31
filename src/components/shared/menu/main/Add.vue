@@ -120,12 +120,9 @@
       return {
         visibility: false,
         nameErrors: [],
-        imageErrors: [],
         priceErrors: [],
         weightErrors: [],
-        pictureErrors: [],
         categoryErrors: [],
-        descriptionErrors: [],
         allFields: [
           'name',
           'price',
@@ -149,13 +146,13 @@
         get() {return this.item.name},
         set(value) {
           this.setName({payload: value, action: this.action})
+          this.validate('name');
         }
       },
       image: {
         get() {return this.item.image},
         set(value) {
           this.setPictureUrl({payload: value, action: this.action})
-          this.validate('image');
         }
       },
       price: {
@@ -176,7 +173,6 @@
         get() {return this.item.picture},
         set(value) {
           this.setPicture({payload: value, action: this.action})
-          this.validate('picture');
         }
       },
       category: {
@@ -190,7 +186,6 @@
         get() {return this.item.description},
         set(value) {
           this.setDescription({payload: value, action: this.action})
-          this.validate('description');
         }
       },
     },

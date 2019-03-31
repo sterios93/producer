@@ -12,11 +12,13 @@
         >
         <template v-slot:activator="{ on }">
             <v-text-field
-                    v-model="date"
-                    :label="label"
-                    append-icon="event"
-                    readonly
                     v-on="on"
+                    :label="label"
+                    v-model="date"
+                    readonly
+                    append-icon="event"
+                    :error="inError"
+                    :error-messages="errorMessages"
             ></v-text-field>
         </template>
         <flat-pickr
@@ -43,18 +45,19 @@
     },
 
     props: {
-      options: Object,
       label: String,
+      options: Object,
+      errorMessages: Array,
     },
 
     data() {
       return {
         show: false,
         config: {
+          inline: true,
           enableTime: true,
           noCalendar: true,
-          dateFormat: "H:i",
-          inline: true
+          dateFormat: "H:i"
         },
       }
     },
@@ -69,6 +72,9 @@
       time: {
         get() {return this.options.time || '12:00'},
         set(value) {this.$emit('time-changed', value)}
+      },
+      inError() {
+        return this.errorMessages.length > 0
       }
     }
   }
