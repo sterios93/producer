@@ -29,6 +29,7 @@ export default {
     }
   },
   actions: {
+    reset: ({commit}, action) => commit(`RESET_${action.toUpperCase()}`),
     setItem: ({commit}, {payload, action}) => commit('SET_ITEM', {payload, action}),
     setName: ({commit}, {payload, action}) => commit('SET_NAME', {payload, action}),
     setPrice: ({commit}, {payload, action}) => commit('SET_PRICE', {payload, action}),

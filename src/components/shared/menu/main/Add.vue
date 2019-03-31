@@ -190,15 +190,23 @@
       },
     },
 
+    created() {
+      this.isFormValid = this.action !== 'add'
+    },
+
     mounted() {
       setTimeout(() => {
         this.visibility = true
       }, 100)
-      this.isFormValid = this.action !== 'add'
+    },
+
+    beforeDestroy() {
+      this.action === 'add' && this.reset(this.action)
     },
 
     methods: {
       ...mapActions('main', [
+        'reset',
         'setName',
         'setPrice',
         'saveItem',

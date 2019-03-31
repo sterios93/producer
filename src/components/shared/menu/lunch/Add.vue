@@ -217,8 +217,8 @@
 
     created() {
       this.endDate = this.today
-      this.startDate = this.today
 
+      this.startDate = this.today
       this.isFormValid = this.action !== 'add'
     },
 
@@ -228,8 +228,13 @@
       }, 100)
     },
 
+    beforeDestroy() {
+      this.action === 'add' && this.reset(this.action)
+    },
+
     methods: {
       ...mapActions('lunch', [
+        'reset',
         'setItems',
         'saveItem',
         'setEndDate',

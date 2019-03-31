@@ -65,6 +65,7 @@ export default {
     }
   },
   actions: {
+    reset: ({commit}, action) => commit(`RESET_${action.toUpperCase()}`),
     setItem: ({commit}, {payload, action}) => commit('SET_ITEM', {payload, action}),
     setItems: ({commit}, {payload, action}) => commit('SET_ITEMS', {payload, action}),
     setEndDate: ({commit}, {payload, action}) => commit('SET_END_DATE', {payload, action}),

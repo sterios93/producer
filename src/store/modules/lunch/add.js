@@ -1,6 +1,6 @@
 import {set, toggle} from '@/utils/vuex'
 
-const state = () => ({
+const stateBuilder = () => ({
   items: [],
   discount: 10,
   schedule: null,
@@ -9,8 +9,10 @@ const state = () => ({
 })
 
 export default {
-  state,
-  mutations: {},
+  state: stateBuilder,
+  mutations: {
+    RESET_ADD: (state) => state.add = stateBuilder()
+  },
   getters: {},
   actions: {}
 }

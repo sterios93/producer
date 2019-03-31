@@ -271,8 +271,13 @@
       }, 100)
     },
 
+    beforeDestroy() {
+      this.action === 'add' && this.reset(this.action)
+    },
+
     methods: {
       ...mapActions('special', [
+        'reset',
         'setName',
         'setPrice',
         'setItems',
