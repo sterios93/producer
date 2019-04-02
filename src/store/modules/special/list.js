@@ -6,6 +6,7 @@ const state = () => ({
       id: 0,
       description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',
       discount: 10,
+      isActive: true,
       items: [
         {
           id: 11,
@@ -72,6 +73,7 @@ const state = () => ({
       id: 1,
       description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',
       discount: 10,
+      isActive: true,
       items: [
         {
           id: 11,
@@ -138,6 +140,7 @@ const state = () => ({
       id: 2,
       description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',
       discount: 10,
+      isActive: true,
       items: [
         {
           id: 11,
@@ -204,6 +207,7 @@ const state = () => ({
       id: 3,
       description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',
       discount: 10,
+      isActive: true,
       items: [
         {
           id: 11,
@@ -273,6 +277,12 @@ export default {
   state,
   mutations: {
     ADD_ITEM: (state, payload) => state.list.items.push(payload),
+    TOGGLE_ACTIVE: (state, {payload, action}) => {
+      let item = state.list.items.find(el => el.id === payload.id)
+      if (item) {
+        item.isActive = !item.isActive
+      }
+    },
     UPDATE_ITEM: (state, payload) => {
       let items = state.list.items
       let index = items.findIndex(el => el.id === payload.id)

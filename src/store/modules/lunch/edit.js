@@ -4,6 +4,7 @@ const state = () => ({
   id: 0,
   items: [],
   discount: 10,
+  isActive: true,
   schedule: null,
   startDate: null,
   endDate: null

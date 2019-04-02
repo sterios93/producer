@@ -1,5 +1,6 @@
 import { set, toggle } from '@/utils/vuex'
 import logger from "vuex/dist/logger";
+import {postData} from "../../../utils/helpers";
 
 const state = () => ({
   allItems: [
@@ -50,6 +51,7 @@ export default {
     SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
     SET_SCHEDULE: (state, {payload, action}) => state[action].schedule = payload,
     SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
+    TOGGLE_ACTIVE: (state, {payload, action}) => state[action].isActive = !state[action].isActive,
     SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
   },
   getters: {
@@ -65,6 +67,19 @@ export default {
     }
   },
   actions: {
+    toggleActive({commit}, {payload, action}) {
+      switch (action) {
+        case 'add':
+        case 'edit':
+          commit('TOGGLE_ACTIVE', {payload, action})
+          break
+        case 'list':
+          postData().then((data) => {
+            commit('TOGGLE_ACTIVE_LIST_ITEM', {payload: data, action})
+          })
+          break
+      }
+    },
     reset: ({commit}, action) => commit(`RESET_${action.toUpperCase()}`),
     setItem: ({commit}, {payload, action}) => commit('SET_ITEM', {payload, action}),
     setItems: ({commit}, {payload, action}) => commit('SET_ITEMS', {payload, action}),

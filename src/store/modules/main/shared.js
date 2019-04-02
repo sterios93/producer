@@ -13,6 +13,7 @@ export default {
     SET_WEIGHT: (state, {payload, action}) => state[action].weight = payload,
     SET_PICTURE: (state, {payload, action}) => state[action].picture = payload,
     SET_CATEGORY: (state, {payload, action}) => state[action].category = payload,
+    TOGGLE_ACTIVE: (state, {payload, action}) => state[action].isActive = !state[action].isActive,
     SET_PICTURE_URL: (state, {payload, action}) => state[action].image = payload,
     SET_DESCRIPTION: (state, {payload, action}) => state[action].description = payload,
   },
@@ -31,13 +32,14 @@ export default {
     setWeight: ({commit}, {payload, action}) => commit('SET_WEIGHT', {payload, action}),
     setPicture: ({commit}, {payload, action}) => commit('SET_PICTURE', {payload, action}),
     setCategory: ({commit}, {payload, action}) => commit('SET_CATEGORY', {payload, action}),
+    toggleActive: ({commit}, {payload, action}) => commit('TOGGLE_ACTIVE', {payload, action}),
     setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
     setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
     saveItem({rootState, state, commit, dispatch}, {action}) {
       return new Promise(resolve => {
         let data = state[action]
         // TODO :: fake request
-      
+
         setTimeout(() => {
           if (action === 'add') {
             dispatch('addItem', {

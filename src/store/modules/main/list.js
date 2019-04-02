@@ -1,4 +1,5 @@
 import { set, toggle } from '@/utils/vuex'
+import {postData} from "../../../utils/helpers";
 
 const state = () => ({
   items: [
@@ -98,14 +99,6 @@ const state = () => ({
 
 export default {
   state,
-  actions: {
-    addItem({commit}, payload) {
-      commit('ADD_ITEM', payload)
-    },
-    updateItem({commit}, payload) {
-      commit('UPDATE_ITEM', payload)
-    }
-  },
   getters: {
     getMenuByCategory: (state) => (id) => state.list.items.filter(el => id === el.category.id),
   },
@@ -118,6 +111,14 @@ export default {
         items[index] = payload
       }
     }
+  },
+  actions: {
+    addItem({commit}, payload) {
+      commit('ADD_ITEM', payload)
+    },
+    updateItem({commit}, payload) {
+      commit('UPDATE_ITEM', payload)
+    },
   }
 }
 
