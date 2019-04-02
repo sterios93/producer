@@ -100,6 +100,15 @@
                             </v-layout>
                         </v-flex>
 
+                        <v-flex xs12 sm4 md4>
+                            <v-switch
+                                    v-model="isActive"
+                                    label="Active"
+                                    color="primary"
+                                    hide-details
+                            ></v-switch>
+                        </v-flex>
+
                     </v-layout>
                     <small class="red--text">*indicates required field</small>
                 </v-container>
@@ -189,6 +198,12 @@
           this.validate('chosenMainItems')
         }
       },
+      isActive: {
+        get() {return this.item.isActive},
+        set() {
+          this.toggleActive({payload: null, action: this.action})
+        }
+      },
       startDate: {
         get() {
           if (this.item.startDate) {
@@ -239,6 +254,7 @@
         'saveItem',
         'setEndDate',
         'setDiscount',
+        'toggleActive',
         'setStartDate',
       ]),
       ...mapActions('modals', [

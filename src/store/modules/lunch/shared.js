@@ -113,6 +113,7 @@ export default {
       let mockData = {
         id: 0,
         discount: 10,
+        isActive: false,
         items: [
           {
             id: 21,
