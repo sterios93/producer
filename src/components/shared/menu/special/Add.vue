@@ -109,6 +109,15 @@
                             </v-layout>
                         </v-flex>
 
+                        <v-flex xs12 sm4 md4>
+                            <v-switch
+                                    v-model="isActive"
+                                    label="Active"
+                                    color="primary"
+                                    hide-details
+                            ></v-switch>
+                        </v-flex>
+
                         <v-flex xs12>
                             <v-textarea
                                     v-model="description"
@@ -226,6 +235,12 @@
           this.validate('specialItems')
         }
       },
+      isActive: {
+        get() {return this.item.isActive},
+        set() {
+          this.toggleActive({payload: null, action: this.action})
+        }
+      },
       description: {
         get() {return this.item.description},
         set(value) {
@@ -285,6 +300,7 @@
         'setEndDate',
         'setPicture',
         'setDiscount',
+        'toggleActive',
         'setStartDate',
         'setPictureUrl',
         'setDescription',

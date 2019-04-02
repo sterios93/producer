@@ -86,6 +86,7 @@ export default {
         id: 0,
         description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',
         discount: 10,
+        isActive: false,
         items: [
           {
             id: 11,
