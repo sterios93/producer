@@ -13,6 +13,11 @@ const state = () => ({
   restaurantNumber: "12312312312",
   inEditMode: false,
   isProfileValid: true,
+  address: '',
+  city: '',
+  country: '',
+  postalCode: '',
+  location: {},
 })
 
 export default {
@@ -29,6 +34,11 @@ export default {
     SET_RESTAURANT_WEBSITE: (state, restaurantWebsite) => state.firstName = restaurantWebsite,
     SET_RESTAURANT_NUMBER: (state, restaurantNumber) => state.restaurantNumber = restaurantNumber,
     SET_PROFILE_VALID: (state, value) => state.isProfileValid = value,
+    SET_ADDRESS: (state, value) => state.address = value,
+    SET_CITY: (state, value) => state.city = value,
+    SET_COUNTRY: (state, value) => state.country = value,
+    SET_POSTAL_CODE: (state, value) => state.postalCode = value,
+    SET_LOCATION: (state, value) => state.location = value,
   },
   actions: {
     setEditMode({commit}, value) {commit('SET_EDIT_MODE', value)},
@@ -41,7 +51,12 @@ export default {
     setRestaurantType: ({commit}, phoneNumber) => {commit('SET_RESTAURANT_TYPE', phoneNumber)},
     setRestaurantWebsite: ({commit}, phoneNumber) => {commit('SET_RESTAURANT_WEBSITE', phoneNumber)},
     setRestaurantNumber: ({commit}, phoneNumber) => {commit('SET_RESTAURANT_NUMBER', phoneNumber)},
-    setProfileValid: ({commit}, value) => {commit('SET_PROFILE_VALID', value)}
+    setProfileValid: ({commit}, value) => {commit('SET_PROFILE_VALID', value)},
+    setAddress: ({commit}, value) => {commit('SET_ADDRESS', value)},
+    setCity: ({commit}, value) => {commit('SET_CITY', value)},
+    setCountry: ({commit}, value) => {commit('SET_COUNTRY', value)},
+    setPostalCode: ({commit}, value) => {commit('SET_POSTAL_CODE', value)},
+    setLocation: ({commit}, value) => {commit('SET_LOCATION', value)},
   },
   getters: {},
 }

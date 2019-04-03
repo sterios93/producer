@@ -1,5 +1,13 @@
 <template>
-  <div class="mt-5">
+  <div class="mt-5"
+  >
+    <gmap-autocomplete
+            class="gmap-autocomplete"
+            v-model="rAddress"
+            placeholder="Address"
+            @place_changed="setPlace"
+            :select-first-on-enter="true">
+    </gmap-autocomplete>
 
     <gmap-map
             :options="{styles: styles}"
@@ -7,7 +15,7 @@
             :zoom="16"
             style="width:100%;  height: 400px;"
             ref="map"
-            @dblclick="addCustomMarker"
+            @click="addCustomMarker"
     >
       <gmap-marker
               :position="marker"
@@ -17,9 +25,15 @@
 </template>
 
 <script>
+  import { mapActions, mapState } from 'vuex'
+
   export default {
+    props:{
+      storeModule: String
+    },
     data() {
       return {
+        latLng: {},
         center: {},
         styles: [
           {
@@ -189,12 +203,46 @@
           },
         ],
         marker: null,
+        apiKey: 'AIzaSyAfYAgsxbh9FIJw1lAUc3B_t3ujOTrDRT4'
       };
     },
     mounted() {
       this.geolocate();
     },
+    computed: {
+      ...mapState({
+        rAddress (state) {
+          return state[this.storeModule].address
+        }
+      }),
+    },
     methods: {
+      setPlace(place) {
+        if (!place) return
+        console.error(place);
+
+        this.marker = this.center = {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        };
+
+        const city = this.keyParser(place.address_components, 'locality');
+        const country = this.keyParser(place.address_components, 'country');
+        const postalCode = this.keyParser(place.address_components, 'postal_code');
+
+        const data = {
+          city,
+          country,
+          postalCode,
+          formatted_address: place.formatted_address,
+          location: {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng(),
+          }
+        }
+
+        this.populateData(data);
+      },
       geolocate: function() {
           navigator.geolocation.getCurrentPosition(position => {
             this.center = {
@@ -217,14 +265,67 @@
           lat: lat,
           lng: lng,
         }
-        this.reversGeoCode();
+        this.getAddress(lat, lng);
       },
-      reversGeoCode() {
-        // TODO :: we need access to the Geocoding api
+      addressParser(data){
+        const address = (data.results && data.results[0]) ? data.results[0] : null;
+
+        if (address) {
+          const {address_components, formatted_address} = address;
+          const city = this.keyParser(address_components, 'locality');
+          const country = this.keyParser(address_components, 'country');
+          const postalCode = this.keyParser(address_components, 'postal_code');
+          const location = address.geometry.location;
+
+          return {
+            city,
+            country,
+            postalCode,
+            formatted_address,
+            location
+          }
+        } else {
+          return false
+        }
+      },
+      keyParser(data, searchedKey){
+        for (let key in data) {
+          if (data[key].types.includes(searchedKey)) {
+            return data[key].long_name;
+          }
+        }
+      },
+      /**
+       *
+       * @param {object} data
+       */
+      populateData(data) {
+          this.$store.dispatch(`${this.storeModule}/setAddress`, data.formatted_address);
+          this.$store.dispatch(`${this.storeModule}/setCity`, data.city);
+          this.$store.dispatch(`${this.storeModule}/setCountry`, data.country);
+          this.$store.dispatch(`${this.storeModule}/setPostalCode`, data.postalCode);
+          this.$store.dispatch(`${this.storeModule}/setLocation`, data.location);
+      },
+      getAddress(lat,lng) {
         // TODO :: we need access to the Autocompleete api
-        fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyAfYAgsxbh9FIJw1lAUc3B_t3ujOTrDRT4')
-                .then(res => console.error(res));
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat + ',' + lng}&key=${this.apiKey}&language=en`)
+         .then(res => {
+           if (res.status === 200) return res.json();
+         })
+         .then(res => {
+           const address = this.addressParser(res);
+           if (address) this.populateData(address);
+         })
       }
     }
   };
 </script>
+
+<style scoped lang="stylus">
+  .gmap-autocomplete
+    border-bottom 1px solid #c3c3c3
+    width 100%
+    margin-bottom 5%;
+    &:focus
+      outline: none
+</style>
