@@ -1,6 +1,14 @@
 <template>
   <div class="mt-5"
   >
+    <gmap-autocomplete
+            class="gmap-autocomplete"
+            v-model="rAddress"
+            placeholder="Address"
+            @place_changed="setPlace"
+            :select-first-on-enter="true">
+    </gmap-autocomplete>
+
     <gmap-map
             :options="{styles: styles}"
             :center="center"
@@ -17,7 +25,7 @@
 </template>
 
 <script>
-  import {mapActions} from 'vuex'
+  import { mapActions, mapState } from 'vuex'
 
   export default {
     props:{
@@ -25,6 +33,7 @@
     },
     data() {
       return {
+        latLng: {},
         center: {},
         styles: [
           {
@@ -200,7 +209,40 @@
     mounted() {
       this.geolocate();
     },
+    computed: {
+      ...mapState({
+        rAddress (state) {
+          return state[this.storeModule].address
+        }
+      }),
+    },
     methods: {
+      setPlace(place) {
+        if (!place) return
+        console.error(place);
+
+        this.marker = this.center = {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        };
+
+        const city = this.keyParser(place.address_components, 'locality');
+        const country = this.keyParser(place.address_components, 'country');
+        const postalCode = this.keyParser(place.address_components, 'postal_code');
+
+        const data = {
+          city,
+          country,
+          postalCode,
+          formatted_address: place.formatted_address,
+          location: {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng(),
+          }
+        }
+
+        this.populateData(data);
+      },
       geolocate: function() {
           navigator.geolocation.getCurrentPosition(position => {
             this.center = {
@@ -278,3 +320,12 @@
     }
   };
 </script>
+
+<style scoped lang="stylus">
+  .gmap-autocomplete
+    border-bottom 1px solid #c3c3c3
+    width 100%
+    margin-bottom 5%;
+    &:focus
+      outline: none
+</style>

@@ -2,15 +2,6 @@
     <v-container>
         <v-layout wrap>
             <v-flex xs12>
-            <v-text-field
-                label="Adress"
-                append-icon="place"
-                v-model="restaurantAddress"
-                :error-messages="restaurantAddressErrors"
-                @blur="validate('restaurantAddress')"
-            ></v-text-field>
-            </v-flex>
-            <v-flex xs12>
                 <Map storeModule="signUp"></Map>
             </v-flex>
 
@@ -67,14 +58,13 @@ import { required } from 'vuelidate/lib/validators';
 
 
     export default {
-        name: 'adress-info-card',
+        name: 'address-info-card',
         components: {
             Map
         },
         mixins: [validationMixin],
         data () {
             return {
-              restaurantAddressErrors: [],
               restaurantCityErrors: [],
               restaurantCountryErrors: [],
               restaurantPostalCodeErrors: [],
@@ -90,13 +80,6 @@ import { required } from 'vuelidate/lib/validators';
         ...mapState({
           userInfo: (state) => state.signUp,
         }),
-        restaurantAddress: {
-          get() {return this.userInfo.address},
-          set(value) {
-            this.setAddress(value);
-            this.validate('restaurantAddress');
-          }
-        },
         restaurantCity: {
           get() {return this.userInfo.city},
           set(value) {
@@ -169,9 +152,6 @@ import { required } from 'vuelidate/lib/validators';
            },
         },
       validations: {
-        restaurantAddress: {
-          required,
-        },
         restaurantCity: {
           required
         },
@@ -184,3 +164,7 @@ import { required } from 'vuelidate/lib/validators';
       }
     }
 </script>
+
+<style scoped lang="stylus">
+
+</style>
