@@ -16,6 +16,11 @@ export default {
     restaurantWebsite: "",
     restaurantNumber: "",
     activeStepNumber: 0,
+    address: '',
+    city: '',
+    country: '',
+    postalCode: '',
+    location: {},
   },
   mutations: {
     SET_FIRST_NAME: (state, firstName) => state.firstName = firstName,
@@ -32,6 +37,11 @@ export default {
     SET_RESTAURANT_TYPE: (state, restaurantType) => state.restaurantType = restaurantType,
     SET_RESTAURANT_WEBSITE: (state, restaurantWebsite) => state.firstName = restaurantWebsite,
     SET_RESTAURANT_NUMBER: (state, restaurantNumber) => state.restaurantNumber = restaurantNumber,
+    SET_ADDRESS: (state, value) => state.address = value,
+    SET_CITY: (state, value) => state.city = value,
+    SET_COUNTRY: (state, value) => state.country = value,
+    SET_POSTAL_CODE: (state, value) => state.postalCode = value,
+    SET_LOCATION: (state, value) => state.location = value,
   },
   getters: {},
   actions: {
@@ -57,5 +67,10 @@ export default {
     setRestaurantInfoValid({commit}) {commit('SET_RESTAURANT_INFO_VALID')},
     setRestaurantInfoInvalid({commit}) {commit('SET_RESTAURANT_INFO_INVALID')},
     setActiveStepNumber({commit}, stepNumber) { commit('SET_ACTIVE_STEP_NUMBER', stepNumber)},
+    setAddress: ({commit}, value) => {commit('SET_ADDRESS', value)},
+    setCity: ({commit}, value) => {commit('SET_CITY', value)},
+    setCountry: ({commit}, value) => {commit('SET_COUNTRY', value)},
+    setPostalCode: ({commit}, value) => {commit('SET_POSTAL_CODE', value)},
+    setLocation: ({commit}, value) => {commit('SET_LOCATION', value)},
   }
 }

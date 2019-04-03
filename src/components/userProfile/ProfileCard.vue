@@ -104,10 +104,15 @@
                             <v-text-field
                                     label="Adress"
                                     class="purple-input"
-                                    :disabled="!inEditMode"/>
+                                    :disabled="!inEditMode"
+                                    v-model="restaurantAddress"
+                                    :error-messages="restaurantAddressErrors"
+                                    @blur="validate('restaurantAddress')"
+                            />
                         </v-flex>
-                        <v-flex xs12 md12>
-                            <Map></Map>
+                        <v-flex xs12 md12
+                                :class="[{disabled: !inEditMode}]">
+                            <Map storeModule="userProfile"></Map>
 
                         </v-flex>
                         <v-flex
@@ -116,7 +121,11 @@
                             <v-text-field
                                     label="City"
                                     class="purple-input"
-                                    :disabled="!inEditMode"/>
+                                    :disabled="!inEditMode"
+                                    v-model="restaurantCity"
+                                    :error-messages="restaurantCityErrors"
+                                    @blur="validate('restaurantCity')"
+                            />
                         </v-flex>
                         <v-flex
                                 xs12
@@ -124,7 +133,11 @@
                             <v-text-field
                                     label="Country"
                                     class="purple-input"
-                                    :disabled="!inEditMode"/>
+                                    :disabled="!inEditMode"
+                                    v-model="restaurantCountry"
+                                    :error-messages="restaurantCountryErrors"
+                                    @blur="validate('restaurantCountry')"
+                            />
                         </v-flex>
                         <v-flex
                                 xs12
@@ -133,7 +146,11 @@
                                     class="purple-input"
                                     label="Postal Code"
                                     type="number"
-                                    :disabled="!inEditMode"/>
+                                    :disabled="!inEditMode"
+                                    v-model="restaurantPostalCode"
+                                    :error-messages="restaurantPostalCodeErrors"
+                                    @blur="validate('restaurantPostalCode')"
+                            />
                         </v-flex>
                         <v-flex xs12 text-xs-right >
                             <v-btn
@@ -186,7 +203,24 @@
           restaurantNameErrors: [],
           restaurantTypeErrors: [],
           restaurantNumberErrors: [],
-          allFields: ['firstName', 'lastName', 'phoneNumber', 'password', 'passwordRepeat','restaurantName', 'restaurantType', 'restaurantNumber'],
+          restaurantAddressErrors: [],
+          restaurantCityErrors: [],
+          restaurantCountryErrors: [],
+          restaurantPostalCodeErrors: [],
+          allFields: [
+            'firstName',
+            'lastName',
+            'phoneNumber',
+            'password',
+            'passwordRepeat',
+            'restaurantName',
+            'restaurantType',
+            'restaurantNumber',
+            'restaurantAddress',
+            'restaurantCity',
+            'restaurantCountry',
+            'restaurantPostalCode'
+          ],
         }
       },
       computed: {
@@ -248,6 +282,34 @@
             this.validate('restaurantNumber');
           }
         },
+        restaurantAddress: {
+          get() {return this.userInfo.address},
+          set(value) {
+            this.setAddress(value);
+            this.validate('restaurantAddress');
+          }
+        },
+        restaurantCity: {
+          get() {return this.userInfo.city},
+          set(value) {
+            this.setCity(value);
+            this.validate('restaurantCity');
+          }
+        },
+        restaurantCountry: {
+          get() {return this.userInfo.country},
+          set(value) {
+            this.setCountry(value);
+            this.validate('restaurantCountry');
+          }
+        },
+        restaurantPostalCode: {
+          get() {return this.userInfo.postalCode},
+          set(value) {
+            this.setPostalCode(value);
+            this.validate('restaurantPostalCode');
+          }
+        },
       },
       watch: {
         passwordRepeat: 'passRepeatHandler'
@@ -265,6 +327,10 @@
           'setRestaurantWebsite',
           'setRestaurantNumber',
           'setProfileValid',
+          'setAddress',
+          'setCity',
+          'setCountry',
+          'setPostalCode',
         ]),
         ...mapActions('snackbar', ['setState']),
         saveProfile() {
@@ -348,8 +414,23 @@
           required,
           numeric,
         },
+        restaurantAddress: {
+          required,
+        },
+        restaurantCity: {
+          required
+        },
+        restaurantCountry: {
+          required
+        },
+        restaurantPostalCode: {
+          required
+        }
       }
     }
 </script>
 
-<style scoped lang="stylus"></style>
+<style scoped lang="stylus">
+    .disabled
+        pointer-events none
+</style>
