@@ -100,16 +100,6 @@
                             </v-text-field>
                         </v-flex>
 
-                        <v-flex xs12  md12 >
-                            <v-text-field
-                                    label="Adress"
-                                    class="purple-input"
-                                    :disabled="!inEditMode"
-                                    v-model="restaurantAddress"
-                                    :error-messages="restaurantAddressErrors"
-                                    @blur="validate('restaurantAddress')"
-                            />
-                        </v-flex>
                         <v-flex xs12 md12
                                 :class="[{disabled: !inEditMode}]">
                             <Map storeModule="userProfile"></Map>
