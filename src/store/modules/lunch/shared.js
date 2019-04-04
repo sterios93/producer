@@ -77,7 +77,7 @@ export default {
           return new Promise(resolve => {
             // postData().then((data) => {
             setTimeout(() => {
-              commit('TOGGLE_ACTIVE_LIST_ITEM', {payload})
+              commit('TOGGLE_ACTIVE_LIST_ITEM', payload)
               resolve({
                 success: true,
               })
@@ -85,6 +85,23 @@ export default {
           })
           break
       }
+    },
+    deleteItem: ({commit}, {payload}) => {
+      return new Promise(resolve => {
+      
+        let data = {
+          success: true,
+          message: 'Internal Error'
+        }
+      
+        // postData().then((data) => {
+        setTimeout(() => {
+          if (data.success) {
+            commit('DELETE_LIST_ITEM', payload)
+          }
+          resolve(data)
+        }, 2000)
+      })
     },
     reset: ({commit}, action) => commit(`RESET_${action.toUpperCase()}`),
     setItem: ({commit}, {payload, action}) => commit('SET_ITEM', {payload, action}),

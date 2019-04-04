@@ -35,8 +35,8 @@
                     <v-switch
                         :input-value="isActive"
                         :value="isActive"
-                        :loading="loading"
-                        :disabled="loading"
+                        :loading="activeLoading"
+                        :disabled="activeLoading"
                         @click.prevent="toggleIsActive"
                         hide-details
                     >
@@ -45,7 +45,13 @@
                 <v-btn icon @click="onEditClick" v-if="isEditable">
                     <v-icon color="orange">edit</v-icon>
                 </v-btn>
-                <v-btn icon @click="onDeleteClick" v-if="isEditable">
+                <v-btn
+                        icon
+                        @click="onDeleteClick"
+                        v-if="isEditable"
+                        :loading="deleteLoading"
+                        :disabled="deleteLoading"
+                >
                     <v-icon color="red">delete</v-icon>
                 </v-btn>
             </v-card-actions>
@@ -83,11 +89,10 @@
     },
     data() {
       return {
+        isActive: false,
         defaultImage: 'img/default-menu-v2.jpg',
-        isLoading: false,
-        loader: null,
-        loading: false,
-        isActive: false
+        activeLoading: false,
+        deleteLoading: false,
       }
     },
     computed: {
@@ -132,14 +137,14 @@
         })
       },
       toggleIsActive() {
-        if (this.loading) return
-        this.loading = true
+        if (this.activeLoading) return
+        this.activeLoading = true
 
         this.$store.dispatch(`${this.type}/toggleActive`, {
           payload: this.item.id,
           action: 'list'
         }).then((data) => {
-          this.loading = false
+          this.activeLoading = false
           if (!data.success) {
             return this.setSnackbar({snackbar: true, message: data.message, color: 'red'});
           }
@@ -147,12 +152,14 @@
         })
       },
       onDeleteClick() {
-        // TODO :: add loading state
+        if (this.deleteLoading) return
+        this.deleteLoading = true
+
         this.$store.dispatch(`${this.type}/deleteItem`, {
           payload: this.item.id,
           action: 'list'
         }).then((data) => {
-          this.loading = false
+          this.deleteLoading = false
           if (!data.success) {
             return this.setSnackbar({snackbar: true, message: data.message, color: 'red'});
           }
