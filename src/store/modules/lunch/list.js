@@ -69,6 +69,7 @@ const state = () => ({
         },
       ],
       discount: 10,
+      isActive: true,
       schedule: null,
       startDate: '2019-05-23 12:00',
       endDate: '2019-01-23 13:00'
@@ -140,6 +141,7 @@ const state = () => ({
         },
       ],
       discount: 10,
+      isActive: true,
       schedule: null,
       startDate: '2019-03-23 12:30',
       endDate: '2019-03-23 13:30'
@@ -211,6 +213,7 @@ const state = () => ({
         },
       ],
       discount: 10,
+      isActive: true,
       schedule: null,
       startDate: '2019-03-13 12:00',
       endDate: '2019-03-13 16:00'
@@ -282,6 +285,7 @@ const state = () => ({
         },
       ],
       discount: 10,
+      isActive: true,
       schedule: null,
       startDate: '2019-05-23 12:00',
       endDate: '2019-01-23 13:00'
@@ -353,6 +357,7 @@ const state = () => ({
         },
       ],
       discount: 10,
+      isActive: true,
       schedule: null,
       startDate: '2019-03-23 12:30',
       endDate: '2019-03-23 13:30'
@@ -424,6 +429,7 @@ const state = () => ({
         },
       ],
       discount: 10,
+      isActive: true,
       schedule: null,
       startDate: '2019-03-13 12:00',
       endDate: '2019-03-13 16:00'
@@ -495,6 +501,7 @@ const state = () => ({
         },
       ],
       discount: 10,
+      isActive: true,
       schedule: null,
       startDate: '2019-03-13 12:00',
       endDate: '2019-03-13 16:00'
@@ -506,6 +513,12 @@ export default {
   state,
   mutations: {
     ADD_ITEM: (state, payload) => state.list.items.push(payload),
+    TOGGLE_ACTIVE_LIST_ITEM: (state, {payload, action}) => {
+      let item = state.list.items.find(el => el.id === payload.id)
+      if (item) {
+        item.isActive = !item.isActive
+      }
+    },
     UPDATE_ITEM: (state, payload) => {
       let items = state.list.items
       let index = items.findIndex(el => el.id === payload.id)

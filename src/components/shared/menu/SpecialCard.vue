@@ -31,7 +31,17 @@
             <v-card-actions>
                 <v-btn flat color="info" @click="readMore">Explore</v-btn>
                 <div v-if="isSpecial" class="ribbon"><span>{{ribbonText}}</span></div>
-                <v-flex></v-flex>
+                <v-flex xs12>
+                    <v-switch
+                        :input-value="isActive"
+                        :value="isActive"
+                        :loading="loading"
+                        :disabled="loading"
+                        @click.prevent="toggleIsActive"
+                        hide-details
+                    >
+                    </v-switch>
+                </v-flex>
                 <v-btn icon @click="onEditClick" v-if="isEditable">
                     <v-icon color="orange">edit</v-icon>
                 </v-btn>
@@ -73,7 +83,11 @@
     },
     data() {
       return {
-        defaultImage: 'img/default-menu-v2.jpg'
+        defaultImage: 'img/default-menu-v2.jpg',
+        isLoading: false,
+        loader: null,
+        loading: false,
+        isActive: false
       }
     },
     computed: {
@@ -89,9 +103,18 @@
         }
       }
     },
+    watch: {
+      'item.isActive': {
+        handler: function (value) {
+          this.isActive = value
+        },
+        immediate: true
+      }
+    },
     methods: {
       ...mapActions({
-        'setMenuModalVisibility': 'modals/setMenuModalVisibility',
+        setSnackbar: 'snackbar/setState',
+        setMenuModalVisibility: 'modals/setMenuModalVisibility',
       }),
       readMore() {
         this.$router.push({ path: `/${this.type}-offer/${this.item.id}`})
@@ -106,6 +129,21 @@
         this.$store.dispatch(`${this.type}/setItem`, {
           payload: this.item,
           action: 'edit'
+        })
+      },
+      toggleIsActive() {
+        if (this.loading) return
+        this.loading = true
+
+        this.$store.dispatch(`${this.type}/toggleActive`, {
+          payload: this.item.id,
+          action: 'list'
+        }).then((data) => {
+          this.loading = false
+          if (!data.success) {
+            return this.setSnackbar({snackbar: true, message: data.message, color: 'red'});
+          }
+          this.setSnackbar({snackbar: true, message: 'Toggled successfully', color: 'success'});
         })
       },
       onDeleteClick() {
@@ -173,4 +211,8 @@
         border-bottom: 3px solid transparent;
         border-top: 3px solid #2980b9;
     }
+
+
+    >>> .v-input--selection-controls
+        margin 0 !important
 </style>

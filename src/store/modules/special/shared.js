@@ -37,8 +37,15 @@ export default {
           commit('TOGGLE_ACTIVE', {payload, action})
           break
         case 'list':
-          postData().then((data) => {
-            commit('TOGGLE_ACTIVE_LIST_ITEM', {payload: data, action})
+          return new Promise(resolve => {
+            // postData().then((data) => {
+            setTimeout(() => {
+              // commit('TOGGLE_ACTIVE_LIST_ITEM', {payload: {id: payload}, action})
+              resolve({
+                success: false,
+                message: 'Internal Error'
+              })
+            }, 2000)
           })
           break
       }

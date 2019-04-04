@@ -1,4 +1,4 @@
-import { set, toggle } from '@/utils/vuex'
+import {set, toggle} from '@/utils/vuex'
 import logger from "vuex/dist/logger";
 import {postData} from "../../../utils/helpers";
 
@@ -74,8 +74,14 @@ export default {
           commit('TOGGLE_ACTIVE', {payload, action})
           break
         case 'list':
-          postData().then((data) => {
-            commit('TOGGLE_ACTIVE_LIST_ITEM', {payload: data, action})
+          return new Promise(resolve => {
+            // postData().then((data) => {
+            setTimeout(() => {
+              commit('TOGGLE_ACTIVE_LIST_ITEM', {payload: {id: payload}, action})
+              resolve({
+                success: true,
+              })
+            }, 2000)
           })
           break
       }
@@ -175,19 +181,19 @@ export default {
               id: 4,
               name: 'Bagels'
             },
-          description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-        },
-      ],
+            description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
+          },
+        ],
         image: 'https://api-content.prod.pizzahutaustralia.com.au//umbraco/api/Image/Get2?path=assets/products/menu/Veggie-Tandoori-LGE-Pizza-menu.jpg',
         schedule: null,
         startDate: '2019-09-10 12:00',
         endDate: '2019-10-10 12:00',
       }
-    
+      
       dispatch('setItem', {payload: mockData, action})
-    
+      
       return Promise.resolve(mockData)
-    
+      
       // TODO :: remove upper code and use this when backend is ready
       // let url = ''
       // let query = payload

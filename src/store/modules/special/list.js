@@ -277,7 +277,7 @@ export default {
   state,
   mutations: {
     ADD_ITEM: (state, payload) => state.list.items.push(payload),
-    TOGGLE_ACTIVE: (state, {payload, action}) => {
+    TOGGLE_ACTIVE_LIST_ITEM: (state, {payload, action}) => {
       let item = state.list.items.find(el => el.id === payload.id)
       if (item) {
         item.isActive = !item.isActive
