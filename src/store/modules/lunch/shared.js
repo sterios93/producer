@@ -77,7 +77,7 @@ export default {
           return new Promise(resolve => {
             // postData().then((data) => {
             setTimeout(() => {
-              commit('TOGGLE_ACTIVE_LIST_ITEM', {payload: {id: payload}, action})
+              commit('TOGGLE_ACTIVE_LIST_ITEM', {payload})
               resolve({
                 success: true,
               })
