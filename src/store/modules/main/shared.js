@@ -58,6 +58,23 @@ export default {
         }, 1000)
       })
     },
+    deleteItem: ({commit}, {payload}) => {
+      return new Promise(resolve => {
+      
+        let data = {
+          success: true,
+          message: 'Internal Error'
+        }
+      
+        // postData().then((data) => {
+        setTimeout(() => {
+          if (data.success) {
+            commit('DELETE_LIST_ITEM', payload)
+          }
+          resolve(data)
+        }, 2000)
+      })
+    },
   }
 }
 

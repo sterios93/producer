@@ -6,7 +6,12 @@
             <v-btn icon @click="onEditClick">
                 <v-icon color="grey">edit</v-icon>
             </v-btn>
-            <v-btn icon @click="onDeleteClick">
+            <v-btn
+                    icon
+                    @click="onDeleteClick"
+                    :loading="deleteLoading"
+                    :disabled="deleteLoading"
+            >
                 <v-icon color="grey">delete</v-icon>
             </v-btn>
         </v-card-actions>
@@ -77,7 +82,9 @@
       }
     },
     data() {
-      return {}
+      return {
+        deleteLoading: false,
+      }
     },
     methods: {
       ...mapActions({
@@ -99,7 +106,19 @@
         })
       },
       onDeleteClick() {
+        if (this.deleteLoading) return
+        this.deleteLoading = true
 
+        this.$store.dispatch(`${this.type}/deleteItem`, {
+          payload: this.item.id,
+          action: 'list'
+        }).then((data) => {
+          this.deleteLoading = false
+          if (!data.success) {
+            return this.setSnackbar({snackbar: true, message: data.message, color: 'red'});
+          }
+          this.setSnackbar({snackbar: true, message: 'Deleted successfully', color: 'success'});
+        })
       }
     }
   }

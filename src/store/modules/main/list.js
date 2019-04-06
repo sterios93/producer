@@ -110,7 +110,13 @@ export default {
       if (index !== -1) {
         items[index] = payload
       }
-    }
+    },
+    DELETE_LIST_ITEM: (state, id) => {
+      let index = state.list.items.findIndex(el => el.id === id)
+      if (index !== -1) {
+        state.list.items.splice(index, 1)
+      }
+    },
   },
   actions: {
     addItem({commit}, payload) {
