@@ -102,11 +102,14 @@
 
                         <v-flex xs12 sm4 md4>
                             <v-switch
-                                    v-model="isActive"
-                                    label="Active"
-                                    color="primary"
+                                    :input-value="isActive"
+                                    :value="isActive"
+                                    :loading="activeLoading"
+                                    :disabled="activeLoading"
+                                    @click.prevent="toggleIsActive"
                                     hide-details
-                            ></v-switch>
+                            >
+                            </v-switch>
                         </v-flex>
 
                     </v-layout>
@@ -157,6 +160,7 @@
         },
         isFormValid: false,
         isFormValidForced: true,
+        activeLoading: false,
       }
     },
 
@@ -198,12 +202,7 @@
           this.validate('chosenMainItems')
         }
       },
-      isActive: {
-        get() {return this.item.isActive},
-        set() {
-          this.toggleActive({payload: null, action: this.action})
-        }
-      },
+      isActive() {return this.item.isActive},
       startDate: {
         get() {
           if (this.item.startDate) {
@@ -295,6 +294,22 @@
         setTimeout(() => {
           this.setMenuModalVisibility({key: 'lunch', value: false})
         }, 200)
+      },
+      toggleIsActive(e) {
+        e.stopImmediatePropagation()
+        if (this.activeLoading) return
+        this.activeLoading = true
+
+        this.$store.dispatch(`lunch/toggleActive`, {
+          payload: this.item.id,
+          action: this.action
+        }).then((data) => {
+          this.activeLoading = false
+          if (!data.success) {
+            return this.setSnackbar({snackbar: true, message: data.message, color: 'red'});
+          }
+          this.setSnackbar({snackbar: true, message: 'Toggled successfully', color: 'success'});
+        })
       },
       onStartTimeChange(value) {
         this.startDate = {
