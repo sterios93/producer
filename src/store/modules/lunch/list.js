@@ -539,7 +539,6 @@ export default {
       commit('ADD_ITEM', payload)
     },
     updateItem({commit}, payload) {
-      console.log(payload)
       commit('UPDATE_ITEM', payload)
     }
   }

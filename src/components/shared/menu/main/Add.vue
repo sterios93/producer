@@ -96,7 +96,13 @@
             </v-card-text>
 
             <v-card-actions class="px-5 pb-5">
-                <v-btn color="blue darken-1 white--text" :disabled="!isFormValid" block @click="onConfirm">Save</v-btn>
+                <v-btn
+                        color="blue darken-1 white--text"
+                        :disabled="!isFormValid || saveLoading"
+                        :loading="saveLoading"
+                        block
+                        @click="onConfirm"
+                >Save</v-btn>
             </v-card-actions>
 
         </v-card>
@@ -130,6 +136,7 @@
           'category',
         ],
         isFormValid: false,
+        saveLoading: false
       }
     },
 
@@ -236,8 +243,12 @@
         }
       },
       onFormValid() {
+        if (this.saveLoading) return
+        this.saveLoading = true
+
         this.saveItem({action: this.action})
           .then((data) => {
+            this.saveLoading = false
             if (!data.success) {
               return this.setSnackbar({snackbar: true, message: data.message, color: 'red'})
             }

@@ -1,6 +1,11 @@
 import {set, toggle} from '@/utils/vuex'
 import {getData, postData} from "../../utils/helpers";
 
+let current = 11
+const idGenerator = () => {
+  return current++
+}
+
 export default {
   namespaced: true,
   state: {
@@ -33,7 +38,8 @@ export default {
     ],
     current: {
       name: '',
-      id: null
+      id: null,
+      selected: false
     }
   },
   mutations: {
@@ -43,6 +49,13 @@ export default {
       let category = state.items.find((el => el.id === id))
       category.selected = !category.selected
     },
+    RESET_CURRENT: (state) => {
+      state.current = {
+        name: '',
+        id: null,
+        selected: false
+      }
+    },
     ADD_NEW_CATEGORY: (state, payload) => state.items.push(payload),
     SET_CATEGORY_NAME: (state, payload) => state.current.name = payload
   },
@@ -51,6 +64,9 @@ export default {
   }
   ,
   actions: {
+    resetCurrent: ({commit}) => {
+      commit(`RESET_CURRENT`)
+    },
     setCategories({commit}, payload) {
       commit('SET_CATEGORIES', payload)
     },
@@ -64,8 +80,21 @@ export default {
       commit('SET_CATEGORY_NAME', payload)
     },
     saveItem({commit, rootState, state}) {
-      postData({payload: state.category, url})
-        .then((data) => commit('ADD_NEW_CATEGORY', data))
+      return new Promise(resolve => {
+        setTimeout(() => {
+          commit('ADD_NEW_CATEGORY', {
+              name: state.current.name,
+              id: idGenerator(),
+              selected: false
+            })
+          
+          resolve({
+            success: true
+          })
+        }, 2000)
+      })
+      // postData({payload: state.category, url})
+      //   .then((data) => commit('ADD_NEW_CATEGORY', data))
     }
   }
 }
