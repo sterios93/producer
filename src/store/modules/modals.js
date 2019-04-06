@@ -4,33 +4,45 @@ export default {
 	namespaced: true,
 	state: {
 		category: {
-			visibility: false,
 			color: 'teal darken-1',
+			visibility: false,
+		},
+		confirm: {
+			color: 'teal darken-1',
+			action: 'delete this item',
+			callback: null,
+			fullscreen: false,
+			visibility: false,
 		},
 		menu: {
 			main: {
-				visibility: false,
-				fullscreen: false,
-				action: 'add',
 				color: 'blue-grey lighten-2',
+				action: 'add',
+				fullscreen: false,
+				visibility: false,
 			},
 			special: {
-				visibility: false,
-				fullscreen: false,
-				action: 'add',
 				color: 'blue-grey lighten-1',
+				action: 'add',
+				fullscreen: false,
+				visibility: false,
 			},
 			lunch	: {
-				visibility: false,
-				fullscreen: false,
-				action: 'add',
 				color: 'teal darken-1',
+				action: 'add',
+				fullscreen: false,
+				visibility: false,
 			},
 		}
 	},
 	mutations: {
 		SET_FULLSCREEN: (state, {key, value}) => {
 			state.menu[key].fullscreen = value
+		},
+		SET_MODAL_DATA: (state, {key, value}) => {
+			for (let prop of Object.keys(value))
+				if (state[key][prop] !== undefined)
+					state[key][prop] = value[prop]
 		},
 		SET_MODAL_VISIBILITY: (state, {key, value}) => {
 			state[key].visibility = value
@@ -42,6 +54,9 @@ export default {
 	},
 	getters: {},
 	actions: {
+		setModalData({commit}, payload) {
+			commit('SET_MODAL_DATA', payload)
+		},
 		setFullscreen({commit}, payload) {
 			commit('SET_FULLSCREEN', payload)
 		},
