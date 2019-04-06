@@ -4,25 +4,25 @@ class Currency {
      *
      * @type {null || String}
      */
-    this.code = null
+    this.code = 'EUR'
   
     /**
      *
      * @type {null || String}
      */
-    this.symbol = null
+    this.symbol = '€'
     
     /**
      *
      * @type {null || String}
      */
-    this.locale = null
+    this.locale = 'de-DE'
   
     /**
      *
      * @type {null || Number}
      */
-    this.digits = null
+    this.digits = 4
   
     /**
      *
