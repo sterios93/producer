@@ -33,7 +33,8 @@
 
                 <v-flex xs12 lg6>
                   <v-card-text class="text-xs-center">
-                    <h3 class="category font-weight-bold mb-3">From {{startDate.date}}:{{startDate.time}} to {{endDate.date}}:{{endDate.time}}</h3>
+                    <h3 class="category font-weight-bold mb-3">From {{startDate}}</h3>
+                    <h3 class="category font-weight-bold mb-3">To {{endDate}}</h3>
                     <h3 class="card-title font-weight-light">{{name}}</h3>
                     <p class="card-description font-weight-light">{{description}}</p>
                     <p class="card-description font-weight-light">Also see our other offers bellow :)</p>
@@ -140,7 +141,7 @@ export default {
 
       // TODO :: consider making new request for edit
       this.$store.dispatch(`special/setItemValues`, {
-        payload: this.item,
+        payload: JSON.parse(JSON.stringify(this.item)),
         action: 'edit'
       })
     },

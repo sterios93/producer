@@ -33,7 +33,7 @@
 
                                 <v-flex xs12 lg6>
                                     <v-card-text class="text-xs-center">
-                                        <h3 class="category font-weight-bold mb-3">{{startDate.date}}</h3>
+                                        <h3 class="category font-weight-bold mb-3">{{startDate}}</h3>
                                         <v-btn
                                                 color="success"
                                                 round
@@ -139,7 +139,7 @@
 
         // TODO :: consider making new request for edit
         this.$store.dispatch(`lunch/setItem`, {
-          payload: this.item,
+          payload: JSON.parse(JSON.stringify(this.item)),
           action: 'edit'
         })
       },

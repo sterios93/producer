@@ -119,6 +119,7 @@
     methods: {
       ...mapActions({
         setSnackbar: 'snackbar/setState',
+        setModalData: 'modals/setModalData',
         setMenuModalVisibility: 'modals/setMenuModalVisibility',
       }),
       readMore() {
@@ -132,7 +133,7 @@
         })
 
         this.$store.dispatch(`${this.type}/setItem`, {
-          payload: this.item,
+          payload: JSON.parse(JSON.stringify(this.item)),
           action: 'edit'
         })
       },
@@ -152,7 +153,7 @@
           this.setSnackbar({snackbar: true, message: 'Toggled successfully', color: 'success'});
         })
       },
-      onDeleteClick() {
+      onConfirm() {
         if (this.deleteLoading) return
         this.deleteLoading = true
 
@@ -165,6 +166,16 @@
             return this.setSnackbar({snackbar: true, message: data.message, color: 'red'});
           }
           this.setSnackbar({snackbar: true, message: 'Deleted successfully', color: 'success'});
+        })
+      },
+      onDeleteClick() {
+        this.setModalData({
+          key: 'confirm',
+          value: {
+            visibility: true,
+            action: 'delete this item',
+            callback: this.onConfirm.bind(this)
+          }
         })
       }
     }

@@ -31,7 +31,13 @@
             </v-card-text>
 
             <v-card-actions class="px-5 pb-5">
-                <v-btn color="blue darken-1" block @click="onConfirm">Save</v-btn>
+                <v-btn
+                        color="blue darken-1 white--text"
+                        block
+                        :loading="saveLoading"
+                        :disabled="saveLoading"
+                        @click="onConfirm"
+                >Save</v-btn>
             </v-card-actions>
 
         </v-card>
@@ -42,6 +48,11 @@
   import {mapState, mapActions} from 'vuex'
 
   export default {
+    data() {
+      return {
+        saveLoading: false
+      }
+    },
     computed: {
       ...mapState({
         item: (state) => state.categories.current,
@@ -55,22 +66,41 @@
       },
     },
 
+    beforeDestroy() {
+      this.resetCurrent()
+    },
+
     methods: {
       ...mapActions('categories', [
         'saveItem',
+        'resetCurrent',
         'setCategoryName'
       ]),
       ...mapActions('modals', [
         'setFullscreen',
         'setModalVisibility'
       ]),
+      ...mapActions('snackbar', {
+        setSnackbar: 'setState'
+      }),
       onConfirm() {
+        if (this.saveLoading) return
+        this.saveLoading = true
+
         this.saveItem({action: this.action})
+          .then((data) => {
+            this.saveLoading = false
+            if (!data.success) {
+              return this.setSnackbar({snackbar: true, message: data.message, color: 'red'})
+            }
+            this.closeDialog()
+            return this.setSnackbar({snackbar: true, message: 'Updated successfully', color: 'success'})
+          })
+          .catch((err) => this.setSnackbar({snackbar: true, message: err.message, color: 'red'}))
       },
       closeDialog() {
         this.setModalVisibility({key: 'category', value: false})
       },
-
     }
   }
 </script>

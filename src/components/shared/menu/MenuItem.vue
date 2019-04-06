@@ -6,7 +6,12 @@
             <v-btn icon @click="onEditClick">
                 <v-icon color="grey">edit</v-icon>
             </v-btn>
-            <v-btn icon @click="onDeleteClick">
+            <v-btn
+                    icon
+                    @click="onDeleteClick"
+                    :loading="deleteLoading"
+                    :disabled="deleteLoading"
+            >
                 <v-icon color="grey">delete</v-icon>
             </v-btn>
         </v-card-actions>
@@ -77,11 +82,15 @@
       }
     },
     data() {
-      return {}
+      return {
+        deleteLoading: false,
+      }
     },
     methods: {
       ...mapActions({
-        'setMenuModalVisibility': 'modals/setMenuModalVisibility',
+        setSnackbar: 'snackbar/setState',
+        setModalData: 'modals/setModalData',
+        setMenuModalVisibility: 'modals/setMenuModalVisibility',
       }),
       readMore() {
         this.$router.push({ path: `/${this.type}-offer/${this.item.id}`})
@@ -94,12 +103,34 @@
         })
 
         this.$store.dispatch(`${this.type}/setItem`, {
-          payload: this.item,
+          payload: JSON.parse(JSON.stringify(this.item)),
           action: 'edit'
         })
       },
-      onDeleteClick() {
+      onConfirm() {
+        if (this.deleteLoading) return
+        this.deleteLoading = true
 
+        this.$store.dispatch(`${this.type}/deleteItem`, {
+          payload: this.item.id,
+          action: 'list'
+        }).then((data) => {
+          this.deleteLoading = false
+          if (!data.success) {
+            return this.setSnackbar({snackbar: true, message: data.message, color: 'red'});
+          }
+          this.setSnackbar({snackbar: true, message: 'Deleted successfully', color: 'success'});
+        })
+      },
+      onDeleteClick() {
+        this.setModalData({
+          key: 'confirm',
+          value: {
+            visibility: true,
+            action: 'delete this item',
+            callback: this.onConfirm.bind(this)
+          }
+        })
       }
     }
   }
