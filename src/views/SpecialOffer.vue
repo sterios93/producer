@@ -141,7 +141,7 @@ export default {
 
       // TODO :: consider making new request for edit
       this.$store.dispatch(`special/setItemValues`, {
-        payload: this.item,
+        payload: JSON.parse(JSON.stringify(this.item)),
         action: 'edit'
       })
     },

@@ -139,7 +139,7 @@
 
         // TODO :: consider making new request for edit
         this.$store.dispatch(`lunch/setItem`, {
-          payload: this.item,
+          payload: JSON.parse(JSON.stringify(this.item)),
           action: 'edit'
         })
       },

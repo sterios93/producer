@@ -133,7 +133,7 @@
         })
 
         this.$store.dispatch(`${this.type}/setItem`, {
-          payload: this.item,
+          payload: JSON.parse(JSON.stringify(this.item)),
           action: 'edit'
         })
       },

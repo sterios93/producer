@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { set, toggle } from '@/utils/vuex'
 
 const state = () => ({
@@ -293,7 +294,7 @@ export default {
       let items = state.list.items
       let index = items.findIndex(el => el.id === payload.id)
       if (index !== -1) {
-        items[index] = payload
+        Vue.set(items, index, payload)
       }
     }
   },

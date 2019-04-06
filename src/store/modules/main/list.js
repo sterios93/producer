@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { set, toggle } from '@/utils/vuex'
 import {postData} from "../../../utils/helpers";
 
@@ -108,7 +109,7 @@ export default {
       let items = state.list.items
       let index = items.findIndex(el => el.id === payload.id)
       if (index !== -1) {
-        items[index] = payload
+        Vue.set(items, index, payload)
       }
     },
     DELETE_LIST_ITEM: (state, id) => {
