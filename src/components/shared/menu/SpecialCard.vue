@@ -136,7 +136,8 @@
           action: 'edit'
         })
       },
-      toggleIsActive() {
+      toggleIsActive(e) {
+        e.stopImmediatePropagation()
         if (this.activeLoading) return
         this.activeLoading = true
 

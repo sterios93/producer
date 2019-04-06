@@ -111,11 +111,14 @@
 
                         <v-flex xs12 sm4 md4>
                             <v-switch
-                                    v-model="isActive"
-                                    label="Active"
-                                    color="primary"
+                                    :input-value="isActive"
+                                    :value="isActive"
+                                    :loading="activeLoading"
+                                    :disabled="activeLoading"
+                                    @click.prevent="toggleIsActive"
                                     hide-details
-                            ></v-switch>
+                            >
+                            </v-switch>
                         </v-flex>
 
                         <v-flex xs12>
@@ -180,6 +183,7 @@
         },
         isFormValid: false,
         isFormValidForced: true,
+        activeLoading: false,
       }
     },
 
@@ -235,12 +239,7 @@
           this.validate('specialItems')
         }
       },
-      isActive: {
-        get() {return this.item.isActive},
-        set() {
-          this.toggleActive({payload: null, action: this.action})
-        }
-      },
+      isActive() {return this.item.isActive},
       description: {
         get() {return this.item.description},
         set(value) {
@@ -317,8 +316,6 @@
         this.validateDates(this.startDate, this.endDate)
         // TODO :: send the data to the database
         this.$v.$touch();
-        console.log(this.$v.$invalid)
-        console.log(this.hasError())
         if (this.$v.$invalid || this.hasError()) {
           this.setFormValid(false)
           this.setSnackbar({snackbar: true, message: 'Please fill correct all fields.', color: 'red'});
@@ -349,6 +346,22 @@
       onFilePicked({file, url}) {
         this.image = url
         this.setPicture({payload: file, action: this.action})
+      },
+      toggleIsActive(e) {
+        e.stopImmediatePropagation()
+        if (this.activeLoading) return
+        this.activeLoading = true
+
+        this.$store.dispatch(`special/toggleActive`, {
+          payload: this.item.id,
+          action: this.action
+        }).then((data) => {
+          this.activeLoading = false
+          if (!data.success) {
+            return this.setSnackbar({snackbar: true, message: data.message, color: 'red'});
+          }
+          this.setSnackbar({snackbar: true, message: 'Toggled successfully', color: 'success'});
+        })
       },
       onStartTimeChange(value) {
         this.startDate = {

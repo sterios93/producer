@@ -1,5 +1,6 @@
 import { set, toggle } from '@/utils/vuex'
 import {formatDate, getData, postData} from "../../../utils/helpers";
+import logger from "vuex/dist/logger";
 
 const state = () => ({
 
@@ -30,24 +31,31 @@ export default {
     }
   },
   actions: {
-    toggleActive({commit}, {payload, action}) {
+    async toggleActive({commit}, {payload, action}) {
+      let isAsync = (action === 'edit') || (action === 'list')
+      
+      if (isAsync) {
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve()
+          }, 2000)
+        })
+      }
+  
       switch (action) {
         case 'add':
         case 'edit':
           commit('TOGGLE_ACTIVE', {payload, action})
           break
         case 'list':
-          return new Promise(resolve => {
-            // postData().then((data) => {
-            setTimeout(() => {
-              commit('TOGGLE_ACTIVE_LIST_ITEM', payload)
-              resolve({
-                success: false,
-                message: 'Internal Error'
-              })
-            }, 2000)
-          })
+          commit('TOGGLE_ACTIVE_LIST_ITEM', payload)
           break
+      }
+  
+      return {
+        success: true,
+        message: 'Toggled successfully',
+        data: {}
       }
     },
     deleteItem: ({commit}, {payload}) => {
