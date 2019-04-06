@@ -1,5 +1,4 @@
 import {set, toggle} from '@/utils/vuex'
-import logger from "vuex/dist/logger";
 import {postData} from "../../../utils/helpers";
 
 const state = () => ({
@@ -67,50 +66,6 @@ export default {
     }
   },
   actions: {
-    async toggleActive({commit}, {payload, action}) {
-      let isAsync = action === 'edit' || action === 'list'
-    
-      if (isAsync) {
-        await new Promise((resolve) => {
-          setTimeout(() => {
-            resolve()
-          }, 2000)
-        })
-      }
-    
-      switch (action) {
-        case 'add':
-        case 'edit':
-          commit('TOGGLE_ACTIVE', {payload, action})
-          break
-        case 'list':
-          commit('TOGGLE_ACTIVE_LIST_ITEM', payload)
-          break
-      }
-    
-      return {
-        success: true,
-        message: 'Toggled successfully',
-        data: {}
-      }
-    },
-    deleteItem: ({commit}, {payload}) => {
-      return new Promise(resolve => {
-      
-        let data = {
-          success: true,
-          message: 'Internal Error'
-        }
-      
-        // postData().then((data) => {
-        setTimeout(() => {
-          if (data.success) {
-            commit('DELETE_LIST_ITEM', payload)
-          }
-          resolve(data)
-        }, 2000)
-      })
-    },
     reset: ({commit}, action) => commit(`RESET_${action.toUpperCase()}`),
     setItem: ({commit}, {payload, action}) => commit('SET_ITEM', {payload, action}),
     setItems: ({commit}, {payload, action}) => commit('SET_ITEMS', {payload, action}),
@@ -227,6 +182,50 @@ export default {
       //   .then((data) => {
       //     dispatch('setItem', {payload: data, action})
       //   })
+    },
+    deleteItem: ({commit}, {payload}) => {
+      return new Promise(resolve => {
+      
+        let data = {
+          success: true,
+          message: 'Internal Error'
+        }
+      
+        // postData().then((data) => {
+        setTimeout(() => {
+          if (data.success) {
+            commit('DELETE_LIST_ITEM', payload)
+          }
+          resolve(data)
+        }, 2000)
+      })
+    },
+    async toggleActive({commit}, {payload, action}) {
+      let isAsync = action === 'edit' || action === 'list'
+    
+      if (isAsync) {
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve()
+          }, 2000)
+        })
+      }
+    
+      switch (action) {
+        case 'add':
+        case 'edit':
+          commit('TOGGLE_ACTIVE', {payload, action})
+          break
+        case 'list':
+          commit('TOGGLE_ACTIVE_LIST_ITEM', payload)
+          break
+      }
+    
+      return {
+        success: true,
+        message: 'Toggled successfully',
+        data: {}
+      }
     },
   }
 }

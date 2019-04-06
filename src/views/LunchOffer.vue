@@ -33,7 +33,7 @@
 
                                 <v-flex xs12 lg6>
                                     <v-card-text class="text-xs-center">
-                                        <h3 class="category font-weight-bold mb-3">{{startDate.date}}</h3>
+                                        <h3 class="category font-weight-bold mb-3">{{startDate}}</h3>
                                         <v-btn
                                                 color="success"
                                                 round
