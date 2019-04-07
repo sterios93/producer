@@ -46,7 +46,7 @@
                     </v-flex>
                 </v-card-title>
                 <v-card-actions class="px-5 justify-center">
-                    <v-btn color="success darken-1" block dark @click="readMore">Explore</v-btn>
+                    <v-btn color="success" block dark @click="readMore">Explore</v-btn>
                 </v-card-actions>
                 <v-divider></v-divider>
                 <div v-if="isSpecial" class="ribbon"><span>{{ribbonText}}</span></div>
@@ -109,7 +109,7 @@
       },
       colors: {
         type: Array,
-        default: () => ['#2980b9', '#5dbfff'],
+        default: () => ['#309250', '#2fa557e0'],
       }
     },
     data() {

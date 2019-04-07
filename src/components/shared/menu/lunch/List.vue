@@ -24,7 +24,7 @@
       menuItemProps() {
         return {
           type: 'lunch',
-          colors: ['#70c06b', '#30b0c0'],
+          // colors: ['#70c06b', '#30b0c0'],
           isSpecial: true,
           isEditable: true
         }

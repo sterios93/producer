@@ -37,7 +37,7 @@
       }
     },
     methods: {
-      ...mapActions('bottomSheet',['setVisibility']),
+      ...mapActions('bottomSheet', ['setVisibility']),
       handleClick(tile) {
         this.localVisibility = false
         tile.cb()
