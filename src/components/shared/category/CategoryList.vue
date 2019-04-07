@@ -45,5 +45,5 @@
 
 <style scoped lang="stylus">
     .toolbar
-        background-image: linear-gradient(#33a1ff, #267fc4)
+        background-image: linear-gradient(#4caf50, rgba(76, 175, 80, 0.82))
 </style>
