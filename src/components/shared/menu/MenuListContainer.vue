@@ -1,9 +1,9 @@
 <template>
     <div>
-        <v-toolbar :color="color" dark>
+        <v-toolbar class="toolbar" dark>
             <v-tabs
                     v-model="activeTab"
-                    :color="color"
+                    color="transparent"
                     grow
             >
                 <v-tabs-slider color="yellow"></v-tabs-slider>
@@ -62,7 +62,7 @@
     data () {
       return {
         activeTab: null,
-        tabs: ['Main Menu', 'Special Menu', 'Lunch Menu']
+        tabs: ['Main Menu', 'Special Offers', 'Lunch Menu']
       }
     },
 
@@ -96,5 +96,6 @@
 </script>
 
 <style scoped lang="stylus">
-
+    .toolbar
+        background-image: linear-gradient(#33a1ff, #267fc4)
 </style>

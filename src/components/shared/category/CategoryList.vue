@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-toolbar :color="color" dark>
+        <v-toolbar class="toolbar" dark>
             <v-toolbar-title class="title font-weight-light mb-2 white--text">Categories</v-toolbar-title>
 
             <v-spacer></v-spacer>
@@ -44,5 +44,6 @@
 </script>
 
 <style scoped lang="stylus">
-
+    .toolbar
+        background-image: linear-gradient(#33a1ff, #267fc4)
 </style>
