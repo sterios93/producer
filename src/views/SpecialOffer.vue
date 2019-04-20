@@ -26,7 +26,7 @@
                           class="mx-auto d-block"
                           size="260"
                   >
-                    <img :src="image">
+                    <v-img :src="imagePath"></v-img>
                   </v-avatar>
                 </v-flex>
 
@@ -105,6 +105,8 @@ export default {
   },
   data() {
     return {
+      isEditable: false,
+      defaultImage: './img/default-menu-v2.jpg',
     }
   },
   components: {
@@ -121,6 +123,9 @@ export default {
       startDate: (state) => state.view.startDate,
       description: (state) => state.view.description,
     }),
+    imagePath() {
+      return this.image || this.defaultImage
+    },
   },
   created() {
     this.fetchItem({payload: this.id, action: 'view'})

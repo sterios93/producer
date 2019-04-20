@@ -26,7 +26,7 @@
                                             class="mx-auto d-block"
                                             size="260"
                                     >
-                                        <v-img src="./img/special-offer-default.jpeg"></v-img>
+                                        <v-img :src="imagePath"></v-img>
                                     </v-avatar>
                                 </v-flex>
 
@@ -106,7 +106,10 @@
       MenuItem
     },
     data () {
-      return {}
+      return {
+        isEditable: false,
+        defaultImage: './img/default-menu-v2.jpg',
+      }
     },
     computed: {
       ...mapState('lunch', {
@@ -119,6 +122,9 @@
         startDate: (state) => state.view.startDate,
         description: (state) => state.view.description,
       }),
+      imagePath() {
+        return this.image || this.defaultImage
+      },
     },
     created() {
       this.fetchItem({payload: this.id, action: 'view'})
