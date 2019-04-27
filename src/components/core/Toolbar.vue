@@ -32,64 +32,36 @@
         py-2
         v-if="isUserLogged"
       >
-        <v-text-field
-          v-if="!responsive"
-          class="mr-4 mt-2 purple-input"
-          label="Search..."
-          hide-details
-          color="purple"
-        ></v-text-field>
-        <router-link
-          v-ripple
-          class="toolbar-items"
-          to="/"
-        >
-          <v-icon color="tertiary">mdi-view-dashboard</v-icon>
-        </router-link>
+        <NotificationsDropDown />
         <v-menu
-          bottom
-          left
-          content-class="dropdown-menu"
-          offset-y
-          transition="slide-y-transition">
-          <router-link
-            v-ripple
-            slot="activator"
-            class="toolbar-items"
-            to="/notifications"
-          >
-            <v-badge
-              color="error"
-              overlap
-            >
-              <template slot="badge">
-                {{ notifications.length }}
-              </template>
-              <v-icon color="tertiary">mdi-bell</v-icon>
-            </v-badge>
-          </router-link>
+                bottom
+                left
+                full-width
+                min-width="200px"
+                class="toolbar-items"
+                content-class="dropdown-menu"
+                offset-y
+                transition="slide-y-transition">
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on" color="green">mdi-account</v-icon>
+          </template>
           <v-card>
             <v-list dense>
-              <v-list-tile
-                v-for="notification in notifications"
-                :key="notification"
-                @click="onClick"
-              >
-                <v-list-tile-title
-                  v-text="notification"
-                />
-              </v-list-tile>
+              <router-link
+                      :to="item.to"
+                      v-for="(item, index) in links" :key="index">
+                <v-list-tile
+                        v-ripple
+                        class="toolbar-items"
+                >
+                  <v-list-tile-title v-text="item.text"/>
+                </v-list-tile>
+              </router-link>
             </v-list>
           </v-card>
         </v-menu>
-        <router-link
-          v-ripple
-          class="toolbar-items"
-          to="/user-profile"
-        >
-          <v-icon color="tertiary">mdi-account</v-icon>
-        </router-link>
-        <v-icon @click="logOutAccount" v-if="isUserLogged" color="tertiary">mdi-exit-to-app</v-icon>
+
+        <v-icon @click="logOutAccount" v-if="isUserLogged" color="orange">mdi-exit-to-app</v-icon>
 
       </v-flex>
     </v-toolbar-items>
@@ -98,12 +70,14 @@
 
 <script>
 
-import {
-  mapActions,
-  mapState
-} from 'vuex'
+import {mapActions, mapState} from 'vuex'
+import NotificationsDropDown from '../shared/notifications/NotificationsDropDown'
 
 export default {
+  components: {
+    NotificationsDropDown,
+  },
+
   data: () => ({
     notifications: [
       'Mike, John responded to your email',
@@ -113,6 +87,20 @@ export default {
       'Another One'
     ],
     title: null,
+    links: [
+      {
+        to: '/user-profile',
+        icon: 'mdi-account',
+        text: 'User Profile',
+        userAccess: true
+      },
+      {
+        to: '/subscriptions',
+        icon: 'mdi-account',
+        text: 'Subscriptions',
+        userAccess: true
+      },
+    ],
   }),
 
   watch: {
@@ -144,6 +132,10 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .logo-image
+    height 64px
+  #core-toolbar
+    margin-bottom 0
   #core-toolbar a
     text-decoration: none
   .responsive
