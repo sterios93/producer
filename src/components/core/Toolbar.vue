@@ -32,7 +32,7 @@
         py-2
         v-if="isUserLogged"
       >
-        <NotificationsDropDown />
+        <component :is="component"></component>
         <v-menu
                 bottom
                 left
@@ -72,10 +72,12 @@
 
 import {mapActions, mapState} from 'vuex'
 import NotificationsDropDown from '../shared/notifications/NotificationsDropDown'
+import NotificationsBottomSheet from '../shared/notifications/NotificationsBottomSheet'
 
 export default {
   components: {
     NotificationsDropDown,
+    NotificationsBottomSheet,
   },
 
   data: () => ({
@@ -113,6 +115,9 @@ export default {
     ...mapState('authentication', ['isUserLogged']),
     ...mapState('layout', ['responsive']),
     ...mapState('app', ['toolbar']),
+    component() {
+      return this.responsive ? 'NotificationsBottomSheet' : 'NotificationsDropDown'
+    }
   },
 
   methods: {
