@@ -2,7 +2,7 @@
     <v-layout justify-center>
         <div ref="membershipContainer" class="membership-container">
             <div class="card-container" v-for="(membership, key, index) of memberships" :key="key" >
-                <PlanCard v-bind="membership" />
+                <PlanCard v-bind="membership" :isActive="currentMembership && membership.type === currentMembership.type"/>
             </div>
         </div>
     </v-layout>
@@ -23,7 +23,8 @@
 		},
 		computed: {
 			...mapState({
-				memberships: state => state.subscriptions.memberships
+				memberships: state => state.subscriptions.memberships,
+                currentMembership: state => state.subscriptions.currentMembership
 			})
 		},
 		mounted() {

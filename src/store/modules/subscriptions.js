@@ -35,6 +35,7 @@ export default {
 		],
 		memberships: {
 			basic: {
+				img: './img/basic.png',
 				price: 50,
 				type: 'basic',
 				includes: [
@@ -49,6 +50,7 @@ export default {
 				},
 			},
 			premium: {
+				img: './img/premium.png',
 				price: 140,
 				type: 'premium',
 				includes: [
@@ -63,6 +65,7 @@ export default {
 				},
 			},
 			exclusive: {
+				img: './img/exclusive.png',
 				price: 249,
 				type: 'exclusive',
 				includes: [
@@ -76,6 +79,43 @@ export default {
 					second: '#1F453E'
 				},
 			},
+		},
+		history: [
+			{
+				id: 4,
+				type: 'basic',
+				startDate: '2019-09-10 12:00',
+				endDate: '2019-10-10 12:00',
+				expired: false,
+			},
+			{
+				id: 3,
+				type: 'basic',
+				startDate: '2019-09-10 12:00',
+				endDate: '2019-10-10 12:00',
+				expired: true
+			},
+			{
+				id: 2,
+				type: 'basic',
+				startDate: '2019-09-10 12:00',
+				endDate: '2019-10-10 12:00',
+				expired: true
+			},
+			{
+				id: 1,
+				type: 'basic',
+				startDate: '2019-09-10 12:00',
+				endDate: '2019-10-10 12:00',
+				expired: true
+			},
+		],
+		currentMembership: {
+			id: 4,
+			type: 'basic',
+			startDate: '2019-09-10 12:00',
+			endDate: '2019-10-10 12:00',
+			expired: false
 		}
 	},
 	mutations: {
@@ -87,13 +127,20 @@ export default {
 			}
 		}
 	},
-	getters: {},
+	getters: {
+		getMembership: (state) => (type) => {
+			return state.memberships[type]
+		}
+	},
 	actions: {
 		setSubscriptions({commit}, payload) {
 			commit('SET_SUBSCRIPTIONS', payload)
 		},
 		updateItem({commit}, payload) {
 			commit('UPDATE_ITEM', payload)
+		},
+		cancelMemberShip() {
+			// TODO
 		}
 	}
 }

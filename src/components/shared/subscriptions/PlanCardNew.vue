@@ -3,6 +3,8 @@
             class="action-card"
             @click="onClick"
     >
+        <div v-if="isActive" class="ribbon"><span>CURRENT</span></div>
+
         <div class="plan-type">
             <div class="card-type text">{{type.toUpperCase()}}</div>
         </div>
@@ -16,13 +18,12 @@
             <span class="price-per grey--text text--darken-3">per {{per}}</span>
         </div>
 
-
-        <!--        <v-avatar size="100px" tile>-->
-        <!--            <img-->
-        <!--                    :src="'./img/' + action.img"-->
-        <!--                    :alt="action.title"-->
-        <!--            >-->
-        <!--        </v-avatar>-->
+        <v-avatar size="50px" tile>
+            <img
+                    :src="img"
+                    :alt="type"
+            >
+        </v-avatar>
 
         <div class="plan-includes">
             <ul class="inner-container">
@@ -35,7 +36,8 @@
         <hr class="line">
 
         <div class="plan-actions">
-            <v-btn dark :color="colors.second" block width="400" @click="onClick">ORDER</v-btn>
+            <v-btn v-if="isActive" dark color="grey" block width="400" @click="onCancel">CANCEL MEMBERSHIP</v-btn>
+            <v-btn v-else dark :color="colors.second" block width="400" @click="onClick">ORDER</v-btn>
         </div>
 
     </div>
@@ -43,9 +45,10 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
 	export default {
 		props: {
-			colors: {
+            colors: {
 				type: Object,
 				default: () => {
 					return {
@@ -54,27 +57,35 @@
 					}
 				}
 			},
-			type: {
+            position: {
+                type: Object,
+                default: () => {
+                    return {
+                        upper: false,
+                        down: false,
+                    }
+                }
+            },
+            type: {
 				type: String,
 				default: 'Basic'
 			},
-			price: {
+					price: {
 				type: Number,
 				default: 50,
-			},
-			position: {
-				type: Object,
-				default: () => {
-					return {
-						upper: false,
-						down: false,
-					}
-				}
 			},
 			per: {
 				type: String,
 				default: 'month'
-			}
+			},
+            img: {
+	            type: String,
+	            default: './img/basic.png'
+            },
+            isActive: {
+				type: Boolean,
+                default: false
+            }
 		},
 		data() {
 			return {
@@ -92,14 +103,75 @@
 			}
 		},
 		methods: {
+            ...mapActions({
+                cancelMemberShip: 'subscriptions/cancelMemberShip',
+                setModalData: 'modals/setModalData',
+            }),
 			onClick() {
 				//
 			},
+            onCancel() {
+                this.setModalData({
+                    key: 'confirm',
+                    value: {
+                        visibility: true,
+                        action: `cancel your ${this.type.toUpperCase()} Membership`,
+                        callback: () => {
+                            // this.cancelMemberShip(item)
+                        }
+                    }
+                })
+            }
 		}
 	}
 </script>
 
 <style scoped lang="stylus">
+    .ribbon
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        z-index: 1;
+        overflow: hidden;
+        width: 75px; height: 75px;
+        text-align: right;
+        transform: scale(1.5)
+
+    .ribbon span
+        font-size: 10px;
+        font-weight: bold;
+        color: #FFF;
+        text-transform: uppercase;
+        text-align: center;
+        line-height: 20px;
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+        width: 100px;
+        display: block;
+        background: #79A70A;
+        background: linear-gradient(#fe7d34 0%, #de7332 100%);
+        box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+        position: absolute;
+        top: 19px; left: -21px;
+
+    .ribbon span::before
+        content: "";
+        position: absolute; left: 0px; top: 100%;
+        z-index: -1;
+        border-left: 3px solid #2980b9;
+        border-right: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        border-top: 3px solid #2980b9;
+
+    .ribbon span::after
+        content: "";
+        position: absolute; right: 0px; top: 100%;
+        z-index: -1;
+        border-left: 3px solid transparent;
+        border-right: 3px solid #2980b9;
+        border-bottom: 3px solid transparent;
+        border-top: 3px solid #2980b9;
+
     .action-card
         padding 50px 0 !important
         width 400px
