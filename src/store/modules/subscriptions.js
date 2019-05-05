@@ -47,10 +47,6 @@ export default {
 					primary: '#3F0C0B',
 					second: '#7E1917'
 				},
-				position: {
-					upper: false,
-					down: false,
-				}
 			},
 			premium: {
 				price: 140,
@@ -65,14 +61,10 @@ export default {
 					primary: '#205D3C',
 					second: '#47BB78'
 				},
-				position: {
-					upper: false,
-					down: true,
-				}
 			},
-			extendedPremium: {
+			exclusive: {
 				price: 249,
-				type: 'extended premium',
+				type: 'exclusive',
 				includes: [
 					'30 days Membership',
 					'150+ Projects',
@@ -83,28 +75,6 @@ export default {
 					primary: '#0E231F',
 					second: '#1F453E'
 				},
-				position: {
-					upper: false,
-					down: false,
-				}
-			},
-			exclusive: {
-				price: 599,
-				type: 'exclusive',
-				includes: [
-					'30 days Membership',
-					'150+ Projects',
-					'Advanced options'
-				],
-				per: 'year',
-				colors: {
-					primary: '#3D2600',
-					second: '#7A4D00'
-				},
-				position: {
-					upper: false,
-					down: true,
-				}
 			},
 		}
 	},

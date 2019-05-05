@@ -179,6 +179,12 @@
       components: {
         Map,
       },
+      props: {
+        forceEdit: {
+          type: Boolean,
+          default: false
+        }
+      },
       mixins: [validationMixin],
       data() {
         return {
@@ -217,8 +223,11 @@
       computed: {
         ...mapState({
           userInfo: (state) => state.userProfile,
-          inEditMode: (state) => state.userProfile.inEditMode,
+          inEditModeStore: (state) => state.userProfile.inEditMode,
         }),
+        inEditMode() {
+          return this.inEditModeStore || this.forceEdit
+        },
         firstName: {
           get() {return this.userInfo.firstName},
           set(value) {

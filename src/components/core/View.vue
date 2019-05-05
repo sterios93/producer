@@ -69,9 +69,24 @@
 </script>
 
 <style lang="stylus">
-  #core-view
-    padding-bottom: 100px;
-    display: flex;
-    justify-content: center;
-    height: 100%;
+    #core-view
+        padding-bottom: 100px;
+        display: flex;
+        justify-content: center;
+        height: 100%;
+
+        .action-card
+            cursor pointer
+            display inline-flex
+            flex-direction column
+            padding: 50px 100px
+            border-radius 20px
+            justify-content space-around
+            align-items center
+            box-shadow: 0px 0px 60px -25px rgba(0, 0, 0, 0.4)
+            border 1px solid transparent
+
+            &:hover
+                box-shadow: unset
+                border 1px solid #1e90ff
 </style>

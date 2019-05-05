@@ -5,7 +5,7 @@
                 <SharedSubscriptions/>
             </v-flex>
 
-            <v-flex xs10>
+            <v-flex sm12 lg8>
                 <Memberships />
             </v-flex>
         </v-layout>

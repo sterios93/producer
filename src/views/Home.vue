@@ -3,13 +3,16 @@
             fill-height
             fluid
             grid-list-xl
+            class="pa-0 ma-0"
     >
-        <v-layout row wrap>
-            <v-flex xs12>
+        <v-layout row wrap class="pa-0 ma-0">
+            <v-flex xs12 class="pa-5">
+                <div class="home-page-title">Quick Access</div>
                 <QuickAccess />
             </v-flex>
 
-            <v-flex xs12>
+            <v-flex xs12 class="background pa-5">
+                <div class="home-page-title">Stats for Nerds</div>
                 <v-layout wrap>
                     <v-flex
                             sm6
@@ -280,7 +283,8 @@
                 </v-layout>
             </v-flex>
 
-            <v-flex xs12>
+            <v-flex xs12 class="pa-5">
+                <div class="home-page-title">Order Membership</div>
                 <Memberships/>
             </v-flex>
         </v-layout>
@@ -446,3 +450,14 @@
 		}
 	}
 </script>
+
+<style scoped lang="stylus">
+    .background
+        background-color #f5f5f5
+    .home-page-title
+        text-align center
+        font-weight bold
+        font-size 30px
+        margin-bottom: 20px
+        color #60b6ff
+</style>

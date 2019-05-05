@@ -10,7 +10,7 @@
 
 <script>
 	import {mapState, mapActions} from 'vuex'
-	import PlanCard from './PlanCard'
+	import PlanCard from './PlanCardNew'
 	import EventBus from '../../../utils/eventBus'
 
 	export default {
@@ -30,6 +30,7 @@
 			this.$nextTick(() => {
 				this.membershipContainer = this.$refs.membershipContainer
 				EventBus.$on('resize', this.fit)
+                this.fit()
 			})
 		},
 		beforeDestroy() {
@@ -61,8 +62,8 @@
 
 <style scoped lang="stylus">
     .membership-container
-        margin-bottom 50px
         white-space: nowrap
         .card-container
             display: inline-block
+            padding 9px
 </style>
