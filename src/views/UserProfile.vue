@@ -6,7 +6,7 @@
                 :color="isProfileCardValid ? 'green' : 'red'"
                 title="Edit Profile"
                 text="Complete your profile">
-            <profile-card></profile-card>
+            <profile-card :forceEdit="forceEdit"></profile-card>
         </material-card>
       </v-flex>
       <v-flex  xs12 md4 >
@@ -34,6 +34,12 @@ export default {
     Map,
     ProfileCard,
     PaymentCard,
+  },
+  props: {
+  	forceEdit: {
+      type: Boolean,
+      default: false
+    }
   },
   computed:{
     ...mapState({

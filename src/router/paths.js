@@ -11,7 +11,8 @@ export default [
   },
   {
     path: '/user-profile',
-    name: 'User Profile',
+	  props: true,
+	  name: 'user-profile',
     view: 'UserProfile'
   },
   {

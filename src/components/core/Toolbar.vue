@@ -33,6 +33,7 @@
         v-if="isUserLogged"
       >
         <component :is="component"></component>
+
         <v-menu
                 bottom
                 left
@@ -60,6 +61,7 @@
             </v-list>
           </v-card>
         </v-menu>
+
         <v-icon @click="logOutAccount" v-if="isUserLogged" color="orange">mdi-exit-to-app</v-icon>
       </v-flex>
     </v-toolbar-items>
