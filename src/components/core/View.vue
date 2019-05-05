@@ -23,6 +23,7 @@
   import AddLunchMenuItem from '../shared/menu/lunch/Add'
   import AddSpecialMenuItem from '../shared/menu/special/Add'
   import {mapActions, mapState} from 'vuex'
+  import EventBus from '../../utils/eventBus'
 
   export default {
     components: {
@@ -56,6 +57,7 @@
     methods: {
       ...mapActions('layout', ['setResponsive']),
       onResponsiveInverted() {
+      	EventBus.$emit('resize')
         if (window.innerWidth < 991) {
           this.setResponsive(true)
         } else {
