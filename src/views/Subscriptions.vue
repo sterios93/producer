@@ -1,11 +1,11 @@
 <template>
-    <v-container fluid fill-height>
+    <v-container fluid fill-height grid-list-xl>
         <v-layout row wrap justify-center>
-            <v-flex sm12 lg8>
+            <v-flex xs12 lg10>
                 <SharedSubscriptions/>
             </v-flex>
 
-            <v-flex sm12 lg8>
+            <v-flex xs12 lg10 class="pt-4">
                 <Memberships />
             </v-flex>
         </v-layout>

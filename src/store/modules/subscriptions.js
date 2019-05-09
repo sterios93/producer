@@ -39,14 +39,12 @@ export default {
 				price: 50,
 				type: 'basic',
 				includes: [
-					'30 days Membership',
-					'150+ Projects',
-					'Advanced options'
+					'1 month Membership',
 				],
-				per: 'mouth',
+				time: '1',
 				colors: {
 					primary: '#3F0C0B',
-					second: '#7E1917'
+					second: '#be2622'
 				},
 			},
 			premium: {
@@ -54,29 +52,38 @@ export default {
 				price: 140,
 				type: 'premium',
 				includes: [
-					'30 days Membership',
-					'150+ Projects',
-					'Advanced options'
+					'3 months Membership',
 				],
-				per: '3 mouths',
+				time: '3',
 				colors: {
 					primary: '#205D3C',
 					second: '#47BB78'
 				},
 			},
-			exclusive: {
-				img: './img/exclusive.png',
+			extendedPremium: {
+				img: './img/extended-premium.png',
 				price: 249,
-				type: 'exclusive',
+				type: 'extended premium',
 				includes: [
-					'30 days Membership',
-					'150+ Projects',
-					'Advanced options'
+					'6 months Membership',
 				],
-				per: '6 mouths',
+				time: '6',
 				colors: {
 					primary: '#0E231F',
-					second: '#1F453E'
+					second: '#387c71'
+				},
+			},
+			exclusive: {
+				img: './img/exclusive.png',
+				price: 549,
+				type: 'exclusive',
+				includes: [
+					'12 months Membership',
+				],
+				time: '12',
+				colors: {
+					primary: '#2e819f',
+					second: '#2e819f'
 				},
 			},
 		},
@@ -139,8 +146,5 @@ export default {
 		updateItem({commit}, payload) {
 			commit('UPDATE_ITEM', payload)
 		},
-		cancelMemberShip() {
-			// TODO
-		}
 	}
 }

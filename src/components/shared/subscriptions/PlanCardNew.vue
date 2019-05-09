@@ -1,10 +1,8 @@
 <template>
     <div
-            class="action-card"
+            class="plan-card"
             @click="onClick"
     >
-        <div v-if="isActive" class="ribbon"><span>CURRENT</span></div>
-
         <div class="plan-type">
             <div class="card-type text">{{type.toUpperCase()}}</div>
         </div>
@@ -15,7 +13,6 @@
             <div>
                 <p class="price text"><span class="price sign text">$</span>{{price}}</p>
             </div>
-            <span class="price-per grey--text text--darken-3">per {{per}}</span>
         </div>
 
         <v-avatar size="50px" tile>
@@ -27,17 +24,14 @@
 
         <div class="plan-includes">
             <ul class="inner-container">
-                <li class="list-item">30 days Membership</li>
-                <li class="list-item">150+ Projects</li>
-                <li class="list-item">Advanced options</li>
+                <li v-for="item in includes" :key="item" class="list-item">{{item}}</li>
             </ul>
         </div>
 
         <hr class="line">
 
         <div class="plan-actions">
-            <v-btn v-if="isActive" dark color="grey" block width="400" @click="onCancel">CANCEL MEMBERSHIP</v-btn>
-            <v-btn v-else dark :color="colors.second" block width="400" @click="onClick">ORDER</v-btn>
+            <v-btn dark :color="colors.second" block width="400" @click="onClick">ORDER</v-btn>
         </div>
 
     </div>
@@ -57,26 +51,17 @@
 					}
 				}
 			},
-            position: {
-                type: Object,
-                default: () => {
-                    return {
-                        upper: false,
-                        down: false,
-                    }
-                }
+            includes: {
+            	type: Array,
+                default: () => []
             },
             type: {
 				type: String,
 				default: 'Basic'
 			},
-					price: {
+            price: {
 				type: Number,
 				default: 50,
-			},
-			per: {
-				type: String,
-				default: 'month'
 			},
             img: {
 	            type: String,
@@ -92,13 +77,6 @@
 				minHeight: {
 					special: 170,
 					ordinary: 150
-				}
-			}
-		},
-		computed: {
-			cardStyle() {
-				return {
-					top: this.position.down ? '20px' : this.position.upper ? '-20px' : 0
 				}
 			}
 		},
@@ -172,10 +150,17 @@
         border-bottom: 3px solid transparent;
         border-top: 3px solid #2980b9;
 
-    .action-card
+    .plan-card
         padding 50px 0 !important
-        width 400px
         text-align: center
+        cursor pointer
+        display flex
+        flex-direction column
+        border-radius 20px
+        justify-content space-around
+        align-items center
+        box-shadow: 0px 0px 60px -25px rgba(0, 0, 0, 0.4)
+        border 1px solid transparent
 
         .line
             width 100%
@@ -187,6 +172,10 @@
             font-family: Avenir, Helvetica, Arial, sans-serif !important
 
         .plan-type
+            display flex
+            justify-content center
+            align-items center
+            min-height: 100px
             font-size: 30px !important
             font-weight bold
 
@@ -198,10 +187,6 @@
                 .sign
                     position: relative
                     top -15px
-
-            .price-per
-                position: relative
-                top -15px
 
         .plan-includes
             padding-top: 10px
