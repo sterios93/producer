@@ -284,7 +284,7 @@
             </v-flex>
 
             <v-flex xs12 class="pa-5">
-                <div class="home-page-title">Order Membership</div>
+                <div class="home-page-title">Buy Time</div>
                 <Memberships/>
             </v-flex>
         </v-layout>
