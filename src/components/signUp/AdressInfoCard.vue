@@ -42,9 +42,8 @@
 
             <v-flex>
                 <v-btn color="primary" @click="stepClick(2)">Back</v-btn>
-                <v-btn color="primary" @click="e1 = 1" >Continue</v-btn>
-                <v-btn flat>Cancel</v-btn>
-
+                <v-btn color="primary" @click="goHome()">Skip</v-btn>
+                <v-btn color="primary" @click="finishRegistration()" >Continue</v-btn>
             </v-flex>
         </v-layout>
     </v-container>
@@ -72,7 +71,7 @@ import { required } from 'vuelidate/lib/validators';
                 'restaurantAddress',
                 'restaurantCity',
                 'restaurantCountry',
-                'restaurantPostalCode'
+                'restaurantPostalCode',
               ],
             }
         },
@@ -109,7 +108,18 @@ import { required } from 'vuelidate/lib/validators';
                 'setCity',
                 'setCountry',
                 'setPostalCode',
+                'registerRestaurantInfo',
             ]),
+            finishRegistration() {
+              this.registerRestaurantInfo()
+                  .then(result => {
+                    this.$router.push({ path: 'home' });
+                  })
+            },
+            goHome(){
+                this.$router.push({ path: 'home' });
+                // TODO :: should we reset the state
+            },
             stepClick(stepNumber) {
                 this.setActiveStepNumber(stepNumber);
             },

@@ -50,7 +50,7 @@
         </v-flex>
 
         <v-flex>
-             <v-btn color="primary" @click="setActiveStepNumber(1);">Back</v-btn>
+             <v-btn color="primary" @click="goHome();">Skip</v-btn>
             <v-btn
                 color="primary"
                 @click="nextScreen(3)"
@@ -58,7 +58,6 @@
                 Continue
             </v-btn>
 
-            <v-btn flat>Cancel</v-btn>
         </v-flex>
         </v-layout>
     </v-container>
@@ -91,6 +90,10 @@ import { required, minLength, sameAs, email, numeric } from 'vuelidate/lib/valid
                 'setRestaurantInfoInvalid',
                 'setRestaurantInfo',
             ]),
+            goHome(){
+                this.$router.push({ path: 'home' });
+                // TODO :: should we reset the state
+            },
             nextScreen(stepNumber) {
                 this.$v.$touch();
                 if (this.$v.$invalid) {

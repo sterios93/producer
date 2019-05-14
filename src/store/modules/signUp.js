@@ -72,5 +72,23 @@ export default {
     setCountry: ({commit}, value) => {commit('SET_COUNTRY', value)},
     setPostalCode: ({commit}, value) => {commit('SET_POSTAL_CODE', value)},
     setLocation: ({commit}, value) => {commit('SET_LOCATION', value)},
+    registerPersonalInfo: ({commit, state}) => {
+      // TODO :: send a request to our API
+      // TODO :: maybe add a loader until the response return ?
+      return new Promise(resolve => {
+        setTimeout(() => {  
+          return resolve();
+        } , 2000);
+      })
+    },
+    registerRestaurantInfo: ({commit, state}) => {
+      // TODO :: send a request to our API
+      // TODO :: maybe add a loader until the response return ?
+      return new Promise(resolve => {
+        setTimeout(() => {  
+          return resolve();
+        } , 2000);
+      })
+    } 
   }
 }
