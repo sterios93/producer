@@ -8,6 +8,7 @@
     <CustomSnackBar/>
 
     <AddCategory />
+    <PaymentModal />
     <ConfirmModal />
     <AddMainMenuItem v-if="mainVisibility" />
     <AddLunchMenuItem v-if="lunchVisibility" />
@@ -18,6 +19,7 @@
 <script>
   import AddCategory from "../shared/category/AddCategory"
   import ConfirmModal from "../custom/dialogs/ConfirmModal";
+  import PaymentModal from "../custom/dialogs/PaymentModal";
   import CustomSnackBar from '../material/CustomSnackBar'
   import AddMainMenuItem from '../shared/menu/main/Add'
   import AddLunchMenuItem from '../shared/menu/lunch/Add'
@@ -28,6 +30,7 @@
   export default {
     components: {
       ConfirmModal,
+      PaymentModal,
       AddCategory,
       CustomSnackBar,
       AddMainMenuItem,

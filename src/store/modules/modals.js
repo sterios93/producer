@@ -7,6 +7,12 @@ export default {
 			color: 'green lighten-1',
 			visibility: false,
 		},
+		payment: {
+			color: 'green lighten-1',
+			fullscreen: false,
+			visibility: false,
+			plan: ''
+		},
 		confirm: {
 			color: 'green lighten-1',
 			action: 'delete this item',

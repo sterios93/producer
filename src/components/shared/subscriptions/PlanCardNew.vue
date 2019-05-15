@@ -85,18 +85,12 @@
                 cancelMemberShip: 'subscriptions/cancelMemberShip',
                 setModalData: 'modals/setModalData',
             }),
-			onClick() {
-				//
-			},
-            onCancel() {
+            onClick() {
                 this.setModalData({
-                    key: 'confirm',
+                    key: 'payment',
                     value: {
                         visibility: true,
-                        action: `cancel your ${this.type.toUpperCase()} Membership`,
-                        callback: () => {
-                            // this.cancelMemberShip(item)
-                        }
+                        plan: this.type,
                     }
                 })
             }
