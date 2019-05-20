@@ -8,6 +8,7 @@ export default {
     lastName: "",
     email: "",
     phoneNumber: "",
+    phoneInfo: {},
     password: "",
     isPersonalInfoValid: true,
     isRestaurantInfoValid: true,
@@ -42,6 +43,7 @@ export default {
     SET_COUNTRY: (state, value) => state.country = value,
     SET_POSTAL_CODE: (state, value) => state.postalCode = value,
     SET_LOCATION: (state, value) => state.location = value,
+    SET_PHONE_INFO: (state, value) => state.phoneInfo = value,
   },
   getters: {},
   actions: {
@@ -72,6 +74,7 @@ export default {
     setCountry: ({commit}, value) => {commit('SET_COUNTRY', value)},
     setPostalCode: ({commit}, value) => {commit('SET_POSTAL_CODE', value)},
     setLocation: ({commit}, value) => {commit('SET_LOCATION', value)},
+    setPhoneInfo: ({commit}, value) => {commit('SET_PHONE_INFO', value)},
     registerPersonalInfo: ({commit, state}) => {
       // TODO :: send a request to our API
       // TODO :: maybe add a loader until the response return ?

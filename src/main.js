@@ -19,6 +19,8 @@ import store from '@/store'
 import Currency from './utils/currency'
 
 import 'vuetify/dist/vuetify.min.css'
+// Tel input styles.
+import 'vue-tel-input/dist/vue-tel-input.css';
 
 // Sync store with router
 sync(store, router)

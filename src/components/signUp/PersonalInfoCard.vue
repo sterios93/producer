@@ -41,18 +41,14 @@
             </v-flex>
 
             <v-flex xs12 md6>
-            <v-text-field
-                class="purple-input"
-                label="Phone number (required)"
-                v-model="phoneNumber"
-                :error-messages="phoneNumberErrors"
-                required
-                @input="validate('phoneNumber')"
-                @blur="validate('phoneNumber')"
-                >
-            </v-text-field>
+                <vue-tel-input 
+                    v-model="phoneNumber"
+                    defaultCountry="de"
+                    :enabledCountryCode="countryEnabled"
+                    @onInput="validatePhoneNumbebr"
+                    @blur="validatePhoneNumbebr"
+                    ></vue-tel-input>
             </v-flex>
-
 
             <v-flex xs12 md6>
             <v-text-field
@@ -113,16 +109,22 @@
 import { mapActions } from 'vuex'
 import { validationMixin } from 'vuelidate'
 import { required, minLength, sameAs, email, numeric } from 'vuelidate/lib/validators';
+import VueTelInput from 'vue-tel-input';
 import VueRecaptcha from 'vue-recaptcha';
 
     export default {
         name: 'personal-info-card',
         mixins: [validationMixin],
         components: {
-          VueRecaptcha
+          VueRecaptcha,
+          VueTelInput,
         },
         data () {
             return {
+                countryEnabled: true,
+                phoneNumber: null,
+                phoneInfo: null,
+                isPhoneValid: false,
                 recaptchaVerified: false,
                 firstName: null,
                 firstNameErrors: [],
@@ -130,15 +132,19 @@ import VueRecaptcha from 'vue-recaptcha';
                 lastNameErrors: [],
                 email: null,
                 emailErrors: [],
-                phoneNumber: null,
-                phoneNumberErrors: [],
                 password: null,
                 passwordErrors: [],
                 passwordRepeat: null,
                 passwordRepeatErrors: [],
                 showPassword: false,
                 showRepeatPassword: false,
-                allFields: ['firstName', 'lastName', 'email', 'phoneNumber', 'password', 'passwordRepeat'],
+                allFields: [
+                    'firstName',
+                    'lastName',
+                    'email',
+                    'password',
+                    'passwordRepeat'
+                ],
             }
         },
         methods: {
@@ -149,6 +155,17 @@ import VueRecaptcha from 'vue-recaptcha';
                 'setActiveStepNumber',
                 'registerPersonalInfo',
             ]),
+          validatePhoneNumbebr(e) {
+              console.error(e);
+              if (this.$v.$invalid || !e.isValid) {
+                  this.setPersonalInfoInvalid();
+              }
+              else {
+                  this.isPhoneValid = true;
+                  this.countryInfo = e.country; 
+                  this.setPersonalInfoValid();
+              }
+          },
           onVerify: function (response) {
             this.recaptchaVerified = response;
           },
@@ -161,7 +178,7 @@ import VueRecaptcha from 'vue-recaptcha';
           },
             nextScreen() {
                 this.$v.$touch();
-                if (this.$v.$invalid || !this.recaptchaVerified) {
+                if (this.$v.$invalid || !this.recaptchaVerified || !this.isPhoneValid) {
                     this.setPersonalInfoInvalid();
                 } else {
                     // Todo, check in the database if the email is not in use already
@@ -170,6 +187,7 @@ import VueRecaptcha from 'vue-recaptcha';
                         lastName: this.lastName,
                         email: this.email,
                         phoneNumber: this.phoneNumber,
+                        phoneInfo: this.phoneInfo,
                         password: this.password,
                     });
                     this.registerPersonalInfo()
@@ -189,7 +207,6 @@ import VueRecaptcha from 'vue-recaptcha';
 
                 this.checkRequired(target);
                 this.checkEmail(target);
-                this.checkNumeric(target);
                 this.checkLength(target);
                 this.checkSameAs(target)
                 return this[target + 'Errors']
@@ -204,9 +221,6 @@ import VueRecaptcha from 'vue-recaptcha';
             },
             checkEmail(target) {
                 (this.$v[target].email !== undefined) && !this.$v[target].email && !this[target + 'Errors'].includes('Must be valid e-mail') && this[target + 'Errors'].push('Must be valid e-mail');
-            },
-            checkNumeric(target) {
-                (this.$v[target].numeric !== undefined) && !this.$v[target].numeric && !this[target + 'Errors'].includes('Must be numeric') && this[target + 'Errors'].push('Must be numeric');
             },
             checkLength(target) {
                 (this.$v[target].minLength !== undefined) && !this.$v[target].minLength && !this[target + 'Errors'].includes('Must be minimum 5 characters long') && this[target + 'Errors'].push('Must be minimum 5 characters long');
@@ -232,10 +246,6 @@ import VueRecaptcha from 'vue-recaptcha';
                 required,
                 email,
             },
-            phoneNumber: {
-                required,
-                numeric
-            },
             password: {
                 required,
                 minLength: minLength(5)
@@ -250,5 +260,13 @@ import VueRecaptcha from 'vue-recaptcha';
 </script>
 
 <style scoped lang="stylus">
-
+    .vue-tel-input
+        padding: 8px;
+        border: none !important;
+        border-bottom: 1px solid #cccccc !important;
+        border-radius: 0;
+        &:focus
+            outline: none !important;
+        &:focus-within
+            box-shadow: none !important;
 </style>
