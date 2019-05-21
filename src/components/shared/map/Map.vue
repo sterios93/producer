@@ -5,6 +5,7 @@
             class="gmap-autocomplete"
             v-model="rAddress"
             placeholder="Address"
+            :options="autocompleteOptions"
             @place_changed="setPlace"
             :select-first-on-enter="true">
     </gmap-autocomplete>
@@ -33,6 +34,13 @@
     },
     data() {
       return {
+        autocompleteOptions: {
+          componentRestrictions: {
+            country: [
+              'de',
+            ],
+          },
+        },
         latLng: {},
         center: {},
         styles: [
@@ -219,7 +227,6 @@
     methods: {
       setPlace(place) {
         if (!place) return
-        console.error(place);
 
         this.marker = this.center = {
           lat: place.geometry.location.lat(),
