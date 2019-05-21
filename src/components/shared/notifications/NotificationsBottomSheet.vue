@@ -5,7 +5,7 @@
                     v-ripple
                     slot="activator"
                     class="toolbar-items"
-                    to="/notifications"
+                    to="/home"
             >
                 <v-badge
                         color="error"
