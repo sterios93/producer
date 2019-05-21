@@ -72,6 +72,15 @@
       SpecialList
     },
 
+    watch: {
+      activeTab: {
+      	handler: function (value) {
+          this.$emit('active-tab-change', value)
+        },
+        immediate: true
+      }
+    },
+
     computed: {
       MainMListProps () {
         return {

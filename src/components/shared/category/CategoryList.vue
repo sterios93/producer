@@ -13,7 +13,7 @@
         <v-list two-line class="px-3">
             <template v-for="item in items">
                 <v-divider></v-divider>
-                <CategoryItem :item="item" :key=item.id @item-selected="onItemSelected"/>
+                <CategoryItem :item="item" :disabled="disabled" :key=item.id @item-selected="onItemSelected"/>
             </template>
         </v-list>
     </v-card>
@@ -31,7 +31,8 @@
     props: {
       color: String,
       items: Array,
-      searchVisibility: Boolean
+      searchVisibility: Boolean,
+      disabled: Boolean
     },
 
     methods: {

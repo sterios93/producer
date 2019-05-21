@@ -1,7 +1,7 @@
 <template>
     <v-layout row wrap>
         <v-flex xs12 sm9 >
-            <MenuListContainer v-bind="{...sharedProps}"/>
+            <MenuListContainer @active-tab-change="handleActiveTabChange" v-bind="{...sharedProps}"/>
         </v-flex>
         <v-flex xs12 sm3>
             <v-layout row wrap>
@@ -48,6 +48,12 @@
       CustomsBottomSheet
     },
 
+    data() {
+      return {
+        activeTab: null
+      }
+    },
+
     created() {
       this.controls = [
         {
@@ -89,6 +95,7 @@
       categoryProps () {
         return {
           items: this.categories,
+          disabled: this.activeTab !== 0 // TODO :: consider placing calendar for filtering on special and lunch tabs
         }
       },
       sharedProps () {
@@ -106,6 +113,9 @@
       }),
       onControlsClicked() {
         this.setBottomSheetVisibility(true)
+      },
+      handleActiveTabChange(value) {
+        this.activeTab = value
       }
     }
   }

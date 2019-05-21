@@ -1,11 +1,12 @@
 <template>
-    <v-checkbox v-model="selected" :label="item.name" :value="item.selected"></v-checkbox>
+    <v-checkbox v-model="selected" :disabled="disabled" :label="item.name" :value="item.selected"></v-checkbox>
 </template>
 
 <script>
   export default {
     props: {
-      item: Object
+      item: Object,
+      disabled: Boolean
     },
 
     computed: {
