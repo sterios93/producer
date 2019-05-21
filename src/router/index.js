@@ -32,7 +32,7 @@ const router = new Router({
   mode: 'history',
   base: com.preconfig.producer.basePath,
   routes: paths.map(path => route(path.path, path.view, path.name, path.props)).concat([
-    { path: '*', redirect: '/login' }
+    { path: '*', redirect: '/home' }
   ]),
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
