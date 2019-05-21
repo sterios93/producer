@@ -42,7 +42,10 @@
           },
         },
         latLng: {},
-        center: {},
+        center: {
+          lat: 51.1657,
+          lng: 10.4515
+        },
         styles: [
           {
             featureType: 'all',
@@ -250,19 +253,35 @@
 
         this.populateData(data);
       },
-      geolocate: function() {
-          navigator.geolocation.getCurrentPosition(position => {
-            this.center = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
+      geolocate: function () {
+        const onSuccess = (position) => {
+          this.setCoordinates(position.coords)
+        }
 
-            this.marker = {
-              lat: this.center.lat,
-              lng: this.center.lng,
-            };
+        const onError = (error) => {
+          if (error.code === 1) {
+            //user blocked location set default coordinates
+            this.setCoordinates({
+              latitude: 51.1657,
+              longitude: 10.4515
+            })
+          }
+        }
 
-          });
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+      },
+      setCoordinates(coordinates) {
+        this.$set(this.center, 'lat', coordinates.latitude)
+        this.$set(this.center, 'lng', coordinates.longitude)
+
+        this.$refs.map.$mapPromise.then((map) => {
+          map.panTo(this.center)
+        })
+
+        this.marker = {
+          lat: this.center.lat,
+          lng: this.center.lng,
+        };
       },
       addCustomMarker(e) {
         const lat = e.latLng.lat()
