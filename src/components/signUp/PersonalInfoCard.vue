@@ -156,8 +156,8 @@ import VueRecaptcha from 'vue-recaptcha';
                 'registerPersonalInfo',
             ]),
           validatePhoneNumbebr(e) {
-              console.error(e);
-              if (this.$v.$invalid || !e.isValid) {
+              if (!e.isValid) {
+                  this.isPhoneValid = false;
                   this.setPersonalInfoInvalid();
               }
               else {
@@ -202,7 +202,7 @@ import VueRecaptcha from 'vue-recaptcha';
                 this[target + 'Errors'] = [];
                 this.$v[target].$touch();
 
-                this.hasError() && this.setPersonalInfoInvalid();
+                (this.hasError() || !this.isPhoneValid) && this.setPersonalInfoInvalid();
                 !this.hasError() && this.setPersonalInfoValid();
 
                 this.checkRequired(target);
