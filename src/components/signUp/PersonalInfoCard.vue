@@ -153,7 +153,6 @@ import VueRecaptcha from 'vue-recaptcha';
                 'setPersonalInfoInvalid',
                 'setPersonalInfoValid',
                 'setActiveStepNumber',
-                'registerPersonalInfo',
             ]),
           validatePhoneNumbebr(e) {
               if (!e.isValid) {
@@ -190,11 +189,8 @@ import VueRecaptcha from 'vue-recaptcha';
                         phoneInfo: this.phoneInfo,
                         password: this.password,
                     });
-                    this.registerPersonalInfo()
-                        .then((result) => {
-                            this.resetRecaptcha();
-                            this.setActiveStepNumber(2);
-                        });
+                  this.resetRecaptcha();
+                  this.setActiveStepNumber(2);
                 }
             },
             validate(target) {
