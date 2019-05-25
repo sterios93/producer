@@ -21,7 +21,10 @@ export default {
     city: '',
     country: '',
     postalCode: '',
-    location: {},
+    location: {
+	    lng: '',
+	    lat: ''
+    },
   },
   mutations: {
     SET_FIRST_NAME: (state, firstName) => state.firstName = firstName,
@@ -36,7 +39,7 @@ export default {
     SET_RESTAURANT_INFO_INVALID: (state) => state.isRestaurantInfoValid = false,
     SET_RESTAURANT_NAME: (state, restaurantName) => state.restaurantName = restaurantName,
     SET_RESTAURANT_TYPE: (state, restaurantType) => state.restaurantType = restaurantType,
-    SET_RESTAURANT_WEBSITE: (state, restaurantWebsite) => state.firstName = restaurantWebsite,
+    SET_RESTAURANT_WEBSITE: (state, restaurantWebsite) => state.restaurantWebsite = restaurantWebsite,
     SET_RESTAURANT_NUMBER: (state, restaurantNumber) => state.restaurantNumber = restaurantNumber,
     SET_ADDRESS: (state, value) => state.address = value,
     SET_CITY: (state, value) => state.city = value,
@@ -75,5 +78,23 @@ export default {
     setPostalCode: ({commit}, value) => {commit('SET_POSTAL_CODE', value)},
     setLocation: ({commit}, value) => {commit('SET_LOCATION', value)},
     setPhoneInfo: ({commit}, value) => {commit('SET_PHONE_INFO', value)},
+	  doSignUpRequest: ({dispatch, rootState, state, commit}) => {
+		  let payload = {
+				  "email": state.email.toString().replace(/ /g,''),
+				  "password": state.password.toString().replace(/ /g,''),
+				  "firstName": state.firstName.toString().replace(/ /g,''),
+				  "lastName": state.lastName.toString().replace(/ /g,''),
+				  "userType": "producer".toString().replace(/ /g,''),
+				  "phone": state.phoneNumber.toString().replace(/ /g,''),
+				  "restaurantName": state.restaurantName.toString().replace(/ /g,''),
+				  "type": state.restaurantType.toString().replace(/ /g,''),
+				  "website": state.restaurantWebsite.toString().replace(/ /g,''),
+				  "number": state.restaurantNumber.toString().replace(/ /g,''),
+				  "lng": state.location.lng.toString().replace(/ /g,''),
+			    "lat": state.location.lat.toString().replace(/ /g,'')
+		  }
+		  
+		  return dispatch('authentication/signUp', payload, { root: true })
+	  }
   }
 }

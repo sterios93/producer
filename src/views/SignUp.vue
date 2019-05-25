@@ -21,7 +21,7 @@
 
                   <v-divider></v-divider>
 
-                  <v-stepper-step 
+                  <v-stepper-step
                     :complete="2 <= activeStep"
                     step="2"
                     :rules="[() => this.isRestaurantInfoValid]"
@@ -32,7 +32,7 @@
                   <v-divider></v-divider>
 
                   <v-stepper-step
-                    step="3" 
+                    step="3"
                     >Adress Information</v-stepper-step>
                 </v-stepper-header>
 
@@ -49,7 +49,7 @@
 
                   <!-- Adress Information -->
                   <v-stepper-content step="3">
-                    <adress-info-card/>
+                    <adress-info-card @sign-up-clicked="onSignUpClicked"/>
                   </v-stepper-content>
                 </v-stepper-items>
 
@@ -99,7 +99,18 @@ export default {
   methods: {
     ...mapActions('authentication', ['postData']),
     ...mapActions('snackbar', ['setState']),
-    ...mapActions('signUp', ['setActiveStepNumber']),
+    ...mapActions('signUp', ['setActiveStepNumber', 'doSignUpRequest']),
+	  onSignUpClicked() {
+        this.doSignUpRequest()
+          .then(data => {
+            if (data && data.success) {
+              this.$router.push({path: 'home'})
+              this.setState({snackbar: true, message: 'Loggin Succescfull.', color: 'green'});
+            } else {
+              this.setState({snackbar: true, message: data.error && data.error.message, color: 'red'});
+            }
+          })
+	  }
   },
 }
 </script>

@@ -2,75 +2,73 @@ import { set, toggle } from '@/utils/vuex'
 import { postData} from "../../utils/helpers";
 
 export default {
-  namespaced: true,
-  state: {
-    color: 'success',
-    userId: localStorage.getItem('user_id') || null,
-    token: localStorage.getItem('token') || null,
-    route: 'user/',
-    isUserLogged: localStorage.getItem('token') !== null // toggle this for logged user
-  },
-  mutations: {
-    SET_TOKEN: set('token'),
-    SET_IS_USER_LOGGED: set('isUserLogged'),
-    SET_USER_ID: set('userId'),
-  },
-  getters: {},
-  actions: {
-    fetchUserData({rootState, state, commit}) {
-      return fetch(rootState.settings.apiUrl + state.route).then(r => {
-      })
-    },
-    logout({commit}) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user_id')
-      commit('SET_TOKEN', '')
-      commit('SET_IS_USER_LOGGED', false)
-      commit('SET_USER', {id: null})
-    },
-    postData({rootState, state, commit}, {action, payload}) {
-      // TODO :: remove when backend is ready
-      let mockedUser = {
-        userId: 1,
-        token: 'TOKEN_EXAMPLE',
-        firstName: "Dobrin",
-        lastName: "Dimchev",
-        email: "dobkata.boost@abv.bg",
-        phoneNumber: "091239129030",
-        password: "123131231",
-        restaurantName: "Cepiqta",
-        restaurantType: "Mexican",
-        restaurantWebsite: "dobkata.com",
-        restaurantNumber: "12312312312",
-      }
-      commit('SET_USER_ID', mockedUser.userId)
-      commit('SET_IS_USER_LOGGED', true)
-  
-      localStorage.setItem('token', mockedUser.token)
-      localStorage.setItem('user_id', mockedUser.userId)
-      return {
-        success: true, //false,
-        msg: 'errors massage'
-      }
-  
-      // return postData(rootState.settings.apiUrl + state.route + action)
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     if (data.success !== false) {
-      //       if (action === 'login') {
-      //         const { token, userId } = data
-      //
-      //         localStorage.setItem('token', token)
-      //         // TODO investigate other options later
-      //         localStorage.setItem('user_id', userId)
-      //
-      //         commit('SET_TOKEN', token)
-      //         commit('SET_USER_ID', userId)
-      //         commit('SET_IS_USER_LOGGED', true)
-      //       }
-      //     }
-      //     return data
-      //   })
-    }
-  }
+	namespaced: true,
+	state: {
+		color: 'success',
+		isUserLogged: localStorage.getItem('isUserLogged') === true
+	},
+	mutations: {
+		SET_IS_USER_LOGGED: (state, value) => {
+			state.isUserLogged = value
+			localStorage.setItem('isUserLogged', value)
+		},
+	},
+	getters: {},
+	actions: {
+		fetchUserData({rootState, state, commit}) {
+			return fetch(rootState.settings.apiUrl + state.route).then(r => {
+			})
+		},
+		setIsUserLogged({commit}, value) {
+			commit('SET_IS_USER_LOGGED', value)
+		},
+		logout({commit}) {
+			commit('SET_IS_USER_LOGGED', false)
+			localStorage.removeItem('isUserLogged')
+		},
+		login({dispatch, rootState, state, commit}, payload) {
+			let data = {
+				payload,
+				url: rootState.settings.apiUrl + 'user/producer/login',
+			}
+			
+			return postData(data)
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						commit('SET_IS_USER_LOGGED', true)
+					}
+					return data
+				})
+				.catch(error => {
+					dispatch('snackbar/setState', {
+						snackbar: true,
+						message: error && error.message,
+						color: 'red'
+					}, { root: true })
+				})
+		},
+		signUp({dispatch, rootState, state, commit}, payload) {
+			let data = {
+				payload,
+				url: rootState.settings.apiUrl + 'user/create',
+			}
+			
+			return postData(data)
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						commit('SET_IS_USER_LOGGED', true)
+					}
+					return data
+				})
+				.catch(error => {
+					dispatch('snackbar/setState', {
+						snackbar: true,
+						message: error && error.message,
+						color: 'red'
+					}, { root: true })
+				})
+		}
+	}
 }

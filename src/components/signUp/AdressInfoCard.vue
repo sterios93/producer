@@ -2,7 +2,7 @@
     <v-container>
         <v-layout wrap>
             <v-flex xs12>
-                <Map storeModule="signUp"></Map>
+                <Map @located='onLocated' storeModule="signUp"></Map>
             </v-flex>
 
             <v-flex
@@ -42,7 +42,7 @@
 
             <v-flex>
                 <v-btn color="primary" @click="stepClick(2)">Back</v-btn>
-                <v-btn color="primary" @click="e1 = 1" >Continue</v-btn>
+                <v-btn color="primary" @click="submit" >Submit</v-btn>
                 <v-btn flat>Cancel</v-btn>
 
             </v-flex>
@@ -109,10 +109,24 @@ import { required } from 'vuelidate/lib/validators';
                 'setCity',
                 'setCountry',
                 'setPostalCode',
+                'setLocation'
             ]),
-            stepClick(stepNumber) {
+           onLocated(data) {
+             let payload = {
+	             lng: data.longitude.toString(),
+	             lat: data.latitude.toString()
+             }
+             this.setLocation(payload)
+           },
+           stepClick(stepNumber) {
                 this.setActiveStepNumber(stepNumber);
-            },
+           },
+           submit() {
+               this.$v.$touch();
+               if (!this.$v.$invalid) {
+               	this.$emit('sign-up-clicked')
+               }
+           },
            validate(target) {
              // Reset the errors everytime, so you can have dynamic fresh array on every keystroke
              this[target + 'Errors'] = [];

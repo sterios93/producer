@@ -41,7 +41,7 @@
             </v-flex>
 
             <v-flex xs12 md6>
-                <vue-tel-input 
+                <vue-tel-input
                     v-model="phoneNumber"
                     defaultCountry="de"
                     :enabledCountryCode="countryEnabled"
@@ -161,7 +161,7 @@ import VueRecaptcha from 'vue-recaptcha';
               }
               else {
                   this.isPhoneValid = true;
-                  this.countryInfo = e.country; 
+                  this.countryInfo = e.country;
                   this.setPersonalInfoValid();
               }
           },
@@ -219,7 +219,7 @@ import VueRecaptcha from 'vue-recaptcha';
                 (this.$v[target].email !== undefined) && !this.$v[target].email && !this[target + 'Errors'].includes('Must be valid e-mail') && this[target + 'Errors'].push('Must be valid e-mail');
             },
             checkLength(target) {
-                (this.$v[target].minLength !== undefined) && !this.$v[target].minLength && !this[target + 'Errors'].includes('Must be minimum 5 characters long') && this[target + 'Errors'].push('Must be minimum 5 characters long');
+                (this.$v[target].minLength !== undefined) && !this.$v[target].minLength && !this[target + 'Errors'].includes('Must be minimum 6 characters long') && this[target + 'Errors'].push('Must be minimum 6 characters long');
             },
             checkSameAs(target) {
                 (this.$v[target].sameAsPassword !== undefined) && !this.$v[target].sameAsPassword && !this[target + 'Errors'].includes('Passwords must be the same') && this[target + 'Errors'].push('Passwords must be the same');
@@ -244,11 +244,11 @@ import VueRecaptcha from 'vue-recaptcha';
             },
             password: {
                 required,
-                minLength: minLength(5)
+                minLength: minLength(6)
             },
             passwordRepeat: {
                 required,
-                minLength: minLength(5),
+                minLength: minLength(6),
                 sameAsPassword: sameAs('password')
             },
         }

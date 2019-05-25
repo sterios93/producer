@@ -41,6 +41,10 @@
             ],
           },
         },
+        defaultCoords: {
+          latitude: 51.1657,
+	      longitude: 10.4515
+        },
         latLng: {},
         center: {
           lat: 51.1657,
@@ -256,15 +260,16 @@
       geolocate: function () {
         const onSuccess = (position) => {
           this.setCoordinates(position.coords)
+          // this.$emit('located', position.coords)
+          this.getAddress(position.coords.latitude, position.coords.longitude);
         }
 
         const onError = (error) => {
           if (error.code === 1) {
             //user blocked location set default coordinates
-            this.setCoordinates({
-              latitude: 51.1657,
-              longitude: 10.4515
-            })
+            this.setCoordinates(this.defaultCoords)
+            // this.$emit('located', this.defaultCoords)
+            this.getAddress(this.defaultCoords.latitude, this.defaultCoords.longitude);
           }
         }
 
