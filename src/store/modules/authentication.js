@@ -1,11 +1,11 @@
 import { set, toggle } from '@/utils/vuex'
-import { postData} from "../../utils/helpers";
+import {getData, postData} from "../../utils/helpers";
 
 export default {
 	namespaced: true,
 	state: {
 		color: 'success',
-		isUserLogged: localStorage.getItem('isUserLogged') === true
+		isUserLogged: localStorage.getItem('isUserLogged') === 'true'
 	},
 	mutations: {
 		SET_IS_USER_LOGGED: (state, value) => {
@@ -15,9 +15,28 @@ export default {
 	},
 	getters: {},
 	actions: {
-		fetchUserData({rootState, state, commit}) {
-			return fetch(rootState.settings.apiUrl + state.route).then(r => {
-			})
+		fetchUserData({dispatch, rootState, state, commit}) {
+			return getData(rootState.settings.apiUrl + 'user/producer/fetch')
+				.then(response => response.json())
+				.then(data => {
+
+					let {user, restaurant, plan} = data.result
+					
+					if (user) {
+						dispatch('userProfile/setLastName', user.lastName, { root: true })
+						dispatch('userProfile/setFirstName', user.firstName, { root: true })
+						dispatch('userProfile/setPhoneNumber', user.phone, { root: true })
+					}
+					
+					if (restaurant) {
+						dispatch('userProfile/setRestaurantName', restaurant.name, { root: true })
+						dispatch('userProfile/setRestaurantType', restaurant.type, { root: true })
+						dispatch('userProfile/setRestaurantWebsite', restaurant.website, { root: true })
+						dispatch('userProfile/setRestaurantNumber', restaurant.phoneNumber, { root: true })
+						dispatch('userProfile/setLocation', restaurant.location.coordinates, { root: true })
+					}
+					
+				})
 		},
 		setIsUserLogged({commit}, value) {
 			commit('SET_IS_USER_LOGGED', value)

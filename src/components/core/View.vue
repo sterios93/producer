@@ -43,12 +43,23 @@
       }
     },
     computed: {
+      ...mapState('authentication', ['isUserLogged']),
       ...mapState('layout', ['responsive']),
       ...mapState('modals', {
         mainVisibility: (state) => state.menu.main.visibility,
         lunchVisibility: (state) => state.menu.lunch.visibility,
         specialVisibility: (state) => state.menu.special.visibility,
       }),
+    },
+    watch: {
+      isUserLogged: {
+        handler: function (value) {
+          if (value === true) {
+          	this.fetchUserData()
+          }
+        },
+        immediate: true
+       }
     },
     mounted() {
       this.onResponsiveInverted()
@@ -59,6 +70,7 @@
     },
     methods: {
       ...mapActions('layout', ['setResponsive']),
+      ...mapActions('authentication', ['fetchUserData']),
       onResponsiveInverted() {
       	EventBus.$emit('resize')
         if (window.innerWidth < 991) {
