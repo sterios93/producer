@@ -84,7 +84,6 @@ export default {
 				  "password": state.password.toString().replace(/ /g,''),
 				  "firstName": state.firstName.toString().replace(/ /g,''),
 				  "lastName": state.lastName.toString().replace(/ /g,''),
-				  "userType": "producer".toString().replace(/ /g,''),
 				  "phone": state.phoneNumber.toString().replace(/ /g,''),
 				  "restaurantName": state.restaurantName.toString().replace(/ /g,''),
 				  "type": state.restaurantType.toString().replace(/ /g,''),

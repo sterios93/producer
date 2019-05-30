@@ -186,8 +186,12 @@
         }
       },
       mixins: [validationMixin],
+      beforeDestroy() {
+        this.setEditMode(false);
+      },
       data() {
         return {
+          _firstName: null,
           firstNameErrors: [],
           lastNameErrors: [],
           emailErrors: [],
@@ -231,82 +235,84 @@
         firstName: {
           get() {return this.userInfo.firstName},
           set(value) {
-            this.setFirstName(value);
+            this._firstName = value;
+            // this.setFirstName(value);
             this.validate('firstName');
           }
         },
         lastName: {
           get() {return this.userInfo.lastName},
           set(value) {
-            this.setLastName(value);
+            // this.setLastName(value);
             this.validate('lastName');
           }
         },
         phoneNumber: {
           get() {return this.userInfo.phoneNumber},
           set(value) {
-            this.setPhoneNumber(value);
+            // this.setPhoneNumber(value);
             this.validate('phoneNumber');
           }
         },
         password: {
           get() {return this.userInfo.password},
           set(value) {
-            this.setPassword(value);
+            // this.setPassword(value);
             this.validate('password');
           }
         },
         restaurantName: {
           get() {return this.userInfo.restaurantName},
           set(value) {
-            this.setRestaurantName(value);
+            // this.setRestaurantName(value);
             this.validate('restaurantName');
           }
         },
         restaurantType: {
           get() {return this.userInfo.restaurantType},
           set(value) {
-            this.setRestaurantType(value);
+            // this.setRestaurantType(value);
             this.validate('restaurantType');
           }
         },
         restaurantWebsite: {
           get() {return this.userInfo.restaurantWebsite},
           set(value) {
-            this.setRestaurantWebsite(value)}
+            // this.setRestaurantWebsite(value)
+            }
         },
         restaurantNumber: {
           get() {return this.userInfo.restaurantNumber},
           set(value) {
-            this.setRestaurantNumber(value);
+            // this.setRestaurantNumber(value);
             this.validate('restaurantNumber');
           }
         },
         restaurantAddress: {
           get() {return this.userInfo.address},
           set(value) {
-            this.setAddress(value);
+            // this.setAddress(value);
             this.validate('restaurantAddress');
           }
         },
         restaurantCity: {
           get() {return this.userInfo.city},
           set(value) {
-            this.setCity(value);
+            // this.setCity(value);
             this.validate('restaurantCity');
           }
         },
         restaurantCountry: {
           get() {return this.userInfo.country},
           set(value) {
-            this.setCountry(value);
+            // this.setCountry(value);
             this.validate('restaurantCountry');
           }
         },
         restaurantPostalCode: {
           get() {return this.userInfo.postalCode},
           set(value) {
-            this.setPostalCode(value);
+            // this.setPostalCode(value);
             this.validate('restaurantPostalCode');
           }
         },
@@ -331,6 +337,7 @@
           'setCity',
           'setCountry',
           'setPostalCode',
+          'updateProfile',
         ]),
         ...mapActions('snackbar', ['setState']),
         saveProfile() {
@@ -342,6 +349,9 @@
           } else {
             // Todo, check in the database if the email is not in use already
             this.setState({snackbar: true, message: 'Profile updated.', color: 'green'});
+            this.updateProfie({
+              name: this._firstName,
+            })
             this.setEditMode(false);
             this.setProfileValid(true);
           }

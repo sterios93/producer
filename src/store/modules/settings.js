@@ -2,7 +2,10 @@ import { set, toggle } from '@/utils/vuex'
 let config = {
 	prodUrl: 'http://212.227.193.201/api/v1/',
 	devUrl: 'http://212.227.193.201/api/v1/',
-	basePath: './'
+	createPath: 'user/producer/create',
+	basePath: './',
+	prodPost: '?prod=true',
+	prodGet: '&prod=true',
 }
 
 export default {
@@ -10,7 +13,10 @@ export default {
 	state: {
 		apiUrl: config.devUrl,
 		url: config.devUrl,
-    basePath: config.basePath
+		basePath: config.basePath,
+		prodPost: config.prodPost,
+		prodGet: config.prodGet,
+		createPath: config.createPath,
   },
   mutations: {},
   getters: {},
