@@ -16,7 +16,8 @@ export default {
 	getters: {},
 	actions: {
 		fetchUserData({dispatch, rootState, state, commit}) {
-			return getData(rootState.settings.apiUrl + 'user/producer/fetch' + rootState.settings.prodGet)
+			const { apiUrl, fetchPath, prodGet } = rootState.settings;
+			return getData(apiUrl + fetchPath + prodGet)
 				.then(response => response.json())
 				.then(data => {
 
