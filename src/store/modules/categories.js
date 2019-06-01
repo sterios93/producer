@@ -80,21 +80,22 @@ export default {
       commit('SET_CATEGORY_NAME', payload)
     },
     saveItem({commit, rootState, state}) {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          commit('ADD_NEW_CATEGORY', {
-              name: state.current.name,
-              id: idGenerator(),
-              selected: false
-            })
-          
-          resolve({
-            success: true
-          })
-        }, 2000)
-      })
-      // postData({payload: state.category, url})
-      //   .then((data) => commit('ADD_NEW_CATEGORY', data))
+      const { apiUrl, createCategoryPath, prodPost } = rootState.settings;
+      const url = apiUrl + createCategoryPath + prodPost;
+      const payload = { "name": state.current.name.toString().replace(/ /g, '') }
+
+      return postData({payload, url})
+          .then(data => data.json())
+          .then(data => {
+            if (data.success) {
+              commit('ADD_NEW_CATEGORY', {
+                name: state.current.name,
+                id: idGenerator(),
+                selected: false
+              });
+            }
+            return data
+          }) 
     }
   }
 }

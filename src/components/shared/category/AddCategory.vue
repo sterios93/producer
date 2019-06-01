@@ -87,7 +87,7 @@
         if (this.saveLoading) return
         this.saveLoading = true
 
-        this.saveItem({action: this.action})
+        this.saveItem()
           .then((data) => {
             this.saveLoading = false
             if (!data.success) {
