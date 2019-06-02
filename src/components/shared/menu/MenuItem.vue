@@ -20,7 +20,7 @@
 
             <v-flex xs12 sm3>
                 <v-img
-                    :src="item.image"
+                    :src="item.img || defaultImage"
                     height="125px"
                     contain
                 ></v-img>
@@ -30,7 +30,7 @@
                 <v-card-title primary-title>
                     <div>
                         <div class="headline">{{item.name}}</div>
-                        <div>{{item.description}}</div>
+                        <div>{{item.description}} ({{item.weight}} grams)</div>
                     </div>
                 </v-card-title>
             </v-flex>
@@ -84,6 +84,7 @@
     data() {
       return {
         deleteLoading: false,
+        defaultImage: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
       }
     },
     methods: {

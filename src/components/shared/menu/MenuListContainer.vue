@@ -1,24 +1,19 @@
 <template>
     <div>
-        <v-toolbar class="toolbar" dark>
-            <v-tabs
-                    v-model="activeTab"
-                    color="transparent"
-                    grow
-            >
-                <v-tabs-slider color="yellow"></v-tabs-slider>
 
-                <v-tab
-                        v-for="(tab, key, index) in tabs"
-                        :key="key"
-                >
-                    {{ tab }}
-                </v-tab>
+        <v-toolbar class="toolbar" dark>
+            <v-tabs v-model="activeTab" color="transparent" grow >
+                <v-tabs-slider color="yellow"></v-tabs-slider>
+                  <v-tab
+					v-for="(tab, key, index) in tabs"
+					:key="key"
+                  >
+					{{ tab }}
+                  </v-tab>
             </v-tabs>
         </v-toolbar>
 
         <v-tabs-items v-model="activeTab">
-
             <v-tab-item>
                 <v-card flat>
                     <v-card-text>
@@ -42,8 +37,8 @@
                     </v-card-text>
                 </v-card>
             </v-tab-item>
-
         </v-tabs-items>
+
     </div>
 </template>
 
@@ -52,7 +47,7 @@
   import MainList from '../../shared/menu/main/List'
   import SpecialList from '../../shared/menu/special/List'
 
-  import {mapState} from 'vuex'
+  import {mapState, mapActions} from 'vuex'
 
   export default {
     props: {
@@ -75,7 +70,17 @@
     watch: {
       activeTab: {
       	handler: function (value) {
-          this.$emit('active-tab-change', value)
+			  this.$emit('active-tab-change', value)
+			// TODO: fetch the data for the selected tab
+			// TODO: Add loader , during the response time
+			// TODO: Handle errors
+			//   Main Menu 
+			  if (value === 0 ) this.fetchMenuItems().then(data => !data.success && this.errorHandler(data));
+
+			// Special offers
+			// if (value === 1) this.fetchSpecialOffers();
+			// Lunch offers
+			// if (value === 2) this.fetchLunchOffers();
         },
         immediate: true
       }
@@ -100,7 +105,15 @@
           items: this.$store.state.special.list.items
         }
       }
-    },
+	},
+	
+	methods: {
+    ...mapActions('main', ['fetchMenuItems']),
+    ...mapActions('snackbar', ['setState']),
+		errorHandler(data) {
+ 			this.setState({snackbar: true, message: data.error && data.error.message, color: 'red'});
+		},
+	}
   }
 </script>
 
