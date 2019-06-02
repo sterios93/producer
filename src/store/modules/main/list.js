@@ -31,13 +31,13 @@ export default {
 		ADD_ITEMS: (state, payload) => state.list.items = payload,
 		UPDATE_ITEM: (state, payload) => {
 			let items = state.list.items
-			let index = items.findIndex(el => el.id === payload.id)
+			let index = items.findIndex(el => el._id === payload.id)
 			if (index !== -1) {
 				Vue.set(items, index, payload)
 			}
 		},
 		DELETE_LIST_ITEM: (state, id) => {
-			let index = state.list.items.findIndex(el => el.id === id)
+			let index = state.list.items.findIndex(el => el._id === id)
 			if (index !== -1) {
 				state.list.items.splice(index, 1)
 			}

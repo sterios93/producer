@@ -37,18 +37,19 @@ export default {
     setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
     setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
     saveItem({rootState, state, commit, dispatch}, {action}) {
-        const data = state[action];
-        const payload = {
-			name: data.name,
-			price: new Number(data.price).toFixed(2),
-			category: data.category,
-			  weight: parseInt(data.weight, 10),
-			  // TODO: wait for the BE to create another request for adding image.
-          	img: data.image,
-          	description: data.description
-        };
-		const { apiUrl, createMenuItemPath, prodGet, prodPost } = rootState.settings;
+		const data = state[action];
+		const { apiUrl, createMenuItemPath, updateMenuItemPath, prodGet, prodPost } = rootState.settings;
+
 		if (action === 'add') {
+			const payload = {
+				name: data.name,
+				price: new Number(data.price).toFixed(2),
+				category: data.category,
+				weight: parseInt(data.weight, 10),
+				// TODO: wait for the BE to create another request for adding image.
+				img: data.image,
+				description: data.description
+			};
 			const url = apiUrl + createMenuItemPath + prodPost;
 			return postData({payload, url})
 					.then(data => data.json())
@@ -60,10 +61,28 @@ export default {
 						return data
 					})
 		}
-        //     // dispatch('addItem', data)
-        //   } else if (action === 'edit') {
-        //     dispatch('updateItem', data)
-        //   }
+		if (action === 'edit') {
+			const payload = {
+				id: data._id,
+				name: data.name,
+				price: new Number(data.price).toFixed(2),
+				category: data.category,
+				weight: parseInt(data.weight, 10),
+				// TODO: wait for the BE to create another request for adding image.
+				img: data.image,
+				description: data.description
+			};
+			const url = apiUrl + updateMenuItemPath + prodPost;
+			return postData({ payload, url })
+				.then(data => data.json())
+				.then(data => {
+					if (data.success) {
+						dispatch('updateItem', payload);
+						// TODO: do the request for adding image.
+					}
+					return data
+				})
+		}
     },
     deleteItem: ({commit}, {payload}) => {
       return new Promise(resolve => {

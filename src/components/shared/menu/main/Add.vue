@@ -283,7 +283,6 @@
 
         this.checkRequired(target)
         this.checkNumeric(target)
-        this.checkAlphaNum(target)
         return this[target + 'Errors']
       },
       hasError() {
@@ -297,9 +296,6 @@
       checkNumeric(target) {
         (this.$v[target].numeric !== undefined) && !this.$v[target].numeric && !this[target + 'Errors'].includes('Must be numeric') && this[target + 'Errors'].push('Must be numeric')
       },
-      checkAlphaNum(target) {
-        (this.$v[target].alphaNum !== undefined) && !this.$v[target].alphaNum && !this[target + 'Errors'].includes('Must be alphaNum') && this[target + 'Errors'].push('Must be alphaNum')
-      },
       checkRequired(target) {
         !this.$v[target].required && this[target + 'Errors'].push('This field is required')
       }
@@ -310,7 +306,6 @@
       },
       price: {
         required,
-        alphaNum
       },
       weight: {
         required,
