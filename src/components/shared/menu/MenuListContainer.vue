@@ -75,10 +75,9 @@
 			// TODO: Add loader , during the response time
 			// TODO: Handle errors
 			//   Main Menu 
-			  if (value === 0 ) this.fetchMenuItems().then(data => !data.success && this.errorHandler(data));
-
+			if (value === 0 ) this.fetchMenuItems().then(data => !data.success && this.errorHandler(data));
 			// Special offers
-			// if (value === 1) this.fetchSpecialOffers();
+			if (value === 1) this.fetchSpecialOffers().then(data => !data.success && this.errorHandler(data));
 			// Lunch offers
 			// if (value === 2) this.fetchLunchOffers();
         },
@@ -109,6 +108,7 @@
 	
 	methods: {
     ...mapActions('main', ['fetchMenuItems']),
+    ...mapActions('special', ['fetchSpecialOffers']),
     ...mapActions('snackbar', ['setState']),
 		errorHandler(data) {
  			this.setState({snackbar: true, message: data.error && data.error.message, color: 'red'});

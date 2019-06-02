@@ -125,7 +125,7 @@
         return this.type === 'lunch' ? this.type : `- ${this.item.discount} %`
       },
       imagePath() {
-        return this.item.image || this.defaultImage
+        return this.item.img || this.defaultImage
       },
       containerStyle() {
         return {
