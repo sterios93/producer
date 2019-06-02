@@ -12,7 +12,7 @@ export default {
     items: [
       {
         id: 0,
-        name: 'Cuban',
+        name: 'Default',
         selected: false
       },
       {

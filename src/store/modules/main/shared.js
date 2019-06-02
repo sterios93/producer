@@ -1,4 +1,5 @@
 import { set, toggle } from '@/utils/vuex'
+import { postData } from "../../../utils/helpers";
 
 const state = () => ({
 
@@ -36,27 +37,33 @@ export default {
     setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
     setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
     saveItem({rootState, state, commit, dispatch}, {action}) {
-      return new Promise(resolve => {
-        let data = state[action]
-        // TODO :: fake request
-
-        setTimeout(() => {
-          if (action === 'add') {
-            dispatch('addItem', {
-              ...data,
-              // TODO :: fake id
-              id: Math.random() * 1000
-            })
-            // dispatch('addItem', data)
-          } else if (action === 'edit') {
-            dispatch('updateItem', data)
-          }
-          resolve({
-            message: 'Updated successfully',
-            success: true
-          })
-        }, 1000)
-      })
+        const data = state[action];
+        const payload = {
+			name: data.name,
+			price: new Number(data.price).toFixed(2),
+			category: data.category,
+			  weight: parseInt(data.weight, 10),
+			  // TODO: wait for the BE to create another request for adding image.
+          	img: data.image,
+          	description: data.description
+        };
+		const { apiUrl, createMenuItemPath, prodGet, prodPost } = rootState.settings;
+		if (action === 'add') {
+			const url = apiUrl + createMenuItemPath + prodPost;
+			return postData({payload, url})
+					.then(data => data.json())
+					.then(data => {
+						if (data.success) {
+							dispatch('addItem', payload);
+							// TODO: do the request for adding image.
+						}
+						return data
+					})
+		}
+        //     // dispatch('addItem', data)
+        //   } else if (action === 'edit') {
+        //     dispatch('updateItem', data)
+        //   }
     },
     deleteItem: ({commit}, {payload}) => {
       return new Promise(resolve => {
