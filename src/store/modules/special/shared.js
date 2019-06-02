@@ -68,13 +68,15 @@ export default {
         }, 1000)
       })
     },
-    fetchItem({dispatch, commit}, {payload, action}) {
+    fetchItem({dispatch, commit, rootState}, {itemId, action}) {
+
+		//TODO: Fake data, leave it here only for a refference , remove it when everything is ready
       let mockData = {
         id: 0,
         description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',
         discount: 10,
         isActive: false,
-        items: [
+        menuItems: [
           {
             id: 11,
             name: 'Lorem',
@@ -88,45 +90,6 @@ export default {
             },
             description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
           },
-          {
-            id: 0,
-            name: 'Lorem1',
-            image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-            price: 40.10,
-            isLunchOnly: false,
-            weight: 50,
-            category: {
-              id: 0,
-              name: 'Cuban'
-            },
-            description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-          },
-          {
-            id: 1,
-            name: 'Lorem2',
-            image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-            price: 40.10,
-            isLunchOnly: false,
-            weight: 50,
-            category: {
-              id: 0,
-              name: 'Cuban'
-            },
-            description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-          },
-          {
-            id: 2,
-            name: 'Lorem2',
-            image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-            price: 40.10,
-            isLunchOnly: false,
-            weight: 50,
-            category: {
-              id: 1,
-              name: 'Burger'
-            },
-            description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-          },
         ],
         name: 'Grande Pica Peperoni with Cheese',
         picture: null,
@@ -137,18 +100,17 @@ export default {
         endDate: '2019-10-10 12:00',
       }
       
-      dispatch('setItem', {payload: mockData, action})
-  
-      return Promise.resolve(mockData)
-  
-      // TODO :: remove upper code and use this when backend is ready
-      // let url = ''
-      // let query = payload
-      // let token = ''
-      // return getData(url, query, token)
-      //   .then((data) => {
-      //     dispatch('setItem', {payload: data, action})
-      //   })
+		const { apiUrl, fetchSpecialOfferPath, prodGet } = rootState.settings;
+      	const url = apiUrl + fetchSpecialOfferPath + itemId + prodGet
+        return getData(url)
+          .then(data => data.json())
+          .then(data => {
+            if (data.success) {
+				const payload = data.result;
+				dispatch('setItem', { payload, action})
+            }
+            return data
+          })
     },
     deleteItem: ({commit}, {payload}) => {
       return new Promise(resolve => {

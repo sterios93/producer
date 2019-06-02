@@ -4,13 +4,13 @@
             <v-flex xs10 class="special-date-container" :style="containerStyle">
                 <v-layout row>
                     <v-flex class="text-xs-center white--text date-font">
-                        <span>{{item.startDate}}</span>
+                        <span>{{item.timeStart}}</span>
                     </v-flex>
                     <v-flex text-xs-center white--text date-font>
                         <v-icon>calendar_today</v-icon>
                     </v-flex>
                     <v-flex class="text-xs-center white--text date-font">
-                        <span>{{item.endDate}}</span>
+                        <span>{{item.timeEnd}}</span>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -148,7 +148,7 @@
         setMenuModalVisibility: 'modals/setMenuModalVisibility',
       }),
       readMore() {
-        this.$router.push({ path: `/${this.type}-offer/${this.item.id}`})
+        this.$router.push({ path: `/${this.type}-offer/${this.item._id}`})
       },
       onEditClick() {
         this.setMenuModalVisibility({
@@ -168,7 +168,7 @@
         this.activeLoading = true
 
         this.$store.dispatch(`${this.type}/toggleActive`, {
-          payload: this.item.id,
+          payload: this.item._id,
           action: 'list'
         }).then((data) => {
           this.activeLoading = false
@@ -183,7 +183,7 @@
         this.deleteLoading = true
 
         this.$store.dispatch(`${this.type}/deleteItem`, {
-          payload: this.item.id,
+          payload: this.item._id,
           action: 'list'
         }).then((data) => {
           this.deleteLoading = false

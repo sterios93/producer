@@ -1,4 +1,5 @@
 import { set, toggle } from '@/utils/vuex'
+import { postData, getData } from "../../../utils/helpers";
 
 const state = () => ({
   name: '',
@@ -6,7 +7,7 @@ const state = () => ({
   image: '',
   description: '',
   price: 0,
-  items: [],
+  menuItems: [],
   discount: 10,
   schedule: null,
   startDate: {

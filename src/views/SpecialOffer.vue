@@ -1,35 +1,17 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-    -list-xl>
-    <v-layout
-      justify-center
-      wrap>
-      <v-flex
-        xs12
-        md8>
-        <material-card
-          color="green"
-          title="Special offer"
-        >
+  <v-container fill-height fluid -list-xl>
+    <v-layout justify-center wrap>
+      <v-flex xs12 md8>
+        <material-card color="green" title="Special offer" >
           <v-layout wrap>
-
-            <v-flex
-              class="v-card-profile"
-              d-flex>
+            <v-flex class="v-card-profile" d-flex>
               <v-layout wrap>
 
                 <v-flex xs12 lg6>
-                  <v-avatar
-                          slot="offset"
-                          class="mx-auto d-block"
-                          size="260"
-                  >
+                  <v-avatar slot="offset" class="mx-auto d-block" size="260" >
                     <v-img :src="imagePath"></v-img>
                   </v-avatar>
                 </v-flex>
-
 
                 <v-flex xs12 lg6>
                   <v-card-text class="text-xs-center">
@@ -38,46 +20,17 @@
                     <h3 class="card-title font-weight-light">{{name}}</h3>
                     <p class="card-description font-weight-light">{{description}}</p>
                     <p class="card-description font-weight-light">Also see our other offers bellow :)</p>
-                    <v-btn
-                            color="success"
-                            dark
-                            round
-                            class="font-weight-light"
-                    >Follow
-                    </v-btn>
-                    <v-btn
-                            dark
-                            @click="onEditClick"
-                            color="orange"
-                            round
-                            class="font-weight-light"
-                    >EDIT
-                    </v-btn>
-                    <v-btn
-                            dark
-                            color="red"
-                            round
-                            class="font-weight-light"
-                    >MENU
-                    </v-btn>
-                    <v-btn
-                            dark
-                            color="blue"
-                            round
-                            class="font-weight-light"
-                    >LUNCH OFFERS
-                    </v-btn>
+                    <v-btn color="success" dark round class="font-weight-light" >Follow </v-btn>
+                    <v-btn dark @click="onEditClick" color="orange" round class="font-weight-light" >EDIT </v-btn>
+                    <v-btn dark color="red"  round class="font-weight-light" >MENU </v-btn>
+                    <v-btn dark color="blue" round class="font-weight-light" >LUNCH OFFERS </v-btn>
                   </v-card-text>
                 </v-flex>
-
               </v-layout>
-
             </v-flex>
-
           </v-layout>
-          <v-flex
-            xs12
-            mt-5>
+
+          <v-flex xs12 mt-5>
             <v-flex
               v-for="item in items"
               :key="item.id"
@@ -87,7 +40,6 @@
               <MenuItem :item="item"/>
             </v-flex>
           </v-flex>
-
         </material-card>
       </v-flex>
 
@@ -106,7 +58,7 @@ export default {
   data() {
     return {
       isEditable: false,
-      defaultImage: './img/default-menu-v2.jpg',
+      defaultImage: '/img/default-menu-v2.jpg',
     }
   },
   components: {
@@ -117,7 +69,7 @@ export default {
       name: (state) => state.view.name,
       image: (state) => state.view.image,
       price: (state) => state.view.price, // TODO
-      items: (state) => state.view.items,
+      items: (state) => state.view.menuItems,
       endDate: (state) => state.view.endDate,
       discount: (state) => state.view.discount, // TODO
       startDate: (state) => state.view.startDate,
@@ -128,8 +80,7 @@ export default {
     },
   },
   created() {
-    this.fetchItem({payload: this.id, action: 'view'})
-            .then(item => this.item = item)
+    this.fetchItem({itemId: this.id, action: 'view'})
             .then(item => this.item = item)
   },
   methods: {
