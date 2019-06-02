@@ -1,5 +1,5 @@
 import { set, toggle } from '@/utils/vuex'
-import {formatDate, getData, postData} from "../../../utils/helpers";
+import { formatDate, getData, postData, customFromatDate} from "../../../utils/helpers";
 
 const state = () => ({
 
@@ -22,11 +22,11 @@ export default {
     SET_DESCRIPTION: (state, {payload, action}) => state[action].description = payload,
   },
   getters: {
-    sumItemsPrice: (state) => (action) => state[action].items.reduce((sum, el) => sum + el.price, 0),
+    sumItemsPrice: (state) => (action) => state[action].items.reduce((sum, el) => { return sum + Number(el.price) } , 0),
     getPrice: (state) => (action) => {
       const original = state[action].price
-      const discount = original * (state[action].discount / 100)
-      return original - discount
+	  const discount = original * (state[action].discount / 100)
+      return original - discount.toFixed(2)
     }
   },
   actions: {
@@ -42,31 +42,46 @@ export default {
     setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
     setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
     setItems: ({commit, getters}, {payload, action}) => {
-      commit('SET_ITEMS', {payload, action})
-      const sum = getters['sumItemsPrice'](action)
-      commit('SET_PRICE', {payload: sum, action})
+      	commit('SET_ITEMS', {payload, action})
+		const sum = getters['sumItemsPrice'](action)
+      	commit('SET_PRICE', {payload: sum, action})
     },
-    saveItem({rootState, state, commit, dispatch}, {action}) {
-      return new Promise(resolve => {
-        let data = state[action]
-        // TODO :: fake request
-      
-        setTimeout(() => {
-          if (action === 'add') {
-            dispatch('addItem', {
-              ...data,
-              // TODO :: fake id
-              id: Math.random() * 1000
-            })
+    saveItem({rootState, state, commit, dispatch, getters}, {action}) {
+		const data = state[action];
+		const { apiUrl, createSpecialOfferPath, prodPost } = rootState.settings;
+		
+        if (action === 'add') {
+			const payload = {
+				name: data.name,
+				discount: data.discount,
+				// price: getPrice(new Number(data.price).toFixed(2)),
+				price: getters['getPrice'](action).toString(),
+				menuItems: data.items.map(item => item._id),
+				timeStart: customFromatDate(data.startDate),
+				timeEnd: customFromatDate(data.endDate),
+				description: data.description,
+				active: true, // TODO: Its, hardoced for now, check it later
+				// TODO: wait for the BE to create another request for adding image.
+				img: data.image,
+			};
+
+			const url = apiUrl + createSpecialOfferPath + prodPost;
+			return postData({ payload, url })
+				.then(data => data.json())
+				.then(data => {
+					if (data.success) {
+						dispatch('addItem', payload);
+						// TODO: do the request for adding image.
+					}
+					return data
+				})
+		}
+          // if (action === 'add') {
+            // dispatch('addItem', { data})
             // dispatch('addItem', data)
-          } else if (action === 'edit') {
-            dispatch('updateItem', data)
-          }
-          resolve({
-            success: true
-          })
-        }, 1000)
-      })
+          // } else if (action === 'edit') {
+            // dispatch('updateItem', data)
+          // }
     },
     fetchItem({dispatch, commit, rootState}, {itemId, action}) {
 

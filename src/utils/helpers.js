@@ -26,6 +26,12 @@ export const getData = (url, query = '', token = '') => {
     referrer: "no-referrer",
   })
 }
+export const customFromatDate = (date) => {
+  	const dateArray = date.split(' ');
+	const dateSplited = dateArray[0].split('-').reverse().join('-');
+	const time = dateArray[1];
+	return dateSplited + ' ' + time;
+}
 
 export const formatDate = (date) => {
   let dateArray = date.split(' ')

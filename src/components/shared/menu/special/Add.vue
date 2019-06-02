@@ -221,7 +221,7 @@
         }
       },
       price: {
-        get() {return this.$store.getters['special/getPrice'](this.action)},
+        get() {return this.$store.getters['special/getPrice'](this.action).toFixed(2)},
         set(value) {
           this.setPrice({payload: value, action: this.action})
         }
