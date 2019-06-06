@@ -89,8 +89,8 @@ export default {
 				  "type": state.restaurantType.toString().replace(/ /g,''),
 				  "website": state.restaurantWebsite.toString().replace(/ /g,''),
 				  "number": state.restaurantNumber.toString().replace(/ /g,''),
-				  "lng": state.location.lng.toString().replace(/ /g,''),
-			    "lat": state.location.lat.toString().replace(/ /g,'')
+				  "lng": parseFloat(state.location.lng.toString().replace(/ /g,'')).toFixed(20),
+			    "lat": parseFloat(state.location.lat.toString().replace(/ /g,'')).toFixed(20)
 		  }
 		  
 		  return dispatch('authentication/signUp', payload, { root: true })
