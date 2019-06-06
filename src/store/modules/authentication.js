@@ -47,7 +47,7 @@ export default {
 				url: rootState.settings.apiUrl + rootState.settings.logoutPath + rootState.settings.prodGet,
 			};
 
-			return getData(data.url)
+			return postData({url: data.url})
 					.then(response => response.json())
 					.then(data => {
 						if (data.success) {
