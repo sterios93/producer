@@ -31,8 +31,7 @@
             <v-text-field
                 class="purple-input"
                 label="Restaurant website"
-                v-model="restaurantWebsite"
-                required>
+                v-model="restaurantWebsite">
             </v-text-field>
         </v-flex>
 

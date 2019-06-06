@@ -87,7 +87,7 @@ export default {
 				  "phone": state.phoneNumber.toString().replace(/ /g,''),
 				  "restaurantName": state.restaurantName.toString().replace(/ /g,''),
 				  "type": state.restaurantType.toString().replace(/ /g,''),
-				  "website": state.restaurantWebsite.toString().replace(/ /g,''),
+				  "website": state.restaurantWebsite && state.restaurantWebsite.toString().replace(/ /g,''),
 				  "number": state.restaurantNumber.toString().replace(/ /g,''),
 				  "lng": parseFloat(state.location.lng.toString().replace(/ /g,'')).toFixed(20),
 			    "lat": parseFloat(state.location.lat.toString().replace(/ /g,'')).toFixed(20)

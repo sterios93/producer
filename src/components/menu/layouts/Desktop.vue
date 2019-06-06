@@ -37,7 +37,6 @@
     props: {
       tabs: Object,
       color: String,
-      activeTab: String,
       categories: Array,
       selectedCategories: Array
     },
