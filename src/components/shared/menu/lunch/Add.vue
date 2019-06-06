@@ -196,14 +196,14 @@
         set(value) {this.setItems({payload: value, action: this.action})}
       },
       chosenLunchItems: {
-        get() {return this.lunchItems.filter(el => el.isLunchOnly)},
+        get() {return this.lunchItems.filter(el => el.lunchOnly)},
         set(value) {
           this.updateItems(value, null)
           this.validate('chosenLunchItems')
         }
       },
       chosenMainItems: {
-        get() {return this.lunchItems.filter(el => !el.isLunchOnly)},
+        get() {return this.lunchItems.filter(el => !el.lunchOnly)},
         set(value) {
           this.updateItems(null, value)
           this.validate('chosenMainItems')

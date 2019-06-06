@@ -1,11 +1,16 @@
-export const postData = ({payload, url, token = '', id = ''}) => {
+const defaultHeaders = {
+	"Content-Type": "application/json",
+}
+
+export const postData = ({payload, url, headers = {}}) => {
   return fetch(url, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
     credentials: "same-origin",
     headers: {
-      "Content-Type": "application/json",
+      ...defaultHeaders,
+	    ...headers
     },
     redirect: "follow",
     referrer: "no-referrer",

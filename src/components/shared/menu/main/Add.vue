@@ -230,6 +230,9 @@
       ...mapActions('snackbar', {
         setSnackbar: 'setState'
       }),
+      ...mapActions('app', {
+        uploadImage: 'uploadImage'
+      }),
       onConfirm() {
         this.allFields.forEach(el => this.validate(el))
         // TODO :: send the data to the database
@@ -249,7 +252,15 @@
         this.saveItem({action: this.action})
           .then((data) => {
             this.saveLoading = false
+
             if (!data.success) {
+              this.uploadImage({
+                type: 'item',
+                data: this.formData
+              }).then((result) => {
+              	console.error(result)
+              })
+
               return this.setSnackbar({snackbar: true, message: data.message, color: 'red'})
             }
             this.closeDialog()
@@ -265,7 +276,12 @@
       },
       onFilePicked({file, url}) {
         this.image = url
-        this.setPicture({payload: file, action: this.action})
+
+        let formData = new FormData()
+        formData.append('item_img', file)
+
+
+        this.formData = formData
       },
       createCategory() {
         this.setModalVisibility({key: 'category', value: true})

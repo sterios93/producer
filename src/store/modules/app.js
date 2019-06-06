@@ -1,4 +1,5 @@
 import { set, toggle } from '@/utils/vuex'
+import {postData} from "../../utils/helpers";
 
 export default {
   namespaced: true,
@@ -19,6 +20,15 @@ export default {
   },
   getters: {},
   actions: {
+  	uploadImage({rootState}, payload) {
+  		return postData({
+			  url: rootState.settings.apiUrl + rootState.settings.addImage.replace('{type}', payload.type) + rootState.settings.prodGet,
+		    payload: payload.data,
+			  headers: {
+			  	'Content-Type': 'multipart/form-data'
+			  }
+		  })
+	  },
     setDrawer({commit}, drawer) {
       commit('SET_DRAWER', drawer)
     },

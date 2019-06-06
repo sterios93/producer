@@ -14,6 +14,7 @@ let config = {
 	createSpecialOfferPath: 'offers/create',
 	createCategoryPath: 'producer/menu/category/create',
 	deleteCategoryPath: 'producer/menu/category/delete',
+	addImage: 'producer/menu/{type}/image/add',
 	basePath: './',
 	prodPost: '?prod=true',
 	prodGet: '?prod=true',

@@ -97,7 +97,7 @@ export default {
             name: 'Lorem',
             image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
             price: 40.10,
-            isLunchOnly: false,
+            lunchOnly: false,
             weight: 50,
             category: {
               id: 0,

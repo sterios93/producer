@@ -8,7 +8,7 @@ const state = () => ({
       name: 'Lor12331em',
       image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
       price: 40.10,
-      isLunchOnly: true,
+      lunchOnly: true,
       category: {
         id: 0,
         name: 'Cuban'
@@ -20,7 +20,7 @@ const state = () => ({
       name: 'Lor123123123em1',
       image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
       price: 40.10,
-      isLunchOnly: true,
+      lunchOnly: true,
       category: {
         id: 0,
         name: 'Cuban'
@@ -32,7 +32,7 @@ const state = () => ({
       name: 'Lore13123m2',
       image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
       price: 40.10,
-      isLunchOnly: true,
+      lunchOnly: true,
       category: {
         id: 0,
         name: 'Cuban'
@@ -106,7 +106,7 @@ export default {
             name: 'Lor12331em',
             image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
             price: 40.10,
-            isLunchOnly: true,
+            lunchOnly: true,
             category: {
               id: 0,
               name: 'Cuban'
@@ -118,7 +118,7 @@ export default {
             name: 'Lor123123123em1',
             image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
             price: 40.10,
-            isLunchOnly: true,
+            lunchOnly: true,
             category: {
               id: 0,
               name: 'Cuban'
@@ -130,7 +130,7 @@ export default {
             name: 'Lore13123m2',
             image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
             price: 40.10,
-            isLunchOnly: true,
+            lunchOnly: true,
             category: {
               id: 0,
               name: 'Cuban'
@@ -142,7 +142,7 @@ export default {
             name: 'Lorem4',
             image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
             price: 40.10,
-            isLunchOnly: false,
+            lunchOnly: false,
             weight: 50,
             category: {
               id: 3,
@@ -155,7 +155,7 @@ export default {
             name: 'Lorem',
             image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
             price: 40.10,
-            isLunchOnly: false,
+            lunchOnly: false,
             weight: 50,
             category: {
               id: 4,
