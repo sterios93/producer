@@ -34,8 +34,7 @@
           ></v-text-field>
         </v-list-tile>
         <v-list-tile
-          v-for="(link, i) in links"
-          v-if="link.userAccess === isUserLogged"
+          v-for="(link, i) in filteredLinks"
           :key="i"
           :to="link.to"
           :active-class="color"
@@ -105,6 +104,7 @@ export default {
     ...mapState('authentication', ['isUserLogged']),
     ...mapState('layout', ['responsive']),
     ...mapState('app', ['image', 'color']),
+
     inputValue: {
       get () {
         return this.$store.state.app.drawer
@@ -112,6 +112,9 @@ export default {
       set (val) {
         this.setDrawer(val)
       }
+    },    
+    filteredLinks() {
+      return this.links.filter(link => link.userAccess === this.isUserLogged)
     },
     items () {
       return this.$t('Layout.View.items')
