@@ -44,7 +44,7 @@ export default {
 			const payload = {
 				name: data.name,
 				price: new Number(data.price).toFixed(2),
-				category: 'Salads',
+				category: data.category,
 				weight: parseInt(data.weight, 10),
 				// TODO: wait for the BE to create another request for adding image.
 				img: data.image,
@@ -61,30 +61,7 @@ export default {
 						}
 						return data
 					})
-		}
-		// if (action === 'edit') {
-		// 	const payload = {
-		// 		id: data._id,
-		// 		name: data.name,
-		// 		price: new Number(data.price).toFixed(2),
-		// 		category: data.category,
-		// 		weight: parseInt(data.weight, 10),
-		// 		// TODO: wait for the BE to create another request for adding image.
-		// 		img: data.image,
-		// 		lunchOnly: true,
-		// 		description: data.description
-		// 	};
-		// 	const url = apiUrl + updateMenuItemPath + prodPost;
-		// 	return postData({ payload, url })
-		// 		.then(data => data.json())
-		// 		.then(data => {
-		// 			if (data.success) {
-		// 				dispatch('updateItem', payload);
-		// 				// TODO: do the request for adding image.
-		// 			}
-		// 			return data
-		// 		})
-		// }
+  		}
     },
     deleteItem: ({commit}, {payload}) => {
       return new Promise(resolve => {

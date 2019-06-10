@@ -6,12 +6,21 @@
   import Desktop from './layouts/Desktop'
   import Mobile from './layouts/Mobile'
 
-  import {mapState, mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
 
   export default {
     components: {
       Desktop,
       Mobile
+    },
+    
+    created() {
+      this.fetchCategories()
+      .then(data => {
+        if (!data.succes) {
+          return this.setSnackbar({snackbar: true, message: data.message, color: 'red'})
+        }
+      })
     },
 
     computed: {
@@ -29,6 +38,13 @@
           categories: this.items,
         }
       }
+    },
+
+    methods: {
+      ...mapActions('categories', ['fetchCategories']),
+       ...mapActions('snackbar', {
+        setSnackbar: 'setState'
+      }),
     }
   }
 </script>

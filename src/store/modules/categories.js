@@ -10,31 +10,7 @@ export default {
   namespaced: true,
   state: {
     items: [
-      {
-        id: 0,
-        name: 'Default',
-        selected: false
-      },
-      {
-        id: 1,
-        name: 'Burger',
-        selected: false
-      },
-      {
-        id: 2,
-        name: 'British',
-        selected: false
-      },
-      {
-        id: 3,
-        name: 'Breakfast',
-        selected: false
-      },
-      {
-        id: 4,
-        name: 'Bagels',
-        selected: false
-      }
+     
     ],
     current: {
       name: '',
@@ -78,6 +54,25 @@ export default {
     },
     setCategoryName({commit}, payload) {
       commit('SET_CATEGORY_NAME', payload)
+    },
+    fetchCategories({commit, rootState}, payload) {
+      const { apiUrl, listCateoriesPath, prodPost } = rootState.settings;
+      const url = apiUrl + listCateoriesPath + prodPost;
+
+      return getData(url)
+        .then(data => data.json())
+        .then(data => {
+          if (data.success) {
+            let categories = data.result.map(category => {
+              return {
+                name: category,
+                id: idGenerator(),
+                selected: false
+              }
+            })
+            commit('SET_CATEGORIES', categories)
+          }
+        })
     },
     saveItem({commit, rootState, state}) {
       const { apiUrl, createCategoryPath, prodPost } = rootState.settings;
