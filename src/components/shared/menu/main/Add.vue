@@ -254,15 +254,12 @@
             this.saveLoading = false
 
             if (!data.success) {
-              this.uploadImage({
-                type: 'item',
-                data: this.formData
-              }).then((result) => {
-              	console.error(result)
-              })
-
               return this.setSnackbar({snackbar: true, message: data.message, color: 'red'})
             }
+            this.uploadImage({
+              type: 'item',
+              data: this.formData
+            })
             this.closeDialog()
             return this.setSnackbar({snackbar: true, message: 'Updated successfully', color: 'success'})
           })

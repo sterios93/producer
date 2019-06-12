@@ -11,7 +11,7 @@ let config = {
 	updateMenuItemPath: 'producer/menu/item/update',
 	fetchSpecialOffersPath: 'producer/offers/special/list',
 	fetchSpecialOfferPath: 'offers/fetch/',
-	createSpecialOfferPath: 'offers/create',
+	createSpecialOfferPath: 'producer/offers/special/create',
 	createCategoryPath: 'producer/menu/category/create',
 	listCateoriesPath: 'producer/menu/categories/list',
 	deleteCategoryPath: 'producer/menu/category/delete',

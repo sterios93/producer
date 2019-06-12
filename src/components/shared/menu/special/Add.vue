@@ -318,6 +318,9 @@
       ...mapActions('snackbar', {
         setSnackbar: 'setState'
       }),
+       ...mapActions('app', {
+        uploadImage: 'uploadImage'
+      }),
       onConfirm() {
         this.allFields.forEach(el => this.validate(el))
         this.validateDates(this.startDate, this.endDate)
@@ -338,9 +341,14 @@
         this.saveItem({action: this.action})
           .then((data) => {
             this.saveLoading = false
+
             if (!data.success) {
               return this.setSnackbar({snackbar: true, message: data.message, color: 'red'})
             }
+            this.uploadImage({
+              type: 'item',
+              data: this.formData
+            })
             this.closeDialog()
             return this.setSnackbar({snackbar: true, message: 'Updated successfully', color: 'success'})
           })

@@ -55,7 +55,7 @@ export default {
 				name: data.name,
 				discount: data.discount,
 				// price: getPrice(new Number(data.price).toFixed(2)),
-				price: getters['getPrice'](action).toString(),
+				price: getters['getPrice'](action).toFixed(2),
 				menuItems: data.items.map(item => item._id),
 				timeStart: customFromatDate(data.startDate),
 				timeEnd: customFromatDate(data.endDate),
