@@ -32,8 +32,6 @@
                                             return-object
                                             label="Lunch Items"
                                             multiple
-                                            :error-messages="chosenLunchItemsErrors"
-                                            @blur="validate('chosenLunchItems')"
                                     >
                                         <template v-slot:append>
                                             <v-slide-x-reverse-transition mode="out-in">
@@ -56,8 +54,6 @@
                                             return-object
                                             label="Menu Items"
                                             multiple
-                                            :error-messages="chosenMainItemsErrors"
-                                            @blur="validate('chosenMainItems')"
                                     >
                                         <template v-slot:append>
                                             <v-slide-x-reverse-transition mode="out-in">
@@ -156,8 +152,6 @@
         chosenMainItemsErrors: [],
         chosenLunchItemsErrors: [],
         allFields: [
-          'chosenMainItems',
-          'chosenLunchItems',
         ],
         today: {
           date: new Date().toISOString().substr(0, 10),
@@ -183,7 +177,7 @@
         mainVisibility: (state) => state.modals.menu.main.visibility,
       }),
       isEveryThingValid() {
-        return this.isFormValid && this.isFormValidForced
+        return this.isFormValidForced // this.isFormValid && 
       },
       discount: {
         get() {return this.item.discount},
@@ -199,14 +193,12 @@
         get() {return this.lunchItems.filter(el => el.lunchOnly)},
         set(value) {
           this.updateItems(value, null)
-          this.validate('chosenLunchItems')
         }
       },
       chosenMainItems: {
         get() {return this.lunchItems.filter(el => !el.lunchOnly)},
         set(value) {
           this.updateItems(null, value)
-          this.validate('chosenMainItems')
         }
       },
       isActive() {return this.item.isActive},
@@ -406,10 +398,8 @@
     },
     validations: {
       chosenMainItems: {
-        required
       },
       chosenLunchItems: {
-        required
       },
     }
   }

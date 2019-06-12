@@ -2,44 +2,7 @@ import {set, toggle} from '@/utils/vuex'
 import {postData} from "../../../utils/helpers";
 
 const state = () => ({
-  allItems: [
-    {
-      id: 21,
-      name: 'Lor12331em',
-      image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-      price: 40.10,
-      lunchOnly: true,
-      category: {
-        id: 0,
-        name: 'Cuban'
-      },
-      description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-    },
-    {
-      id: 23,
-      name: 'Lor123123123em1',
-      image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-      price: 40.10,
-      lunchOnly: true,
-      category: {
-        id: 0,
-        name: 'Cuban'
-      },
-      description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-    },
-    {
-      id: 24,
-      name: 'Lore13123m2',
-      image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-      price: 40.10,
-      lunchOnly: true,
-      category: {
-        id: 0,
-        name: 'Cuban'
-      },
-      description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-    },
-  ]
+  allItems: []
 })
 
 export default {
@@ -76,23 +39,29 @@ export default {
     saveItem({rootState, state, commit, dispatch}, {action}) {
       return new Promise(resolve => {
         let data = state[action]
-        // TODO :: fake request
-        
-        setTimeout(() => {
-          if (action === 'add') {
-            dispatch('addItem', {
-              ...data,
-              // TODO :: fake id
-              id: Math.random() * 1000
-            })
-            // dispatch('addItem', data)
-          } else if (action === 'edit') {
-            dispatch('updateItem', data)
-          }
-          resolve({
-            success: true
-          })
-        }, 1000)
+
+    		const { apiUrl, createLunchtemPath, prodPost } = rootState.settings;
+        const url = apiUrl + createLunchtemPath + prodPost;
+
+        const payload = {
+          menuItems: data.items,
+          timeStart: data.startDate,
+          timeEnd: data.endDate,			
+          active: data.isActive	
+        }
+
+        return postData({ url, payload })
+          .then((data) => {
+            if (action === 'add') {
+              console.error(data)
+              dispatch('addItem', data)
+              // dispatch('addItem', data)
+            } else if (action === 'edit') {
+              dispatch('updateItem', data)
+            }
+            return data
+          }) 
+
       })
     },
     fetchItem({dispatch, commit}, {payload, action}) {

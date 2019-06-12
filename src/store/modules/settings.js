@@ -9,6 +9,11 @@ let config = {
 	fetchMenuListPath: 'producer/menu/items/list',
 	createMenuItemPath: 'producer/menu/item/create',
 	updateMenuItemPath: 'producer/menu/item/update',
+
+	fetchLunchListPath: 'producer/offers/lunch/list',
+	createLunchtemPath: 'producer/offers/lunch/create',
+	updateLunchItemPath: 'producer/offers/lunch/update',
+
 	fetchSpecialOffersPath: 'producer/offers/special/list',
 	fetchSpecialOfferPath: 'offers/fetch/',
 	createSpecialOfferPath: 'producer/offers/special/create',
@@ -42,7 +47,10 @@ export default {
 		fetchSpecialOffersPath: config.fetchSpecialOffersPath,
 		fetchSpecialOfferPath: config.fetchSpecialOfferPath,
 		createSpecialOfferPath: config.createSpecialOfferPath,
-		addImage: config.addImage
+		addImage: config.addImage,
+		fetchLunchListPath: config.fetchLunchListPath,
+		createLunchtemPath: config.createLunchtemPath,
+		updateLunchItemPath: config.updateLunchItemPath,
   },
   mutations: {},
   getters: {},
