@@ -2,7 +2,7 @@
     <v-tabs dark :color="color" show-arrows>
         <v-tabs-slider class="lime accent-2"></v-tabs-slider>
 
-        <v-tab v-for="item in items" :key="item.id" @change="tabChanged(item.id)">
+        <v-tab v-for="item in items" :key="item.id" @change="tabChanged(item.name)">
             {{ item.name }}
         </v-tab>
     </v-tabs>
@@ -15,8 +15,8 @@
       color: String
     },
     methods: {
-      tabChanged(id) {
-        this.$emit('on-tab-change', id)
+      tabChanged(name) {
+        this.$emit('on-tab-change', name)
       }
     }
   }

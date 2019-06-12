@@ -93,7 +93,7 @@
     },
 
     created() {
-      this.category = this.categories[0].id
+      this.category = this.categories[0].name
       this.controls = [
         {
           img: 'main.png',

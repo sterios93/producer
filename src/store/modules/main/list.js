@@ -5,26 +5,14 @@ import {postData, getData} from "../../../utils/helpers";
 const state = () => ({
 	// TODO: This is left here only for example data, remove it when everything is ready
 	items: [
-		{
-			id: 11,
-			name: 'Lorem',
-			image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-			price: 40.10,
-			lunchOnly: false,
-			weight: 50,
-			category: {
-				id: 0,
-				name: 'Cuban'
-			},
-			description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-		},
+	
 	],
 })
 
 export default {
 	state,
 	getters: {
-		getMenuByCategory: (state) => (id) => state.list.items.filter(el => id === el.category.id),
+		getMenuByCategory: (state) => (name) => state.list.items.filter(el => name === el.category),
 	},
 	mutations: {
 		ADD_ITEM: (state, payload) => state.list.items.push(payload),
