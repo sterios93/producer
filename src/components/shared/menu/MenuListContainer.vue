@@ -5,7 +5,7 @@
             <v-tabs v-model="activeTab" color="transparent" grow >
                 <v-tabs-slider color="yellow"></v-tabs-slider>
                   <v-tab
-					v-for="(tab, key, index) in tabs"
+					v-for="(tab, key) in tabs"
 					:key="key"
                   >
 					{{ tab }}

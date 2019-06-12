@@ -83,6 +83,26 @@
         controls: []
       }
     },
+    
+    watch: {
+      selectedMenu: {
+        handler: function (value) {
+          console.error(value)
+          switch (value) {
+            case 'main': 
+              this.fetchMenuItems().then(data => !data.success && this.errorHandler(data));
+              break
+          case 'special': 
+              this.fetchSpecialOffers().then(data => !data.success && this.errorHandler(data));
+              break
+          case 'lunch': 
+              // TODO 
+              break
+          }
+        },
+        immediate: true
+      }
+    },
 
     components: {
       CategoryTabs,
@@ -154,6 +174,8 @@
 
     methods: {
       ...mapGetters('main', ['getMenuByCategory']),
+      ...mapActions('main', ['fetchMenuItems']),
+      ...mapActions('special', ['fetchSpecialOffers']),
       ...mapActions({
         'setModalVisibility': 'modals/setModalVisibility',
         'setMenuModalVisibility': 'modals/setMenuModalVisibility',
