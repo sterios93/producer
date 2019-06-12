@@ -42,6 +42,7 @@ export default {
 		fetchSpecialOffersPath: config.fetchSpecialOffersPath,
 		fetchSpecialOfferPath: config.fetchSpecialOfferPath,
 		createSpecialOfferPath: config.createSpecialOfferPath,
+		addImage: config.addImage
   },
   mutations: {},
   getters: {},

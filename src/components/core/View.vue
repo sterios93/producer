@@ -65,10 +65,19 @@
       this.onResponsiveInverted()
       window.addEventListener('resize', this.onResponsiveInverted)
     },
+    created() {
+      this.fetchCategories()
+      .then(data => {
+        if (!data.succes) {
+          return this.setSnackbar({snackbar: true, message: data.message, color: 'red'})
+        }
+      })
+    },
     beforeDestroy() {
       window.removeEventListener('resize', this.onResponsiveInverted)
     },
     methods: {
+      ...mapActions('categories', ['fetchCategories']),
       ...mapActions('layout', ['setResponsive']),
       ...mapActions('authentication', ['fetchUserData']),
       onResponsiveInverted() {

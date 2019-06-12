@@ -13,15 +13,6 @@
       Desktop,
       Mobile
     },
-    
-    created() {
-      this.fetchCategories()
-      .then(data => {
-        if (!data.succes) {
-          return this.setSnackbar({snackbar: true, message: data.message, color: 'red'})
-        }
-      })
-    },
 
     computed: {
       ...mapState('app', ['color']),
@@ -41,7 +32,6 @@
     },
 
     methods: {
-      ...mapActions('categories', ['fetchCategories']),
        ...mapActions('snackbar', {
         setSnackbar: 'setState'
       }),
