@@ -157,8 +157,8 @@
           action: 'edit'
         })
 
-        this.$store.dispatch(`${this.type}/setItem`, {
-          payload: JSON.parse(JSON.stringify(this.item)),
+        this.$store.dispatch(`${this.type}/fetchItem`, {
+          itemId: this.item._id,
           action: 'edit'
         })
       },

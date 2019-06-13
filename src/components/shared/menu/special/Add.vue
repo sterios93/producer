@@ -62,7 +62,7 @@
                         <v-flex xs12 sm6>
                             <v-autocomplete
                                     v-model="specialItems"
-                                    :items="mainItems"
+                                    :items="item.mainItems"
                                     item-text="name"
                                     item-value="id"
                                     return-object
@@ -200,7 +200,6 @@
         color: (state) => state.modals.menu.special.color,
         action: (state) => state.modals.menu.special.action,
         special: (state) => state.modals.menu.special,
-        mainItems: function (state) { return state.special[this.action].mainItems},
         responsive: (state) => state.layout.responsive,
         mainVisibility: (state) => state.modals.menu.main.visibility,
       }),
@@ -348,7 +347,7 @@
             this.saveLoading = false
 
             if (!data.success) {
-              return this.setSnackbar({snackbar: true, message: data.message, color: 'red'})
+              return this.setSnackbar({snackbar: true, message: data.error.message, color: 'red'})
             }
             this.uploadImage({
               type: 'item',
@@ -383,7 +382,7 @@
         }).then((data) => {
           this.activeLoading = false
           if (!data.success) {
-            return this.setSnackbar({snackbar: true, message: data.message, color: 'red'});
+            return this.setSnackbar({snackbar: true, message: data.error.message, color: 'red'});
           }
           this.setSnackbar({snackbar: true, message: 'Toggled successfully', color: 'success'});
         })

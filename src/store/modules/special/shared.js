@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { set, toggle } from '@/utils/vuex'
 import { formatDate, getData, postData, customFromatDate} from "../../../utils/helpers";
 
@@ -10,7 +11,7 @@ export default {
   mutations: {
     SET_ITEM: (state, {payload, action}) => state[action] = payload,
     SET_NAME: (state, {payload, action}) => state[action].name = payload,
-    SET_ITEMS: (state, {payload, action}) => state[action].items = payload,
+    SET_ITEMS: (state, {payload, action}) => Vue.set(state[action], 'items', payload),
     SET_PRICE: (state, {payload, action}) => state[action].price = payload,
     SET_PICTURE: (state, {payload, action}) => state[action].picture = payload,
     SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
@@ -18,7 +19,7 @@ export default {
     SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
     TOGGLE_ACTIVE: (state, {payload, action}) => state[action].isActive = !state[action].isActive,
     SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
-    SET_MAIN_ITEMS: (state, {payload, action}) => state[action].mainItems = payload,
+    SET_MAIN_ITEMS: (state, {payload, action}) => Vue.set(state[action], 'mainItems', payload),
     SET_PICTURE_URL: (state, {payload, action}) => state[action].image = payload,
     SET_DESCRIPTION: (state, {payload, action}) => state[action].description = payload,
   },
@@ -63,24 +64,25 @@ export default {
       	commit('SET_PRICE', {payload: sum, action})
     },
     saveItem({rootState, state, commit, dispatch, getters}, {action}) {
-		const data = state[action];
-		const { apiUrl, createSpecialOfferPath, prodPost } = rootState.settings;
+  		const data = state[action];
+		  const { apiUrl, createSpecialOfferPath, updateSpecialOfferPath, prodPost } = rootState.settings;
 		
 			const payload = {
+        id: data._id,
 				name: data.name,
 				discount: data.discount,
 				// price: getPrice(new Number(data.price).toFixed(2)),
 				price: getters['getPrice'](action).toFixed(2),
 				menuItems: data.items.map(item => item._id),
-				timeStart: customFromatDate(data.startDate),
-				timeEnd: customFromatDate(data.endDate),
+				timeStart: data.startDate ? customFromatDate(data.startDate) : data.timeStart,
+				timeEnd: data.endDate ? customFromatDate(data.endDate) : data.timeEnd,
 				description: data.description,
 				active: true, // TODO: Its, hardoced for now, check it later
 				// TODO: wait for the BE to create another request for adding image.
 				img: data.image,
 			};
 
-			const url = apiUrl + createSpecialOfferPath + prodPost;
+			const url = apiUrl +  (action === 'add' ? createSpecialOfferPath : updateSpecialOfferPath) + prodPost;
 			return postData({ payload, url })
 				.then(data => data.json())
 				.then(data => {
@@ -95,37 +97,6 @@ export default {
 				})
     },
     fetchItem({dispatch, commit, rootState}, {itemId, action}) {
-
-		//TODO: Fake data, leave it here only for a refference , remove it when everything is ready
-      let mockData = {
-        id: 0,
-        description: 'Only now in our Restaurant. Order one pizza and get the second one for free !',
-        discount: 10,
-        isActive: false,
-        menuItems: [
-          {
-            id: 11,
-            name: 'Lorem',
-            image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-            price: 40.10,
-            lunchOnly: false,
-            weight: 50,
-            category: {
-              id: 0,
-              name: 'Cuban'
-            },
-            description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-          },
-        ],
-        name: 'Grande Pica Peperoni with Cheese',
-        picture: null,
-        image: './img/special-offer-default.jpeg',
-        price: 160,
-        schedule: null,
-        startDate: '2019-09-10 12:00',
-        endDate: '2019-10-10 12:00',
-      }
-      
 		  const { apiUrl, fetchSpecialOfferPath, prodGet } = rootState.settings;
       const url = apiUrl + fetchSpecialOfferPath + itemId + prodGet
       return getData(url)
@@ -133,6 +104,9 @@ export default {
         .then(data => {
           if (data.success) {
             const payload = data.result;
+            payload.items = payload.menuItems;
+            payload.startDate = customFromatDate(payload.timeStart);
+            payload.endDate = customFromatDate(payload.timeEnd);
             dispatch('setItem', { payload, action})
           }
           return data
