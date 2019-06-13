@@ -7,6 +7,7 @@ const stateBuilder = () => ({
   description: '',
   price: 0,
   items: [],
+  mainItems: [],
   discount: 10,
   isActive: true,
   schedule: null,

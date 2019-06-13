@@ -200,7 +200,7 @@
         color: (state) => state.modals.menu.special.color,
         action: (state) => state.modals.menu.special.action,
         special: (state) => state.modals.menu.special,
-        mainItems: (state) => state.main.list.items,
+        mainItems: function (state) { return state.special[this.action].mainItems},
         responsive: (state) => state.layout.responsive,
         mainVisibility: (state) => state.modals.menu.main.visibility,
       }),
@@ -280,6 +280,10 @@
     },
 
     created() {
+      this.fetchAvailableItems({
+        action: this.action
+      })
+
       this.endDate = this.today
       this.startDate = this.today
 
@@ -310,6 +314,7 @@
         'setStartDate',
         'setPictureUrl',
         'setDescription',
+        'fetchAvailableItems'
       ]),
       ...mapActions('modals', [
         'setFullscreen',

@@ -18,6 +18,7 @@ export default {
     SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
     TOGGLE_ACTIVE: (state, {payload, action}) => state[action].isActive = !state[action].isActive,
     SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
+    SET_MAIN_ITEMS: (state, {payload, action}) => state[action].mainItems = payload,
     SET_PICTURE_URL: (state, {payload, action}) => state[action].image = payload,
     SET_DESCRIPTION: (state, {payload, action}) => state[action].description = payload,
   },
@@ -41,9 +42,24 @@ export default {
     setStartDate: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
     setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
     setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
+    fetchAvailableItems: ({rootState, commit}, {action}) => {
+      const { apiUrl, getAvailableMainItemsPath, prodGet } = rootState.settings;
+      const url = apiUrl + getAvailableMainItemsPath + prodGet
+
+      return getData(url)
+      .then((data) => data.json())
+      .then((data) => {
+        if (data.success) {
+          commit('SET_MAIN_ITEMS', {
+            payload: data.result,
+            action
+          })
+        }
+      })
+    },
     setItems: ({commit, getters}, {payload, action}) => {
       	commit('SET_ITEMS', {payload, action})
-		const sum = getters['sumItemsPrice'](action)
+		    const sum = getters['sumItemsPrice'](action)
       	commit('SET_PRICE', {payload: sum, action})
     },
     saveItem({rootState, state, commit, dispatch, getters}, {action}) {
@@ -110,17 +126,17 @@ export default {
         endDate: '2019-10-10 12:00',
       }
       
-		const { apiUrl, fetchSpecialOfferPath, prodGet } = rootState.settings;
-      	const url = apiUrl + fetchSpecialOfferPath + itemId + prodGet
-        return getData(url)
-          .then(data => data.json())
-          .then(data => {
-            if (data.success) {
-				const payload = data.result;
-				dispatch('setItem', { payload, action})
-            }
-            return data
-          })
+		  const { apiUrl, fetchSpecialOfferPath, prodGet } = rootState.settings;
+      const url = apiUrl + fetchSpecialOfferPath + itemId + prodGet
+      return getData(url)
+        .then(data => data.json())
+        .then(data => {
+          if (data.success) {
+            const payload = data.result;
+            dispatch('setItem', { payload, action})
+          }
+          return data
+        })
     },
     deleteItem: ({commit}, {payload}) => {
       return new Promise(resolve => {
