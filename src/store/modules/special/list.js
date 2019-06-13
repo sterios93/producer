@@ -12,20 +12,20 @@ export default {
     ADD_ITEM: (state, payload) => state.list.items.push(payload),
     ADD_ITEMS: (state, payload) => state.list.items = payload,
     TOGGLE_ACTIVE_LIST_ITEM: (state, id) => {
-      let item = state.list.items.find(el => el.id === id)
+      let item = state.list.items.find(el => el._id === id)
       if (item) {
         item.isActive = !item.isActive
       }
     },
     DELETE_LIST_ITEM: (state, id) => {
-      let index = state.list.items.findIndex(el => el.id === id)
+      let index = state.list.items.findIndex(el => el._id === id)
       if (index !== -1) {
         state.list.items.splice(index, 1)
       }
     },
     UPDATE_ITEM: (state, payload) => {
       let items = state.list.items
-      let index = items.findIndex(el => el.id === payload.id)
+      let index = items.findIndex(el => el._id === payload._id)
       if (index !== -1) {
         Vue.set(items, index, payload)
       }

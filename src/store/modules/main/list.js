@@ -19,7 +19,7 @@ export default {
 		ADD_ITEMS: (state, payload) => state.list.items = payload,
 		UPDATE_ITEM: (state, payload) => {
 			let items = state.list.items
-			let index = items.findIndex(el => el._id === payload.id)
+			let index = items.findIndex(el => el._id === payload._id)
 			if (index !== -1) {
 				Vue.set(items, index, payload)
 			}

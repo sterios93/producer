@@ -50,7 +50,6 @@ export default {
 		const data = state[action];
 		const { apiUrl, createSpecialOfferPath, prodPost } = rootState.settings;
 		
-        if (action === 'add') {
 			const payload = {
 				name: data.name,
 				discount: data.discount,
@@ -70,18 +69,14 @@ export default {
 				.then(data => data.json())
 				.then(data => {
 					if (data.success) {
-						dispatch('addItem', payload);
-						// TODO: do the request for adding image.
+            if (action === 'add') {
+              dispatch('addItem', data.result);
+            } else if (action === 'edit') {
+              dispatch('updateItem', data.result)
+            }
 					}
 					return data
 				})
-		}
-          // if (action === 'add') {
-            // dispatch('addItem', { data})
-            // dispatch('addItem', data)
-          // } else if (action === 'edit') {
-            // dispatch('updateItem', data)
-          // }
     },
     fetchItem({dispatch, commit, rootState}, {itemId, action}) {
 

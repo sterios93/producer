@@ -37,31 +37,38 @@ export default {
     setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
     setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
     saveItem({rootState, state, commit, dispatch}, {action}) {
-		const data = state[action];
-		const { apiUrl, createMenuItemPath, updateMenuItemPath, prodGet, prodPost } = rootState.settings;
+    const data = state[action];
+    
+		const {
+      apiUrl,
+      createMenuItemPath,
+      updateMenuItemPath,
+      prodPost
+    } = rootState.settings;
 
-		if (action === 'add') {
 			const payload = {
+        id: data._id,
 				name: data.name,
 				price: new Number(data.price).toFixed(2),
 				category: data.category,
 				weight: parseInt(data.weight, 10),
-				// TODO: wait for the BE to create another request for adding image.
-				img: data.image,
 				lunchOnly: 0,
 				description: data.description
-			};
-			const url = apiUrl + createMenuItemPath + prodPost;
+      };
+			
+			const url = apiUrl + (action === 'add' ? createMenuItemPath : updateMenuItemPath) + prodPost;
 			return postData({payload, url})
 					.then(data => data.json())
 					.then(data => {
 						if (data.success) {
-							dispatch('addItem', payload);
-							// TODO: do the request for adding image.
+		          if (action === 'add') {
+                dispatch('addItem', data.result);
+          		} else if (action === 'edit') {
+                dispatch('updateItem', data.result)
+              }
 						}
 						return data
 					})
-  		}
     },
     deleteItem: ({commit}, {payload}) => {
       return new Promise(resolve => {

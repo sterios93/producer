@@ -39,8 +39,14 @@ export default {
     saveItem({rootState, state, commit, dispatch}, {action}) {
       let data = state[action]
 
-      const { apiUrl, createLunchtemPath, prodPost } = rootState.settings;
-      const url = apiUrl + createLunchtemPath + prodPost;
+      const { 
+        apiUrl, 
+        createLunchtemPath,
+        updateLunchItemPath, 
+        prodPost 
+      } = rootState.settings;
+
+      const url = apiUrl + (action === 'add' ? createLunchtemPath : updateLunchItemPath) + prodPost;
 
       const payload = {
         menuItems: data.items.map(item => item._id),
@@ -53,10 +59,10 @@ export default {
         .then((data) => data.json())
         .then((data) => {
           if (action === 'add') {
-            dispatch('addItem', data)
+            dispatch('addItem', data.result)
             // dispatch('addItem', data)
           } else if (action === 'edit') {
-            dispatch('updateItem', data)
+            dispatch('updateItem', data.result)
           }
 
           return data
