@@ -51,3 +51,15 @@ export const reverseFormatDate = ({date, time}) => {
   return [date, time].join(' ')
 }
 
+export const changeDateFormat = (date) => {
+  if (!date) return null
+
+  let arr = date.split(' ')
+  let newDate = arr[0]
+  let time = arr[1]
+
+  const [year, month, day] = newDate.split('-')
+
+  return `${day}-${month}-${year} ${time}`
+}
+

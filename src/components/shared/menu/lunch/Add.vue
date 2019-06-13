@@ -282,9 +282,11 @@
         this.saveItem({action: this.action})
           .then((data) => {
             this.saveLoading = false
+            
             if (!data.success) {
-              return this.setSnackbar({snackbar: true, message: data.message, color: 'red'})
+              return this.setSnackbar({snackbar: true, message: data.error.message, color: 'red'})
             }
+            
             this.closeDialog()
             return this.setSnackbar({snackbar: true, message: 'Updated successfully', color: 'success'})
           })

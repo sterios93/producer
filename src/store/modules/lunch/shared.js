@@ -1,5 +1,5 @@
 import {set, toggle} from '@/utils/vuex'
-import {postData} from "../../../utils/helpers";
+import {postData, changeDateFormat} from "../../../utils/helpers";
 
 const state = () => ({
   allItems: []
@@ -37,32 +37,30 @@ export default {
     setSchedule: ({commit}, {payload, action}) => commit('SET_SCHEDULE', {payload, action}),
     setStartDate: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
     saveItem({rootState, state, commit, dispatch}, {action}) {
-      return new Promise(resolve => {
-        let data = state[action]
+      let data = state[action]
 
-    		const { apiUrl, createLunchtemPath, prodPost } = rootState.settings;
-        const url = apiUrl + createLunchtemPath + prodPost;
+      const { apiUrl, createLunchtemPath, prodPost } = rootState.settings;
+      const url = apiUrl + createLunchtemPath + prodPost;
 
-        const payload = {
-          menuItems: data.items,
-          timeStart: data.startDate,
-          timeEnd: data.endDate,			
-          active: data.isActive	
-        }
+      const payload = {
+        menuItems: data.items.map(item => item._id),
+        timeStart: changeDateFormat(data.startDate),
+        timeEnd: changeDateFormat(data.endDate),
+        active: data.isActive
+      }
 
-        return postData({ url, payload })
-          .then((data) => {
-            if (action === 'add') {
-              console.error(data)
-              dispatch('addItem', data)
-              // dispatch('addItem', data)
-            } else if (action === 'edit') {
-              dispatch('updateItem', data)
-            }
-            return data
-          }) 
+      return postData({ url, payload })
+        .then((data) => data.json())
+        .then((data) => {
+          if (action === 'add') {
+            dispatch('addItem', data)
+            // dispatch('addItem', data)
+          } else if (action === 'edit') {
+            dispatch('updateItem', data)
+          }
 
-      })
+          return data
+        })
     },
     fetchItem({dispatch, commit}, {payload, action}) {
       let mockData = {
@@ -138,11 +136,11 @@ export default {
         startDate: '2019-09-10 12:00',
         endDate: '2019-10-10 12:00',
       }
-      
+
       dispatch('setItem', {payload: mockData, action})
-      
+
       return Promise.resolve(mockData)
-      
+
       // TODO :: remove upper code and use this when backend is ready
       // let url = ''
       // let query = payload
@@ -154,12 +152,12 @@ export default {
     },
     deleteItem: ({commit}, {payload}) => {
       return new Promise(resolve => {
-      
+
         let data = {
           success: true,
           message: 'Internal Error'
         }
-      
+
         // postData().then((data) => {
         setTimeout(() => {
           if (data.success) {
@@ -171,7 +169,7 @@ export default {
     },
     async toggleActive({commit}, {payload, action}) {
       let isAsync = action === 'edit' || action === 'list'
-    
+
       if (isAsync) {
         await new Promise((resolve) => {
           setTimeout(() => {
@@ -179,7 +177,7 @@ export default {
           }, 2000)
         })
       }
-    
+
       switch (action) {
         case 'add':
         case 'edit':
@@ -189,7 +187,7 @@ export default {
           commit('TOGGLE_ACTIVE_LIST_ITEM', payload)
           break
       }
-    
+
       return {
         success: true,
         message: 'Toggled successfully',
@@ -198,5 +196,3 @@ export default {
     },
   }
 }
-
-
