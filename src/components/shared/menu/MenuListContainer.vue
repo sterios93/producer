@@ -70,16 +70,14 @@
     watch: {
       activeTab: {
       	handler: function (value) {
-			  this.$emit('active-tab-change', value)
-			// TODO: fetch the data for the selected tab
-			// TODO: Add loader , during the response time
-			// TODO: Handle errors
-			//   Main Menu 
-			if (value === 0 ) this.fetchMenuItems().then(data => !data.success && this.errorHandler(data));
-			// Special offers
-			if (value === 1) this.fetchSpecialOffers().then(data => !data.success && this.errorHandler(data));
-			// Lunch offers
-			// if (value === 2) this.fetchLunchOffers();
+          this.$emit('active-tab-change', value)
+          // TODO: Add loader , during the response time
+          //   Main Menu 
+          if (value === 0 ) this.fetchMenuItems().then(data => !data.success && this.errorHandler(data));
+          // Special offers
+          if (value === 1) this.fetchSpecialOffers().then(data => !data.success && this.errorHandler(data));
+          // Lunch offers
+          if (value === 2) this.fetchLunchItems().then(data => !data.success && this.errorHandler(data));
         },
         immediate: true
       }
@@ -109,6 +107,7 @@
 	methods: {
     ...mapActions('main', ['fetchMenuItems']),
     ...mapActions('special', ['fetchSpecialOffers']),
+    ...mapActions('lunch', ['fetchLunchItems']),
     ...mapActions('snackbar', ['setState']),
 		errorHandler(data) {
  			this.setState({snackbar: true, message: data.error && data.error.message, color: 'red'});

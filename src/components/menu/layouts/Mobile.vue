@@ -96,7 +96,7 @@
               this.fetchSpecialOffers().then(data => !data.success && this.errorHandler(data));
               break
           case 'lunch': 
-              // TODO 
+              this.fetchLunchItems().then(data => !data.success && this.errorHandler(data));
               break
           }
         },
@@ -176,6 +176,7 @@
       ...mapGetters('main', ['getMenuByCategory']),
       ...mapActions('main', ['fetchMenuItems']),
       ...mapActions('special', ['fetchSpecialOffers']),
+      ...mapActions('lunch', ['fetchLunchItems']),
       ...mapActions({
         'setModalVisibility': 'modals/setModalVisibility',
         'setMenuModalVisibility': 'modals/setMenuModalVisibility',
