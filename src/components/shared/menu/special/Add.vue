@@ -62,7 +62,7 @@
                         <v-flex xs12 sm6>
                             <v-autocomplete
                                     v-model="specialItems"
-                                    :items="item.mainItems"
+                                    :items="mainItems"
                                     item-text="name"
                                     item-value="id"
                                     return-object
@@ -197,6 +197,7 @@
     computed: {
       ...mapState({
         item: function (state) { return state.special[this.action]},
+        mainItems: (state) => state.special.shared.mainItems,
         color: (state) => state.modals.menu.special.color,
         action: (state) => state.modals.menu.special.action,
         special: (state) => state.modals.menu.special,

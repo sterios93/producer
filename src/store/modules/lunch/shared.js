@@ -1,15 +1,18 @@
 import {set, toggle} from '@/utils/vuex'
-import {postData, changeDateFormat} from "../../../utils/helpers";
+import {postData, getData, customFromatDate, changeDateFormat} from "../../../utils/helpers";
+import Vue from 'vue'
 
 const state = () => ({
-  allItems: []
+  allItems: [],
+  lunchOnlyItems: [],
 })
 
 export default {
   state,
   mutations: {
     SET_ITEM: (state, {payload, action}) => state[action] = payload,
-    SET_ITEMS: (state, {payload, action}) => state[action].items = payload,
+    SET_ITEMS: (state, {payload, action}) => Vue.set(state[action], 'items', payload),
+    SET_LUNCH_ONlY_ITEMS: (state, {payload, action}) => Vue.set(state.shared, 'lunchOnlyItems', payload),
     SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
     SET_SCHEDULE: (state, {payload, action}) => state[action].schedule = payload,
     SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
@@ -36,6 +39,21 @@ export default {
     setDiscount: ({commit}, {payload, action}) => commit('SET_DISCOUNT', {payload, action}),
     setSchedule: ({commit}, {payload, action}) => commit('SET_SCHEDULE', {payload, action}),
     setStartDate: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
+    fetchAvailableLunchOnlyItems: ({rootState, commit}, {action}) => {
+      const { apiUrl, getAvailableLunchOnlyItemsPath, prodGet } = rootState.settings;
+      const url = apiUrl + getAvailableLunchOnlyItemsPath + prodGet
+
+      return getData(url)
+      .then((data) => data.json())
+      .then((data) => {
+        if (data.success) {
+          commit('SET_LUNCH_ONlY_ITEMS', {
+            payload: data.result,
+            action
+          })
+        }
+      })
+    },
     saveItem({rootState, state, commit, dispatch}, {action}) {
       let data = state[action]
 
@@ -49,6 +67,7 @@ export default {
       const url = apiUrl + (action === 'add' ? createLunchtemPath : updateLunchItemPath) + prodPost;
 
       const payload = {
+        id: data._id,
         menuItems: data.items.map(item => item._id),
         timeStart: changeDateFormat(data.startDate),
         timeEnd: changeDateFormat(data.endDate),
@@ -58,103 +77,34 @@ export default {
       return postData({ url, payload })
         .then((data) => data.json())
         .then((data) => {
-          if (action === 'add') {
-            dispatch('addItem', data.result)
-            // dispatch('addItem', data)
-          } else if (action === 'edit') {
-            dispatch('updateItem', data.result)
+          if (data.success) {
+            if (action === 'add') {
+              dispatch('addItem', data.result)
+              // dispatch('addItem', data)
+            } else if (action === 'edit') {
+              dispatch('updateItem', data.result)
+            }
           }
-
           return data
         })
     },
-    fetchItem({dispatch, commit}, {payload, action}) {
-      let mockData = {
-        id: 0,
-        discount: 10,
-        isActive: false,
-        items: [
-          {
-            id: 21,
-            name: 'Lor12331em',
-            image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-            price: 40.10,
-            lunchOnly: true,
-            category: {
-              id: 0,
-              name: 'Cuban'
-            },
-            description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-          },
-          {
-            id: 23,
-            name: 'Lor123123123em1',
-            image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-            price: 40.10,
-            lunchOnly: true,
-            category: {
-              id: 0,
-              name: 'Cuban'
-            },
-            description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-          },
-          {
-            id: 24,
-            name: 'Lore13123m2',
-            image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-            price: 40.10,
-            lunchOnly: true,
-            category: {
-              id: 0,
-              name: 'Cuban'
-            },
-            description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-          },
-          {
-            id: 4,
-            name: 'Lorem4',
-            image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-            price: 40.10,
-            lunchOnly: false,
-            weight: 50,
-            category: {
-              id: 3,
-              name: 'Breakfast'
-            },
-            description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-          },
-          {
-            id: 5,
-            name: 'Lorem',
-            image: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-            price: 40.10,
-            lunchOnly: false,
-            weight: 50,
-            category: {
-              id: 4,
-              name: 'Bagels'
-            },
-            description: 'Roast chicken, baby carrots, spring peas topped with grandma’s flakey pie crust.',
-          },
-        ],
-        image: './img/special-offer-default.jpeg',
-        schedule: null,
-        startDate: '2019-09-10 12:00',
-        endDate: '2019-10-10 12:00',
-      }
+    fetchItem({rootState, dispatch, commit}, {itemId, action}) {
+      const { apiUrl, fetchLunchtemPath, prodGet } = rootState.settings;
+      const url = apiUrl + fetchLunchtemPath + itemId + prodGet
 
-      dispatch('setItem', {payload: mockData, action})
-
-      return Promise.resolve(mockData)
-
-      // TODO :: remove upper code and use this when backend is ready
-      // let url = ''
-      // let query = payload
-      // let token = ''
-      // return getData(url, query, token)
-      //   .then((data) => {
-      //     dispatch('setItem', {payload: data, action})
-      //   })
+      return getData(url)
+        .then(data => data.json())
+        .then(data => {
+          if (data.success) {
+            console.error(data)
+            const payload = data.result;
+            payload.items = payload.menuItems;
+            payload.startDate = customFromatDate(payload.timeStart);
+            payload.endDate = customFromatDate(payload.timeEnd);
+            dispatch('setItem', { payload, action})
+          }
+          return data
+        })
     },
     deleteItem: ({commit}, {payload}) => {
       return new Promise(resolve => {

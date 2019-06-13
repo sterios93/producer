@@ -26,7 +26,7 @@
                                 <v-flex xs12 sm6>
                                     <v-autocomplete
                                             v-model="chosenLunchItems"
-                                            :items="allItems"
+                                            :items="lunchOnlyItems"
                                             item-text="name"
                                             item-value="id"
                                             return-object
@@ -171,8 +171,8 @@
         color: (state) => state.modals.menu.lunch.color,
         lunch: (state) => state.modals.menu.lunch,
         action: (state) => state.modals.menu.lunch.action,
-        allItems: (state) => state.lunch.shared.allItems,
-        mainItems: (state) => state.main.list.items,
+        lunchOnlyItems: (state) => state.lunch.shared.lunchOnlyItems,
+        mainItems: (state) => state.special.shared.mainItems,
         responsive: (state) => state.layout.responsive,
         mainVisibility: (state) => state.modals.menu.main.visibility,
       }),
@@ -229,6 +229,13 @@
     },
 
     created() {
+      this.fetchAvailableItems({
+        action: this.action
+      })
+      this.fetchAvailableLunchOnlyItems({
+        action: this.action
+      })
+
       this.endDate = this.today
 
       this.startDate = this.today
@@ -254,10 +261,14 @@
         'setDiscount',
         'toggleActive',
         'setStartDate',
+        'fetchAvailableLunchOnlyItems',
       ]),
       ...mapActions('modals', [
         'setFullscreen',
         'setMenuModalVisibility'
+      ]),
+      ...mapActions('special', [
+        'fetchAvailableItems'
       ]),
       ...mapActions('snackbar', {
         setSnackbar: 'setState'

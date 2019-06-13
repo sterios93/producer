@@ -3,7 +3,7 @@ import { set, toggle } from '@/utils/vuex'
 import { formatDate, getData, postData, customFromatDate} from "../../../utils/helpers";
 
 const state = () => ({
-
+  mainItems: [],
 })
 
 export default {
@@ -19,7 +19,7 @@ export default {
     SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
     TOGGLE_ACTIVE: (state, {payload, action}) => state[action].isActive = !state[action].isActive,
     SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
-    SET_MAIN_ITEMS: (state, {payload, action}) => Vue.set(state[action], 'mainItems', payload),
+    SET_MAIN_ITEMS: (state, {payload, action}) => Vue.set(state.shared, 'mainItems', payload),
     SET_PICTURE_URL: (state, {payload, action}) => state[action].image = payload,
     SET_DESCRIPTION: (state, {payload, action}) => state[action].description = payload,
   },
