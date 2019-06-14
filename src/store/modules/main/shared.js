@@ -17,6 +17,7 @@ export default {
     TOGGLE_ACTIVE: (state, {payload, action}) => state[action].isActive = !state[action].isActive,
     SET_PICTURE_URL: (state, {payload, action}) => state[action].image = payload,
     SET_DESCRIPTION: (state, {payload, action}) => state[action].description = payload,
+    TOGGLE_LUNCH_ONLY: (state, {payload, action}) => state[action].lunchOnly = payload,
   },
   getters: {
     sumItemsPrice: (state) => (ids, action) => {
@@ -36,6 +37,7 @@ export default {
     toggleActive: ({commit}, {payload, action}) => commit('TOGGLE_ACTIVE', {payload, action}),
     setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
     setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
+    toggleLunchOnly: ({commit}, {payload, action}) => commit('TOGGLE_LUNCH_ONLY', {payload, action}),
     saveItem({rootState, state, commit, dispatch}, {action}) {
     const data = state[action];
     
@@ -52,7 +54,7 @@ export default {
 				price: new Number(data.price).toFixed(2),
 				category: data.category,
 				weight: parseInt(data.weight, 10),
-				lunchOnly: 0,
+				lunchOnly: data.lunchOnly ? 1 : 0,
 				description: data.description
       };
 			

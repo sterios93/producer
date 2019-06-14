@@ -80,6 +80,15 @@
                             ></v-text-field>
                         </v-flex>
 
+                         <v-flex xs12 sm4 md4>
+                            <v-switch
+                                    label="Is Lunch only"
+                                    v-model="isLunchOnly"
+                                    hide-details
+                            >
+                            </v-switch>
+                        </v-flex>
+
                         <v-flex xs12>
                             <v-textarea
                                     v-model="description"
@@ -189,6 +198,12 @@
           this.validate('category');
         }
       },
+      isLunchOnly: {
+        get() {return this.item.isActive},
+        set(value) {
+          this.toggleLunchOnly({payload: value ? 1 : 0, action: this.action})
+        }
+      },
       description: {
         get() {return this.item.description},
         set(value) {
@@ -221,7 +236,8 @@
         'setPicture',
         'setCategory',
         'setPictureUrl',
-        'setDescription'
+        'setDescription',
+        'toggleLunchOnly'
       ]),
       ...mapActions('modals', [
         'setModalVisibility',

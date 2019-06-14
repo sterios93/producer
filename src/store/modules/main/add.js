@@ -7,6 +7,7 @@ const stateBuilder = () => ({
 	description: '',
 	weight: '',
 	price: 0,
+	lunchOnly: 0,
 	category: {} // TODO consider array or single item
 })
 
