@@ -70,7 +70,7 @@ export default {
 			const payload = {
         id: data._id,
 				name: data.name,
-				discount: data.discount,
+				discount: parseInt(data.discount),
 				// price: getPrice(new Number(data.price).toFixed(2)),
 				price: getters['getPrice'](action).toFixed(2),
 				menuItems: data.items.map(item => item._id),
