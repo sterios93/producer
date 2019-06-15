@@ -201,7 +201,7 @@
           this.updateItems(null, value)
         }
       },
-      isActive() {return this.item.isActive},
+      isActive() {return this.item.active},
       startDate: {
         get() {
           if (this.item.startDate) {

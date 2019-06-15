@@ -3,7 +3,7 @@ import {set, toggle} from '@/utils/vuex'
 const stateBuilder = () => ({
   items: [],
   discount: 10,
-  isActive: true,
+  active: true,
   schedule: null,
   startDate: null,
   endDate: null

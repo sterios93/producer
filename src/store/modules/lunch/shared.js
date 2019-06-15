@@ -16,7 +16,7 @@ export default {
     SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
     SET_SCHEDULE: (state, {payload, action}) => state[action].schedule = payload,
     SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
-    TOGGLE_ACTIVE: (state, {payload, action}) => state[action].isActive = !state[action].isActive,
+    TOGGLE_ACTIVE: (state, {payload, action}) => state[action].active = !state[action].active, // TODO use data from BE
     SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
   },
   getters: {
@@ -54,8 +54,8 @@ export default {
         }
       })
     },
-    saveItem({rootState, state, commit, dispatch}, {action}) {
-      let data = state[action]
+    saveItem({rootState, state, commit, dispatch}, {prePayload = {}, action}) {
+      let data = state[action] || prePayload
 
       const { 
         apiUrl, 
@@ -66,12 +66,15 @@ export default {
 
       const url = apiUrl + (action === 'add' ? createLunchtemPath : updateLunchItemPath) + prodPost;
 
+      console.error(prePayload);
+      
       const payload = {
         id: data._id,
-        menuItems: data.items.map(item => item._id),
-        timeStart: changeDateFormat(data.startDate),
-        timeEnd: changeDateFormat(data.endDate),
-        active: data.isActive
+        menuItems: data.items && data.items.map(item => item._id),
+        timeStart: data.startDate && changeDateFormat(data.startDate),
+        timeEnd: data.endDate && changeDateFormat(data.endDate),
+        active: data.active,
+        ...prePayload
       }
 
       return postData({ url, payload })
@@ -96,7 +99,6 @@ export default {
         .then(data => data.json())
         .then(data => {
           if (data.success) {
-            console.error(data)
             const payload = data.result;
             payload.items = payload.menuItems;
             payload.startDate = customFromatDate(payload.timeStart);
@@ -123,15 +125,19 @@ export default {
         }, 2000)
       })
     },
-    async toggleActive({commit}, {payload, action}) {
-      let isAsync = action === 'edit' || action === 'list'
-
-      if (isAsync) {
-        await new Promise((resolve) => {
-          setTimeout(() => {
-            resolve()
-          }, 2000)
+    async toggleActive({dispatch, commit}, {payload, action, isAsync}) {
+      // let isAsync = action === 'edit' || action === 'list'
+      
+      if (isAsync !== undefined) {
+        const data = await dispatch('saveItem', {
+          prePayload: {
+            active: !payload.active,
+            id: payload._id
+          }
         })
+        if (!data.success) {
+          return data
+        }
       }
 
       switch (action) {

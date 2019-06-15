@@ -134,8 +134,8 @@
       }
     },
     watch: {
-      'item.isActive': {
-        handler: function (value) {
+      'item.active': {
+        handler: function (value) {          
           this.isActive = value
         },
         immediate: true
@@ -168,8 +168,9 @@
         this.activeLoading = true
 
         this.$store.dispatch(`${this.type}/toggleActive`, {
-          payload: this.item._id,
-          action: 'list'
+          payload: this.item,
+          action: 'list',
+          isAsync: true
         }).then((data) => {
           this.activeLoading = false
           if (!data.success) {
