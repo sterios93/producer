@@ -1,59 +1,64 @@
 <template>
-    <v-card>
-        <v-card-title>
-            <div class="headline">{{history.length}} Subscriptions</div>
-            <v-spacer></v-spacer>
-            <v-text-field
-                    v-model="text"
-                    hide-details
-                    height="50px"
-                    label="Search for subscription"
-                    type="text"
-            >
+  <v-card>
+    <v-card-title>
+      <div class="headline">{{ history.length }} Subscriptions</div>
+      <v-spacer/>
+      <v-text-field
+        v-model="text"
+        hide-details
+        height="50px"
+        label="Search for subscription"
+        type="text"
+      >
 
-                <v-btn
-                        slot="append-outer"
-                        @click="() => {}"
-                        icon
-                        color="grey lighten-4">
-                    <v-icon
-                            color="grey darken-1"
-                            class="ma-0 pa-0"
-                            dark
-                    >search
-                    </v-icon>
-                </v-btn>
+        <v-btn
+          slot="append-outer"
+          icon
+          color="grey lighten-4"
+          @click="() => {}">
+          <v-icon
+            color="grey darken-1"
+            class="ma-0 pa-0"
+            dark
+          >search
+          </v-icon>
+        </v-btn>
 
-            </v-text-field>
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-layout row wrap justify-center align-center>
+      </v-text-field>
+    </v-card-title>
+    <v-divider/>
+    <v-layout
+      row
+      wrap
+      justify-center
+      align-center>
 
-            <v-list subheader>
-                <v-subheader>Recent subscriptions</v-subheader>
-                <div  v-for="item in history"
-                      :key="item.id">
-                    <HistoryItem :item="item"/>
-                </div>
-            </v-list>
-        </v-layout>
-    </v-card>
+      <v-list subheader>
+        <v-subheader>Recent subscriptions</v-subheader>
+        <div
+          v-for="item in history"
+          :key="item.id">
+          <HistoryItem :item="item"/>
+        </div>
+      </v-list>
+    </v-layout>
+  </v-card>
 </template>
 
 <script>
-	import {mapState} from 'vuex'
-	import HistoryItem from './HistoryItem'
+import { mapState } from 'vuex'
+import HistoryItem from './HistoryItem'
 
-	export default {
-		components: {
-            HistoryItem
-        },
-		computed: {
-			...mapState({
-                history: state => state.subscriptions.history,
-			})
-		},
-	}
+export default {
+  components: {
+    HistoryItem
+  },
+  computed: {
+    ...mapState({
+      history: state => state.subscriptions.history
+    })
+  }
+}
 </script>
 
 <style scoped lang="stylus">

@@ -1,5 +1,5 @@
 import { set, toggle } from '@/utils/vuex'
-import {postData} from "../../utils/helpers";
+import { postData } from '../../utils/helpers'
 
 export default {
   namespaced: true,
@@ -9,18 +9,18 @@ export default {
     toolbar: true,
     color: 'success',
     image: './img/drawer.jpg',
-    user: null,
+    user: null
   },
   mutations: {
     SET_DRAWER: set('drawer'),
     SET_IMAGE: set('image'),
     SET_COLOR: set('color'),
     TOGGLE_DRAWER: toggle('drawer'),
-    TOGGLE_TOOLBAR: toggle('toolbar'),
+    TOGGLE_TOOLBAR: toggle('toolbar')
   },
   getters: {},
   actions: {
-  	uploadImage({rootState}, payload) {
+  	uploadImage ({ rootState }, payload) {
   		return postData({
 			  url: rootState.settings.apiUrl + rootState.settings.addImage.replace('{type}', payload.type) + rootState.settings.prodGet,
 		    payload: payload.data,
@@ -29,19 +29,19 @@ export default {
 			  }
 		  })
 	  },
-    setDrawer({commit}, drawer) {
+    setDrawer ({ commit }, drawer) {
       commit('SET_DRAWER', drawer)
     },
-    setImage({commit}, image) {
+    setImage ({ commit }, image) {
       commit('SET_IMAGE', image)
     },
-    setColor({commit}, color) {
+    setColor ({ commit }, color) {
       commit('SET_COLOR', color)
     },
-    toggleDrawer({commit}, drawer) {
+    toggleDrawer ({ commit }, drawer) {
       commit('TOGGLE_DRAWER', drawer)
     },
-    toggleToolbar({commit}, toolbar) {
+    toggleToolbar ({ commit }, toolbar) {
       commit('TOGGLE_TOOLBAR', toolbar)
     }
   }

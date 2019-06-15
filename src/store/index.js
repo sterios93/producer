@@ -24,7 +24,7 @@ const store = new Vuex.Store({
     lunch,
     special,
     main
-  },
+  }
 })
 
 export default store

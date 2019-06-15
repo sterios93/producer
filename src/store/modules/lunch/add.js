@@ -1,4 +1,4 @@
-import {set, toggle} from '@/utils/vuex'
+import { set, toggle } from '@/utils/vuex'
 
 const stateBuilder = () => ({
   items: [],

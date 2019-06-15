@@ -14,7 +14,7 @@
     >
       mdi-bell-plus
     </v-icon>
-    <div>{{message}}</div>
+    <div>{{ message }}</div>
     <v-icon
       size="16"
       @click="setSnackbar(false)"
@@ -25,23 +25,23 @@
 </template>
 
 <script>
-  import { mapState, mapActions } from 'vuex'
-  export default {
-    computed: {
-      ...mapState('snackbar', ['snackbar', 'top', 'left', 'bottom', 'right', 'color', 'message']),
-      snackbar: {
-        get () {
-          return this.$store.state.snackbar.snackbar
-        },
-        set (val) {
-          this.setSnackbar(val)
-        }
+import { mapState, mapActions } from 'vuex'
+export default {
+  computed: {
+    ...mapState('snackbar', ['snackbar', 'top', 'left', 'bottom', 'right', 'color', 'message']),
+    snackbar: {
+      get () {
+        return this.$store.state.snackbar.snackbar
+      },
+      set (val) {
+        this.setSnackbar(val)
       }
-    },
-    methods: {
-      ...mapActions('snackbar', ['setSnackbar'])
     }
+  },
+  methods: {
+    ...mapActions('snackbar', ['setSnackbar'])
   }
+}
 </script>
 
 <style scoped lang="stylus">

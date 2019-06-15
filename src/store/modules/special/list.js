@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import { set, toggle } from '@/utils/vuex'
-import { postData, getData } from "../../../utils/helpers";
+import { postData, getData } from '../../../utils/helpers'
 
 const state = () => ({
-  items: [],
+  items: []
 })
 
 export default {
@@ -33,26 +33,24 @@ export default {
   },
   getters: {},
   actions: {
-    addItem({commit}, payload) {
+    addItem ({ commit }, payload) {
       commit('ADD_ITEM', payload)
     },
-    updateItem({commit}, payload) {
+    updateItem ({ commit }, payload) {
       commit('UPDATE_ITEM', payload)
     },
-    fetchSpecialOffers({ commit, rootState, state, dispatch }) {
-      const { apiUrl, fetchSpecialOffersPath, prodGet } = rootState.settings;
+    fetchSpecialOffers ({ commit, rootState, state, dispatch }) {
+      const { apiUrl, fetchSpecialOffersPath, prodGet } = rootState.settings
       const url = apiUrl + fetchSpecialOffersPath + prodGet
       return getData(url)
         .then(data => data.json())
         .then(data => {
           if (data.success) {
-            const items = data.result;
+            const items = data.result
             commit('ADD_ITEMS', items)
           }
           return data
         })
-    },
+    }
   }
 }
-
-

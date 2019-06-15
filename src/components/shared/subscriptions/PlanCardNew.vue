@@ -1,101 +1,111 @@
 <template>
-    <div
-            class="plan-card"
-            @click="onClick"
-    >
-        <div class="plan-type">
-            <div class="card-type text">{{type.toUpperCase()}}</div>
-        </div>
-
-        <hr class="line">
-
-        <div class="plan-price orange--text text--lighten-2">
-            <div>
-                <p class="price text"><span class="price sign text">$</span>{{price}}</p>
-            </div>
-        </div>
-
-        <v-avatar size="50px" tile>
-            <img
-                    :src="img"
-                    :alt="type"
-            >
-        </v-avatar>
-
-        <div class="plan-includes">
-            <ul class="inner-container">
-                <li v-for="item in includes" :key="item" class="list-item">{{item}}</li>
-            </ul>
-        </div>
-
-        <hr class="line">
-
-        <div class="plan-actions">
-            <v-btn dark :color="colors.second" block width="400" @click="onClick">ORDER</v-btn>
-        </div>
-
+  <div
+    class="plan-card"
+    @click="onClick"
+  >
+    <div class="plan-type">
+      <div class="card-type text">{{ type.toUpperCase() }}</div>
     </div>
+
+    <hr class="line">
+
+    <div class="plan-price orange--text text--lighten-2">
+      <div>
+        <p class="price text"><span class="price sign text">$</span>{{ price }}</p>
+      </div>
+    </div>
+
+    <v-avatar
+      size="50px"
+      tile>
+      <img
+        :src="img"
+        :alt="type"
+      >
+    </v-avatar>
+
+    <div class="plan-includes">
+      <ul class="inner-container">
+        <li
+          v-for="item in includes"
+          :key="item"
+          class="list-item">{{ item }}</li>
+      </ul>
+    </div>
+
+    <hr class="line">
+
+    <div class="plan-actions">
+      <v-btn
+        :color="colors.second"
+        dark
+        block
+        width="400"
+        @click="onClick">ORDER</v-btn>
+    </div>
+
+  </div>
 
 </template>
 
 <script>
-    import {mapActions} from 'vuex'
-	export default {
-		props: {
-            colors: {
-				type: Object,
-				default: () => {
-					return {
-						primary: '#205D3C',
-						second: '#47BB78'
-					}
-				}
-			},
-            includes: {
+import { mapActions } from 'vuex'
+export default {
+  props: {
+    colors: {
+      type: Object,
+      default: () => {
+        return {
+          primary: '#205D3C',
+          second: '#47BB78'
+        }
+      }
+    },
+    includes: {
             	type: Array,
-                default: () => []
-            },
-            type: {
-				type: String,
-				default: 'Basic'
-			},
-            price: {
-				type: Number,
-				default: 50,
-			},
-            img: {
+      default: () => []
+    },
+    type: {
+      type: String,
+      default: 'Basic'
+    },
+    price: {
+      type: Number,
+      default: 50
+    },
+    img: {
 	            type: String,
 	            default: './img/basic.png'
-            },
-            isActive: {
-				type: Boolean,
-                default: false
-            }
-		},
-		data() {
-			return {
-				minHeight: {
-					special: 170,
-					ordinary: 150
-				}
-			}
-		},
-		methods: {
-            ...mapActions({
-                cancelMemberShip: 'subscriptions/cancelMemberShip',
-                setModalData: 'modals/setModalData',
-            }),
-            onClick() {
-                this.setModalData({
-                    key: 'payment',
-                    value: {
-                        visibility: true,
-                        plan: this.type,
-                    }
-                })
-            }
-		}
-	}
+    },
+    isActive: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data () {
+    return {
+      minHeight: {
+        special: 170,
+        ordinary: 150
+      }
+    }
+  },
+  methods: {
+    ...mapActions({
+      cancelMemberShip: 'subscriptions/cancelMemberShip',
+      setModalData: 'modals/setModalData'
+    }),
+    onClick () {
+      this.setModalData({
+        key: 'payment',
+        value: {
+          visibility: true,
+          plan: this.type
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="stylus">
@@ -185,7 +195,6 @@
         .plan-includes
             padding-top: 10px
 
-
             .inner-container
                 padding-left 0 !important
                 list-style-type: none
@@ -201,4 +210,3 @@
         .plan-actions
             width: 50%
 </style>
-

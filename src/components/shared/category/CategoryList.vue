@@ -1,47 +1,55 @@
 <template>
-    <v-card>
-        <v-toolbar class="toolbar" dark>
-            <v-toolbar-title class="title font-weight-light mb-2 white--text">Categories</v-toolbar-title>
+  <v-card>
+    <v-toolbar
+      class="toolbar"
+      dark>
+      <v-toolbar-title class="title font-weight-light mb-2 white--text">Categories</v-toolbar-title>
 
-            <v-spacer></v-spacer>
+      <v-spacer/>
 
-            <v-btn icon>
-                <v-icon>search</v-icon>
-            </v-btn>
-        </v-toolbar>
+      <v-btn icon>
+        <v-icon>search</v-icon>
+      </v-btn>
+    </v-toolbar>
 
-        <v-list two-line class="px-3">
-            <template v-for="item in items">
-                <v-divider></v-divider>
-                <CategoryItem :item="item" :disabled="disabled" :key=item.id @item-selected="onItemSelected"/>
-            </template>
-        </v-list>
-    </v-card>
+    <v-list
+      two-line
+      class="px-3">
+      <template v-for="item in items">
+        <v-divider/>
+        <CategoryItem
+          :item="item"
+          :disabled="disabled"
+          :key="item.id"
+          @item-selected="onItemSelected"/>
+      </template>
+    </v-list>
+  </v-card>
 </template>
 
 <script>
-  import {mapActions} from 'vuex'
-  import CategoryItem from './CategoryItem'
+import { mapActions } from 'vuex'
+import CategoryItem from './CategoryItem'
 
-  export default {
-    components: {
-      CategoryItem
-    },
+export default {
+  components: {
+    CategoryItem
+  },
 
-    props: {
-      color: String,
-      items: Array,
-      searchVisibility: Boolean,
-      disabled: Boolean
-    },
+  props: {
+    color: String,
+    items: Array,
+    searchVisibility: Boolean,
+    disabled: Boolean
+  },
 
-    methods: {
-      ...mapActions('categories', ['toggleCategory']),
-      onItemSelected(id) {
-        this.toggleCategory({id})
-      }
+  methods: {
+    ...mapActions('categories', ['toggleCategory']),
+    onItemSelected (id) {
+      this.toggleCategory({ id })
     }
   }
+}
 </script>
 
 <style scoped lang="stylus">

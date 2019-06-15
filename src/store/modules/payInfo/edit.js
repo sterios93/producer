@@ -1,8 +1,8 @@
 import { set, toggle } from '@/utils/vuex'
 
 const state = () => ({
-  cardNumber: "",
-  bic: "",
+  cardNumber: '',
+  bic: ''
 })
 
 export default {
@@ -11,5 +11,3 @@ export default {
   getters: {},
   actions: {}
 }
-
-

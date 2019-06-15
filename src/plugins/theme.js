@@ -9,5 +9,5 @@ export default {
   second: '#33a1ff',
   warning: '#ffa21a',
   base: 'teal darken-1',
-  modals: 'blue-grey darken-2',
+  modals: 'blue-grey darken-2'
 }

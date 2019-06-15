@@ -9,7 +9,7 @@ const state = () => ({
   price: 0,
   items: [],
   discount: 10,
-  isActive: true,
+  active: true,
   schedule: null,
   timeStart: null,
   timeEnd: null
@@ -20,8 +20,6 @@ export default {
   mutations: {},
   getters: {},
   actions: {
-  
+
   }
 }
-
-

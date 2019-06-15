@@ -1,5 +1,5 @@
-import {set, toggle} from '@/utils/vuex'
-import {postData, getData, customFromatDate, changeDateFormat} from "../../../utils/helpers";
+import { set, toggle } from '@/utils/vuex'
+import { postData, getData, customFromatDate, changeDateFormat } from '../../../utils/helpers'
 import Vue from 'vue'
 
 const state = () => ({
@@ -8,13 +8,13 @@ const state = () => ({
 export default {
   state,
   mutations: {
-    SET_ITEM: (state, {payload, action}) => state[action] = payload,
-    SET_ITEMS: (state, {payload, action}) => Vue.set(state[action], 'items', payload),
-    SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
-    SET_SCHEDULE: (state, {payload, action}) => state[action].schedule = payload,
-    SET_END_DATE: (state, {payload, action}) => state[action].timeEnd = payload,
-    TOGGLE_ACTIVE: (state, {payload, action}) => state[action].active = !state[action].active, // TODO use data from BE
-    SET_START_DATE: (state, {payload, action}) => state[action].timeStart = payload,
+    SET_ITEM: (state, { payload, action }) => state[action] = payload,
+    SET_ITEMS: (state, { payload, action }) => Vue.set(state[action], 'items', payload),
+    SET_DISCOUNT: (state, { payload, action }) => state[action].discount = payload,
+    SET_SCHEDULE: (state, { payload, action }) => state[action].schedule = payload,
+    SET_END_DATE: (state, { payload, action }) => state[action].timeEnd = payload,
+    TOGGLE_ACTIVE: (state, { payload, action }) => state[action].active = !state[action].active, // TODO use data from BE
+    SET_START_DATE: (state, { payload, action }) => state[action].timeStart = payload
   },
   getters: {
     getItem: (state) => (action) => {
@@ -24,30 +24,30 @@ export default {
         discount,
         schedule,
         timeStart,
-        timeEnd,
+        timeEnd
       } = state[action]
     }
   },
   actions: {
-    reset: ({commit}, action) => commit(`RESET_${action.toUpperCase()}`),
-    setItem: ({commit}, {payload, action}) => commit('SET_ITEM', {payload, action}),
-    setItems: ({commit}, {payload, action}) => commit('SET_ITEMS', {payload, action}),
-    settimeEnd: ({commit}, {payload, action}) => commit('SET_END_DATE', {payload, action}),
-    setDiscount: ({commit}, {payload, action}) => commit('SET_DISCOUNT', {payload, action}),
-    setSchedule: ({commit}, {payload, action}) => commit('SET_SCHEDULE', {payload, action}),
-    settimeStart: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
-    saveItem({rootState, state, commit, dispatch}, {prePayload = {}, action}) {
+    reset: ({ commit }, action) => commit(`RESET_${action.toUpperCase()}`),
+    setItem: ({ commit }, { payload, action }) => commit('SET_ITEM', { payload, action }),
+    setItems: ({ commit }, { payload, action }) => commit('SET_ITEMS', { payload, action }),
+    settimeEnd: ({ commit }, { payload, action }) => commit('SET_END_DATE', { payload, action }),
+    setDiscount: ({ commit }, { payload, action }) => commit('SET_DISCOUNT', { payload, action }),
+    setSchedule: ({ commit }, { payload, action }) => commit('SET_SCHEDULE', { payload, action }),
+    settimeStart: ({ commit }, { payload, action }) => commit('SET_START_DATE', { payload, action }),
+    saveItem ({ rootState, state, commit, dispatch }, { prePayload = {}, action }) {
       let data = state[action] || prePayload
 
-      const { 
-        apiUrl, 
+      const {
+        apiUrl,
         createLunchtemPath,
-        updateLunchItemPath, 
-        prodPost 
-      } = rootState.settings;
+        updateLunchItemPath,
+        prodPost
+      } = rootState.settings
 
-      const url = apiUrl + (action === 'add' ? createLunchtemPath : updateLunchItemPath) + prodPost;
-      
+      const url = apiUrl + (action === 'add' ? createLunchtemPath : updateLunchItemPath) + prodPost
+
       const payload = {
         id: data._id,
         menuItems: data.items && data.items.map(item => item._id),
@@ -67,31 +67,30 @@ export default {
             } else if (action === 'edit') {
               dispatch('updateItem', data.result)
             }
-            dispatch('setItem', {payload: data.result, action: 'view'}) // TODO consider a way where we dont do this every time
+            dispatch('setItem', { payload: data.result, action: 'view' }) // TODO consider a way where we dont do this every time
           }
           return data
         })
     },
-    fetchItem({rootState, dispatch, commit}, {itemId, action}) {
-      const { apiUrl, fetchLunchtemPath, prodGet } = rootState.settings;
+    fetchItem ({ rootState, dispatch, commit }, { itemId, action }) {
+      const { apiUrl, fetchLunchtemPath, prodGet } = rootState.settings
       const url = apiUrl + fetchLunchtemPath + itemId + prodGet
 
       return getData(url)
         .then(data => data.json())
         .then(data => {
           if (data.success) {
-            const payload = data.result;
-            payload.items = payload.menuItems;
-            payload.timeStart = customFromatDate(payload.timeStart);
-            payload.timeEnd = customFromatDate(payload.timeEnd);
-            dispatch('setItem', { payload, action})
+            const payload = data.result
+            payload.items = payload.menuItems
+            payload.timeStart = customFromatDate(payload.timeStart)
+            payload.timeEnd = customFromatDate(payload.timeEnd)
+            dispatch('setItem', { payload, action })
           }
           return data
         })
     },
-    deleteItem: ({commit}, {payload}) => {
+    deleteItem: ({ commit }, { payload }) => {
       return new Promise(resolve => {
-
         let data = {
           success: true,
           message: 'Internal Error'
@@ -106,9 +105,9 @@ export default {
         }, 2000)
       })
     },
-    async toggleActive({dispatch, commit}, {payload, action, isAsync}) {
+    async toggleActive ({ dispatch, commit }, { payload, action, isAsync }) {
       // let isAsync = action === 'edit' || action === 'list'
-      
+
       if (isAsync !== undefined) {
         const data = await dispatch('saveItem', {
           prePayload: {
@@ -124,7 +123,7 @@ export default {
       switch (action) {
         case 'add':
         case 'edit':
-          commit('TOGGLE_ACTIVE', {payload, action})
+          commit('TOGGLE_ACTIVE', { payload, action })
           break
         case 'list':
           commit('TOGGLE_ACTIVE_LIST_ITEM', payload._id)
@@ -136,6 +135,6 @@ export default {
         message: 'Toggled successfully',
         data: {}
       }
-    },
+    }
   }
 }

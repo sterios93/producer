@@ -1,39 +1,50 @@
 <template>
-    <v-container fluid fill-height grid-list-xl>
-        <v-layout row wrap justify-center>
-            <v-flex xs12 lg10>
-                <SharedSubscriptions/>
-            </v-flex>
+  <v-container
+    fluid
+    fill-height
+    grid-list-xl>
+    <v-layout
+      row
+      wrap
+      justify-center>
+      <v-flex
+        xs12
+        lg10>
+        <SharedSubscriptions/>
+      </v-flex>
 
-            <v-flex xs12 lg10 class="pt-4">
-                <Memberships />
-            </v-flex>
-        </v-layout>
-    </v-container>
+      <v-flex
+        xs12
+        lg10
+        class="pt-4">
+        <Memberships />
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-  import {mapState, mapActions} from 'vuex'
-  import Memberships from '../components/shared/subscriptions/Memberships'
-  import SharedSubscriptions from '../components/shared/subscriptions/SharedSubscriptions'
+import { mapState, mapActions } from 'vuex'
+import Memberships from '../components/shared/subscriptions/Memberships'
+import SharedSubscriptions from '../components/shared/subscriptions/SharedSubscriptions'
 
-  export default {
-    components: {
+export default {
+  components: {
 	    Memberships,
 	    SharedSubscriptions
-    },
-    data() {
-      return {
+  },
+  data () {
+    return {
 	      tabs: null,
 	      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-      }
-    },
-    computed: {
-      ...mapState({
-        color: state => state.app.color,
-      })
-    },
+    }
+  },
+  computed: {
+    ...mapState({
+      color: state => state.app.color
+    })
   }
+}
 </script>
 
 <style scoped lang="stylus">

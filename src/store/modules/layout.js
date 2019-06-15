@@ -3,15 +3,15 @@ import { set, toggle } from '@/utils/vuex'
 export default {
   namespaced: true,
   state: {
-    responsive: false,
+    responsive: false
   },
   mutations: {
-    SET_RESPONSIVE: set('responsive'),
+    SET_RESPONSIVE: set('responsive')
   },
   getters: {},
   actions: {
-    setResponsive({commit}, payload) {
+    setResponsive ({ commit }, payload) {
       commit('SET_RESPONSIVE', payload)
-    },
+    }
   }
 }

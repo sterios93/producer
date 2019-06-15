@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { set, toggle } from '@/utils/vuex'
-import {getData} from "../../../utils/helpers";
+import { getData } from '../../../utils/helpers'
 
 const state = () => ({
   items: []
@@ -33,26 +33,24 @@ export default {
   },
   getters: {},
   actions: {
-    addItem({commit}, payload) {
+    addItem ({ commit }, payload) {
       commit('ADD_ITEM', payload)
     },
-    updateItem({commit}, payload) {
+    updateItem ({ commit }, payload) {
       commit('UPDATE_ITEM', payload)
     },
-    fetchLunchItems({commit, rootState, state, dispatch}) {
-			const { apiUrl, fetchLunchListPath, prodGet } = rootState.settings;
-			const url = apiUrl + fetchLunchListPath + prodGet
-			return getData(url)
-					.then(data => data.json())
-					.then(data => {
-						if (data.success) {
-							const items = data.result;
-							commit('ADD_ITEMS', items)
-						}
-						return data
-					})
-		},
+    fetchLunchItems ({ commit, rootState, state, dispatch }) {
+      const { apiUrl, fetchLunchListPath, prodGet } = rootState.settings
+      const url = apiUrl + fetchLunchListPath + prodGet
+      return getData(url)
+        .then(data => data.json())
+        .then(data => {
+          if (data.success) {
+            const items = data.result
+            commit('ADD_ITEMS', items)
+          }
+          return data
+        })
+    }
   }
 }
-
-

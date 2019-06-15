@@ -6,14 +6,16 @@
       @validate="onValidate"
       @input="onInput"
       @blur="onBlur"
-    ></vue-tel-input>
-    <p class="error-message" v-if="showPhoneError">This field is required</p>
+    />
+    <p
+      v-if="showPhoneError"
+      class="error-message">This field is required</p>
   </div>
 </template>
 
 <script>
-import VueTelInput from "vue-tel-input";
-import { log } from 'util';
+import VueTelInput from 'vue-tel-input'
+import { log } from 'util'
 
 export default {
   components: {
@@ -22,7 +24,7 @@ export default {
   props: {
     value: {
       type: String,
-      default: ""
+      default: ''
     },
     showErrors: {
       type: Boolean,
@@ -33,27 +35,27 @@ export default {
       default: false
     }
   },
-  data() {
+  data () {
     return {
       phoneFieldDirty: false,
       isPhoneValid: false,
       phoneProps: {
-        defaultCountry: "de",
+        defaultCountry: 'de',
         disabledFetchingCountry: false,
         disabled: this.disabled,
         disabledFormatting: false,
-        placeholder: "Enter a phone number",
+        placeholder: 'Enter a phone number',
         required: true,
         enabledCountryCode: false,
         enabledFlags: true,
-        preferredCountries: ["AU", "BR"],
+        preferredCountries: ['AU', 'BR'],
         onlyCountries: [],
         ignoredCountries: [],
-        autocomplete: "off",
-        name: "telephone",
+        autocomplete: 'off',
+        name: 'telephone',
         maxLen: 25,
-        wrapperClasses: "",
-        inputClasses: "",
+        wrapperClasses: '',
+        inputClasses: '',
         countryEnabled: true,
         dropdownOptions: {
           disabledDialCode: false
@@ -62,29 +64,29 @@ export default {
           showDialCode: true
         }
       }
-    };
+    }
   },
   computed: {
-    showPhoneError() {
+    showPhoneError () {
       return this.showErrors && !this.isPhoneValid && this.phoneFieldDirty
     }
   },
   methods: {
-    onValidate(event) {
+    onValidate (event) {
       if (!this.phoneFieldDirty) return
       this.isPhoneValid = event.isValid
-      this.$emit("validate", event);
+      this.$emit('validate', event)
     },
-    onInput(event) {
+    onInput (event) {
       this.phoneFieldDirty = true
-      this.$emit("input", event);
+      this.$emit('input', event)
     },
-    onBlur() {
+    onBlur () {
       this.phoneFieldDirty = true
-      this.$emit("blur", event);
+      this.$emit('blur', event)
     }
   }
-};
+}
 </script>
 
 <style lang="stylus">

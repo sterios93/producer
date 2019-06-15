@@ -1,38 +1,40 @@
 <template>
-    <div
-            class="action-card"
-            @click="onClick"
-    >
-        <v-avatar size="100px" tile>
-            <img
-                    :src="'./img/' + action.img"
-                    :alt="action.title"
-            >
-        </v-avatar>
-        <hr class="line">
-        <div class="action-card-title subheading">{{action.title}}</div>
-    </div>
+  <div
+    class="action-card"
+    @click="onClick"
+  >
+    <v-avatar
+      size="100px"
+      tile>
+      <img
+        :src="'./img/' + action.img"
+        :alt="action.title"
+      >
+    </v-avatar>
+    <hr class="line">
+    <div class="action-card-title subheading">{{ action.title }}</div>
+  </div>
 </template>
 
 <script>
-  export default {
-    props: {
-      action: {
+export default {
+  props: {
+    action: {
       	type: Object,
-        default: () => {
-          return {
+      default: () => {
+        return {
           	title: 'Simple Action',
-            img: ''
-          }
+          img: ''
         }
       }
-    },
-    methods: {
-      onClick() {
+    }
+  },
+  methods: {
+    onClick () {
       	this.action.cb()
-      }
     }
   }
+}
 </script>
 
 <style scoped lang="stylus">

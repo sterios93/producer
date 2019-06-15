@@ -1,5 +1,5 @@
-import {set, toggle} from '@/utils/vuex'
-import {getData, postData} from "../../utils/helpers";
+import { set, toggle } from '@/utils/vuex'
+import { getData, postData } from '../../utils/helpers'
 
 let current = 11
 const idGenerator = () => {
@@ -10,7 +10,7 @@ export default {
   namespaced: true,
   state: {
     items: [
-     
+
     ],
     current: {
       name: '',
@@ -21,8 +21,8 @@ export default {
   mutations: {
     SET_CATEGORY: set('current'),
     SET_CATEGORIES: set('items'),
-    TOGGLE_CATEGORY: (state, {id}) => {
-      let category = state.items.find((el => el.id === id))
+    TOGGLE_CATEGORY: (state, { id }) => {
+      let category = state.items.find(el => el.id === id)
       category.selected = !category.selected
     },
     RESET_CURRENT: (state) => {
@@ -36,28 +36,27 @@ export default {
     SET_CATEGORY_NAME: (state, payload) => state.current.name = payload
   },
   getters: {
-    getSelectedCategories: (state) => state.items.filter(el => el.selected),
-  }
-  ,
+    getSelectedCategories: (state) => state.items.filter(el => el.selected)
+  },
   actions: {
-    resetCurrent: ({commit}) => {
+    resetCurrent: ({ commit }) => {
       commit(`RESET_CURRENT`)
     },
-    setCategories({commit}, payload) {
+    setCategories ({ commit }, payload) {
       commit('SET_CATEGORIES', payload)
     },
-    toggleCategory({commit}, payload) {
+    toggleCategory ({ commit }, payload) {
       commit('TOGGLE_CATEGORY', payload)
     },
-    setCategory({commit}, payload) {
+    setCategory ({ commit }, payload) {
       commit('SET_CATEGORY', payload)
     },
-    setCategoryName({commit}, payload) {
+    setCategoryName ({ commit }, payload) {
       commit('SET_CATEGORY_NAME', payload)
     },
-    fetchCategories({commit, rootState}, payload) {
-      const { apiUrl, listCateoriesPath, prodPost } = rootState.settings;
-      const url = apiUrl + listCateoriesPath + prodPost;
+    fetchCategories ({ commit, rootState }, payload) {
+      const { apiUrl, listCateoriesPath, prodPost } = rootState.settings
+      const url = apiUrl + listCateoriesPath + prodPost
 
       return getData(url)
         .then(data => data.json())
@@ -74,23 +73,23 @@ export default {
           }
         })
     },
-    saveItem({commit, rootState, state}) {
-      const { apiUrl, createCategoryPath, prodPost } = rootState.settings;
-      const url = apiUrl + createCategoryPath + prodPost;
-      const payload = { "name": state.current.name.toString().replace(/ /g, '') }
+    saveItem ({ commit, rootState, state }) {
+      const { apiUrl, createCategoryPath, prodPost } = rootState.settings
+      const url = apiUrl + createCategoryPath + prodPost
+      const payload = { 'name': state.current.name.toString().replace(/ /g, '') }
 
-      return postData({payload, url})
-          .then(data => data.json())
-          .then(data => {
-            if (data.success) {
-              commit('ADD_NEW_CATEGORY', {
-                name: state.current.name,
-                id: idGenerator(),
-                selected: false
-              });
-            }
-            return data
-          }) 
+      return postData({ payload, url })
+        .then(data => data.json())
+        .then(data => {
+          if (data.success) {
+            commit('ADD_NEW_CATEGORY', {
+              name: state.current.name,
+              id: idGenerator(),
+              selected: false
+            })
+          }
+          return data
+        })
     }
   }
 }

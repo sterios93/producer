@@ -31,7 +31,7 @@
             class="purple-input search-input"
             label="Search..."
             color="purple"
-          ></v-text-field>
+          />
         </v-list-tile>
         <v-list-tile
           v-for="(link, i) in filteredLinks"
@@ -53,8 +53,7 @@
           active-class="primary"
           class="v-list-item v-list__tile--buy"
           to="/upgrade"
-        >
-        </v-list-tile>
+        />
       </v-layout>
     </v-img>
   </v-navigation-drawer>
@@ -62,7 +61,7 @@
 
 <script>
 // Utilities
-import { mapActions,  mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   data: () => ({
@@ -97,8 +96,8 @@ export default {
         icon: 'mdi-account',
         text: 'User Profile',
         userAccess: true
-      },
-    ],
+      }
+    ]
   }),
   computed: {
     ...mapState('authentication', ['isUserLogged']),
@@ -112,8 +111,8 @@ export default {
       set (val) {
         this.setDrawer(val)
       }
-    },    
-    filteredLinks() {
+    },
+    filteredLinks () {
       return this.links.filter(link => link.userAccess === this.isUserLogged)
     },
     items () {
@@ -121,7 +120,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('app', ['setDrawer', 'toggleDrawer']),
+    ...mapActions('app', ['setDrawer', 'toggleDrawer'])
   }
 }
 </script>

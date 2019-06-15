@@ -1,47 +1,56 @@
 <template>
-    <v-card tile max-width="250" :style="cardStyle" class="plan-card">
-        <v-card
-                tile
-                class="mx-auto plan-card-container"
-                :color="colors.primary"
-                dark
-                min-width="250"
-        >
-            <v-card-title primary-title>
-                <div>
-                    <div>
-                        <p class="price text"><span class="price sign text">$</span>{{price}}</p>
-                    </div>
-                    <span>per {{per}}</span>
-                </div>
-            </v-card-title>
-        </v-card>
-        <v-card
-                tile
-                class="mx-auto plan-card-container"
-                color="#868686"
-                dark
-                min-width="250"
-        >
-            <v-card-title primary-title class="card-type text">{{type.toUpperCase()}}</v-card-title>
-        </v-card>
-        <v-card
-                tile
-                class="mx-auto plan-card-container plan-card-list"
-                :color="colors.second"
-                dark
-                min-width="250"
-        >
-            <v-list class="inner-container">
-                <v-list-tile class="list-item">30 days Membership</v-list-tile>
-                <v-list-tile class="list-item">150+ Projects</v-list-tile>
-                <v-list-tile class="list-item">Advanced options</v-list-tile>
-            </v-list>
-
-            <v-btn :color="colors.primary" width="400" @click="onClick">ORDER</v-btn>
-        </v-card>
-
+  <v-card
+    :style="cardStyle"
+    tile
+    max-width="250"
+    class="plan-card">
+    <v-card
+      :color="colors.primary"
+      tile
+      class="mx-auto plan-card-container"
+      dark
+      min-width="250"
+    >
+      <v-card-title primary-title>
+        <div>
+          <div>
+            <p class="price text"><span class="price sign text">$</span>{{ price }}</p>
+          </div>
+          <span>per {{ per }}</span>
+        </div>
+      </v-card-title>
     </v-card>
+    <v-card
+      tile
+      class="mx-auto plan-card-container"
+      color="#868686"
+      dark
+      min-width="250"
+    >
+      <v-card-title
+        primary-title
+        class="card-type text">{{ type.toUpperCase() }}</v-card-title>
+    </v-card>
+    <v-card
+      :color="colors.second"
+      tile
+      class="mx-auto plan-card-container plan-card-list"
+      dark
+      min-width="250"
+    >
+      <v-list class="inner-container">
+        <v-list-tile class="list-item">30 days Membership</v-list-tile>
+        <v-list-tile class="list-item">150+ Projects</v-list-tile>
+        <v-list-tile class="list-item">Advanced options</v-list-tile>
+      </v-list>
+
+      <v-btn
+        :color="colors.primary"
+        width="400"
+        @click="onClick">ORDER</v-btn>
+    </v-card>
+
+  </v-card>
 </template>
 
 <script>
@@ -53,8 +62,8 @@ export default {
         return {
           primary: '#205D3C',
           second: '#47BB78'
-         }
-       }
+        }
+      }
     },
     type: {
       type: String,
@@ -62,14 +71,14 @@ export default {
     },
     price: {
       type: Number,
-      default: 50,
+      default: 50
     },
 	  position: {
       type: Object,
       default: () => {
       	return {
           upper: false,
-          down: false,
+          down: false
         }
       }
     },
@@ -78,7 +87,7 @@ export default {
       default: 'month'
     }
   },
-  data() {
+  data () {
   	return {
       minHeight: {
       	special: 170,
@@ -87,16 +96,16 @@ export default {
     }
   },
   computed: {
-    cardStyle() {
+    cardStyle () {
       return {
       	top: this.position.down ? '20px' : this.position.upper ? '-20px' : 0
       }
     }
   },
   methods: {
-    onClick() {
+    onClick () {
     	//
-    },
+    }
   }
 }
 </script>
@@ -145,4 +154,3 @@ export default {
             transform scale(1.02)
             box-shadow: 0 0 20px -7px rgba(0,0,0,0.75);
 </style>
-

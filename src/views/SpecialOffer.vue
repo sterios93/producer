@@ -1,58 +1,95 @@
 <template>
-  <v-container fill-height fluid -list-xl>
-    <v-layout justify-center wrap>
-      <v-flex xs12 md8>
-        <material-card color="green" title="Special offer" >
+  <v-container
+    fill-height
+    fluid
+    -list-xl>
+    <v-layout
+      justify-center
+      wrap>
+      <v-flex
+        xs12
+        md8>
+        <material-card
+          color="green"
+          title="Special offer" >
           <v-layout wrap>
-            <v-flex class="v-card-profile" d-flex>
+            <v-flex
+              class="v-card-profile"
+              d-flex>
               <v-layout wrap>
 
-                <v-flex xs12 lg6>
-                  <v-avatar slot="offset" class="mx-auto d-block" size="260" >
-                    <v-img :src="imagePath"></v-img>
+                <v-flex
+                  xs12
+                  lg6>
+                  <v-avatar
+                    slot="offset"
+                    class="mx-auto d-block"
+                    size="260" >
+                    <v-img :src="imagePath"/>
                   </v-avatar>
                 </v-flex>
 
-                <v-flex xs12 lg6>
+                <v-flex
+                  xs12
+                  lg6>
                   <v-card-text class="text-xs-center">
                     <v-flex
-                          xs12
-                          v-if="price"
-                          class="new-price ma-0 pa-0 headline red--text text--accent-4 text-uppercase font-weight-bold text-xs-center"
+                      v-if="price"
+                      xs12
+                      class="new-price ma-0 pa-0 headline red--text text--accent-4 text-uppercase font-weight-bold text-xs-center"
                     >
-                      {{price - price * (discount / 100)  | formatCurrency}}
+                      {{ price - price * (discount / 100) | formatCurrency }}
                     </v-flex>
                     <v-flex
-                          xs12
-                          v-if="price"
-                          class="old-price ma-0 pa-0 title red--text text--accent-1 text-uppercase font-weight-medium text-xs-center"
+                      v-if="price"
+                      xs12
+                      class="old-price ma-0 pa-0 title red--text text--accent-1 text-uppercase font-weight-medium text-xs-center"
                     >
-                        {{price | formatCurrency}}
+                      {{ price | formatCurrency }}
                     </v-flex>
-                    <br/>
-                    <h3 class="category font-weight-bold mb-3">From {{timeStart}}</h3>
-                    <h3 class="category font-weight-bold mb-3">To {{timeEnd}}</h3>
-                    <h3 class="card-title font-weight-light">{{name}}</h3>
-                    <p class="card-description font-weight-light">{{description}}</p>
+                    <br>
+                    <h3 class="category font-weight-bold mb-3">From {{ timeStart }}</h3>
+                    <h3 class="category font-weight-bold mb-3">To {{ timeEnd }}</h3>
+                    <h3 class="card-title font-weight-light">{{ name }}</h3>
+                    <p class="card-description font-weight-light">{{ description }}</p>
                     <p class="card-description font-weight-light">Also see our other offers bellow :)</p>
-                    <v-btn color="success" dark round class="font-weight-light" >Follow </v-btn>
-                    <v-btn dark @click="onEditClick" color="orange" round class="font-weight-light" >EDIT </v-btn>
-                    <v-btn dark color="red"  round class="font-weight-light" >MENU </v-btn>
-                    <v-btn dark color="blue" round class="font-weight-light" >LUNCH OFFERS </v-btn>
+                    <v-btn
+                      color="success"
+                      dark
+                      round
+                      class="font-weight-light" >Follow </v-btn>
+                    <v-btn
+                      dark
+                      color="orange"
+                      round
+                      class="font-weight-light"
+                      @click="onEditClick" >EDIT </v-btn>
+                    <v-btn
+                      dark
+                      color="red"
+                      round
+                      class="font-weight-light" >MENU </v-btn>
+                    <v-btn
+                      dark
+                      color="blue"
+                      round
+                      class="font-weight-light" >LUNCH OFFERS </v-btn>
                   </v-card-text>
                 </v-flex>
               </v-layout>
             </v-flex>
           </v-layout>
 
-          <v-flex xs12 mt-5>
+          <v-flex
+            xs12
+            mt-5>
             <v-flex
               v-for="item in items"
               :key="item.id"
               xs12
               class="py-2 px-0">
               <v-divider/>
-              <MenuItem :item="item"/>
+              <MenuItem :item="item">
             </v-flex>
           </v-flex>
         </material-card>
@@ -64,20 +101,20 @@
 
 <script>
 import MenuItem from '../components/shared/menu/MenuItem'
-import {mapActions, mapState} from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'SpecialOffer',
+  components: {
+    MenuItem
+  },
   props: {
     id: String || Number
   },
-  data() {
+  data () {
     return {
       isEditable: false,
-      defaultImage: '/img/default-menu-v2.jpg',
+      defaultImage: '/img/default-menu-v2.jpg'
     }
-  },
-  components: {
-    MenuItem
   },
   computed: {
     ...mapState('special', {
@@ -88,28 +125,28 @@ export default {
       timeEnd: (state) => state.view.timeEnd,
       discount: (state) => state.view.discount, // TODO
       timeStart: (state) => state.view.timeStart,
-      description: (state) => state.view.description,
+      description: (state) => state.view.description
     }),
-    imagePath() {
+    imagePath () {
       return this.image || this.defaultImage
-    },
+    }
   },
-  created() {
-    this.fetchItem({ itemId: this.id, action: "view" })
+  created () {
+    this.fetchItem({ itemId: this.id, action: 'view' })
       .then(data => {
         if (data.success) {
           this.item = data.result
         } else {
-          return this.setSnackbar({snackbar: true, message: data.error.message, color: 'red'})
+          return this.setSnackbar({ snackbar: true, message: data.error.message, color: 'red' })
         }
       })
   },
   methods: {
     ...mapActions({
       'fetchItem': 'special/fetchItem',
-      'setMenuModalVisibility': 'modals/setMenuModalVisibility',
+      'setMenuModalVisibility': 'modals/setMenuModalVisibility'
     }),
-    onEditClick() {
+    onEditClick () {
       this.setMenuModalVisibility({
         key: 'special',
         value: true,
@@ -121,7 +158,7 @@ export default {
         payload: JSON.parse(JSON.stringify(this.item)),
         action: 'edit'
       })
-    },
+    }
   }
 }
 </script>

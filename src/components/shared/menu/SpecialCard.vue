@@ -1,211 +1,230 @@
 <template>
-    <v-flex xs12>
-        <v-layout row justify-center>
-            <v-flex xs10 class="special-date-container" :style="containerStyle">
-                <v-layout row>
-                    <v-flex class="text-xs-center white--text date-font">
-                        <span>{{item.timeStart}}</span>
-                    </v-flex>
-                    <v-flex text-xs-center white--text date-font>
-                        <v-icon>calendar_today</v-icon>
-                    </v-flex>
-                    <v-flex class="text-xs-center white--text date-font">
-                        <span>{{item.timeEnd}}</span>
-                    </v-flex>
-                </v-layout>
-            </v-flex>
+  <v-flex xs12>
+    <v-layout
+      row
+      justify-center>
+      <v-flex
+        :style="containerStyle"
+        xs10
+        class="special-date-container">
+        <v-layout row>
+          <v-flex class="text-xs-center white--text date-font">
+            <span>{{ item.timeStart }}</span>
+          </v-flex>
+          <v-flex
+            text-xs-center
+            white--text
+            date-font>
+            <v-icon>calendar_today</v-icon>
+          </v-flex>
+          <v-flex class="text-xs-center white--text date-font">
+            <span>{{ item.timeEnd }}</span>
+          </v-flex>
         </v-layout>
-        <v-hover>
-            <v-card
-                    slot-scope="{ hover }"
-                    :class="`elevation-${hover ? 12 : 2}`"
+      </v-flex>
+    </v-layout>
+    <v-hover>
+      <v-card
+        slot-scope="{ hover }"
+        :class="`elevation-${hover ? 12 : 2}`"
+      >
+        <div v-if="isSpecial">
+          <h4
+            v-if="item.name"
+            class="ma-0 title grey--text text--darken-4 text-uppercase font-weight-medium text-xs-center">{{ item.name }}</h4>
+          <v-img
+            :src="imagePath"
+            class="white--text"
+            height="150px"
+          />
+          <v-card-title class="px-5 justify-center">
+            <div class="text-xs-center mb-4">{{ item.description }}</div>
+            <v-flex
+              v-if="item.price"
+              xs12
+              class="old-price ma-0 pa-0 title red--text text--accent-1 text-uppercase font-weight-medium text-xs-center"
             >
-            <div v-if="isSpecial">
-                <h4 v-if="item.name" class="ma-0 title grey--text text--darken-4 text-uppercase font-weight-medium text-xs-center">{{item.name}}</h4>
-                <v-img
-                        class="white--text"
-                        height="150px"
-                        :src="imagePath"
-                >
-                </v-img>
-                <v-card-title class="px-5 justify-center">
-                    <div class="text-xs-center mb-4">{{item.description}}</div>
-                    <v-flex
-                            xs12
-                            v-if="item.price"
-                            class="old-price ma-0 pa-0 title red--text text--accent-1 text-uppercase font-weight-medium text-xs-center"
-                    >
-                        {{item.price | formatCurrency}}
-                    </v-flex>
-                    <v-flex
-                            xs12
-                            v-if="item.price"
-                            class="new-price ma-0 pa-0 headline red--text text--accent-4 text-uppercase font-weight-bold text-xs-center"
-                    >
-                        {{item.price - item.price * (item.discount / 100) | formatCurrency}}
-                    </v-flex>
-                </v-card-title>
-                <v-card-actions class="px-5 justify-center">
-                    <v-btn color="success" block dark @click="readMore">Explore</v-btn>
-                </v-card-actions>
-                <v-divider></v-divider>
-                <div v-if="isSpecial" class="ribbon"><span>{{ribbonText}}</span></div>
-            </div>
-            <v-card-actions class="px-2 py-0" v-if="isEditable">
-                <v-flex xs12>
-                    <v-switch
-                            color="indigo accent-4"
-                            :input-value="active"
-                            :value="active"
-                            :loading="activeLoading"
-                            :disabled="activeLoading"
-                            @click.prevent="toggleActive"
-                    >
-                        <template v-slot:label>
-                            <span class="indigo--text text--accent-4">Toggle active</span>
-                        </template>
-                    </v-switch>
-                </v-flex>
-                <v-btn icon @click="onEditClick">
-                    <v-icon color="indigo accent-2">edit</v-icon>
-                </v-btn>
-                <v-btn
-                        icon
-                        @click="onDeleteClick"
-                        :loading="deleteLoading"
-                        :disabled="deleteLoading"
-                >
-                    <v-icon color="indigo accent-2">delete</v-icon>
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-        </v-hover>
+              {{ item.price | formatCurrency }}
+            </v-flex>
+            <v-flex
+              v-if="item.price"
+              xs12
+              class="new-price ma-0 pa-0 headline red--text text--accent-4 text-uppercase font-weight-bold text-xs-center"
+            >
+              {{ item.price - item.price * (item.discount / 100) | formatCurrency }}
+            </v-flex>
+          </v-card-title>
+          <v-card-actions class="px-5 justify-center">
+            <v-btn
+              color="success"
+              block
+              dark
+              @click="readMore">Explore</v-btn>
+          </v-card-actions>
+          <v-divider/>
+          <div
+            v-if="isSpecial"
+            class="ribbon"><span>{{ ribbonText }}</span></div>
+        </div>
+        <v-card-actions
+          v-if="isEditable"
+          class="px-2 py-0">
+          <v-flex xs12>
+            <v-switch
+              :input-value="active"
+              :value="active"
+              :loading="activeLoading"
+              :disabled="activeLoading"
+              color="indigo accent-4"
+              @click.prevent="toggleActive"
+            >
+              <template v-slot:label>
+                <span class="indigo--text text--accent-4">Toggle active</span>
+              </template>
+            </v-switch>
+          </v-flex>
+          <v-btn
+            icon
+            @click="onEditClick">
+            <v-icon color="indigo accent-2">edit</v-icon>
+          </v-btn>
+          <v-btn
+            :loading="deleteLoading"
+            :disabled="deleteLoading"
+            icon
+            @click="onDeleteClick"
+          >
+            <v-icon color="indigo accent-2">delete</v-icon>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-hover>
 
-    </v-flex>
+  </v-flex>
 
 </template>
 
 <script>
-  // TODO :: Show the read more button only for special offers and lunch offers. Dont show them when viewing the special offer view page or lunch view page.
-  import {mapActions} from 'vuex'
+// TODO :: Show the read more button only for special offers and lunch offers. Dont show them when viewing the special offer view page or lunch view page.
+import { mapActions } from 'vuex'
 
-  export default {
-    props: {
-      item: {
-        type: Object,
-        default: () => {},
-      },
-      isEditable: {
-        type: Boolean,
-        default: false,
-      },
-      isSpecial: {
-        type: Boolean,
-        default: false,
-      },
-      type: {
-        type: String,
-        default: 'main',
-      },
-      colors: {
-        type: Array,
-        default: () => ['#309250', '#2fa557e0'],
-      }
+export default {
+  props: {
+    item: {
+      type: Object,
+      default: () => {}
     },
-    data() {
+    isEditable: {
+      type: Boolean,
+      default: false
+    },
+    isSpecial: {
+      type: Boolean,
+      default: false
+    },
+    type: {
+      type: String,
+      default: 'main'
+    },
+    colors: {
+      type: Array,
+      default: () => ['#309250', '#2fa557e0']
+    }
+  },
+  data () {
+    return {
+      active: false,
+      defaultImage: './img/default-menu-v2.jpg',
+      activeLoading: false,
+      deleteLoading: false
+    }
+  },
+  computed: {
+    ribbonText () {
+      return this.type === 'lunch' ? this.type : `- ${this.item.discount} %`
+    },
+    imagePath () {
+      return this.item.img || this.defaultImage
+    },
+    containerStyle () {
       return {
-        active: false,
-        defaultImage: './img/default-menu-v2.jpg',
-        activeLoading: false,
-        deleteLoading: false,
-      }
-    },
-    computed: {
-      ribbonText() {
-        return this.type === 'lunch' ? this.type : `- ${this.item.discount} %`
-      },
-      imagePath() {
-        return this.item.img || this.defaultImage
-      },
-      containerStyle() {
-        return {
-          background: `linear-gradient(${this.colors[0]} 0%, ${this.colors[1]} 100%)`
-        }
-      }
-    },
-    watch: {
-      'item.active': {
-        handler: function (value) {          
-          this.active = value
-        },
-        immediate: true
-      }
-    },
-    methods: {
-      ...mapActions({
-        setSnackbar: 'snackbar/setState',
-        setModalData: 'modals/setModalData',
-        setMenuModalVisibility: 'modals/setMenuModalVisibility',
-      }),
-      readMore() {
-        this.$router.push({ path: `/${this.type}-offer/${this.item._id}`})
-      },
-      onEditClick() {
-        this.setMenuModalVisibility({
-          key: this.type,
-          value: true,
-          action: 'edit'
-        })
-
-        this.$store.dispatch(`${this.type}/fetchItem`, {
-          itemId: this.item._id,
-          action: 'edit'
-        })
-      },
-      toggleActive(e) {
-        e.stopImmediatePropagation()
-        if (this.activeLoading) return
-        this.activeLoading = true
-
-        this.$store.dispatch(`${this.type}/toggleActive`, {
-          payload: this.item,
-          action: 'list',
-          isAsync: true
-        }).then((data) => {
-          this.activeLoading = false
-          if (!data.success) {
-            return this.setSnackbar({snackbar: true, message: data.message, color: 'red'});
-          }
-          this.setSnackbar({snackbar: true, message: 'Toggled successfully', color: 'success'});
-        })
-      },
-      onConfirm() {
-        if (this.deleteLoading) return
-        this.deleteLoading = true
-
-        this.$store.dispatch(`${this.type}/deleteItem`, {
-          payload: this.item._id,
-          action: 'list'
-        }).then((data) => {
-          this.deleteLoading = false
-          if (!data.success) {
-            return this.setSnackbar({snackbar: true, message: data.message, color: 'red'});
-          }
-          this.setSnackbar({snackbar: true, message: 'Deleted successfully', color: 'success'});
-        })
-      },
-      onDeleteClick() {
-        this.setModalData({
-          key: 'confirm',
-          value: {
-            visibility: true,
-            action: 'delete this item',
-            callback: this.onConfirm.bind(this)
-          }
-        })
+        background: `linear-gradient(${this.colors[0]} 0%, ${this.colors[1]} 100%)`
       }
     }
+  },
+  watch: {
+    'item.active': {
+      handler: function (value) {
+        this.active = value
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    ...mapActions({
+      setSnackbar: 'snackbar/setState',
+      setModalData: 'modals/setModalData',
+      setMenuModalVisibility: 'modals/setMenuModalVisibility'
+    }),
+    readMore () {
+      this.$router.push({ path: `/${this.type}-offer/${this.item._id}` })
+    },
+    onEditClick () {
+      this.setMenuModalVisibility({
+        key: this.type,
+        value: true,
+        action: 'edit'
+      })
+
+      this.$store.dispatch(`${this.type}/fetchItem`, {
+        itemId: this.item._id,
+        action: 'edit'
+      })
+    },
+    toggleActive (e) {
+      e.stopImmediatePropagation()
+      if (this.activeLoading) return
+      this.activeLoading = true
+
+      this.$store.dispatch(`${this.type}/toggleActive`, {
+        payload: this.item,
+        action: 'list',
+        isAsync: true
+      }).then((data) => {
+        this.activeLoading = false
+        if (!data.success) {
+          return this.setSnackbar({ snackbar: true, message: data.message, color: 'red' })
+        }
+        this.setSnackbar({ snackbar: true, message: 'Toggled successfully', color: 'success' })
+      })
+    },
+    onConfirm () {
+      if (this.deleteLoading) return
+      this.deleteLoading = true
+
+      this.$store.dispatch(`${this.type}/deleteItem`, {
+        payload: this.item._id,
+        action: 'list'
+      }).then((data) => {
+        this.deleteLoading = false
+        if (!data.success) {
+          return this.setSnackbar({ snackbar: true, message: data.message, color: 'red' })
+        }
+        this.setSnackbar({ snackbar: true, message: 'Deleted successfully', color: 'success' })
+      })
+    },
+    onDeleteClick () {
+      this.setModalData({
+        key: 'confirm',
+        value: {
+          visibility: true,
+          action: 'delete this item',
+          callback: this.onConfirm.bind(this)
+        }
+      })
+    }
   }
+}
 </script>
 
 <style scoped lang="stylus">

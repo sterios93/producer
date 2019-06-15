@@ -12,24 +12,24 @@ export default {
     view: view.state(),
     list: list.state(),
     shared: shared.state(),
-    edit: edit.state(),
+    edit: edit.state()
   },
   mutations: {
     ...add.mutations,
     ...view.mutations,
     ...list.mutations,
-    ...shared.mutations,
+    ...shared.mutations
   },
   getters: {
     ...add.getters,
     ...view.getters,
     ...list.getters,
-    ...shared.getters,
+    ...shared.getters
   },
   actions: {
     ...add.actions,
     ...view.actions,
     ...list.actions,
-    ...shared.actions,
+    ...shared.actions
   }
 }

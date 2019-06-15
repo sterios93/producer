@@ -1,10 +1,10 @@
 <template>
   <v-toolbar
-    id="core-toolbar"
     v-if="toolbar"
+    id="core-toolbar"
+    :class="{'responsive': !responsive}"
     flat
     prominent
-    :class="{'responsive': !responsive}"
     style="background: #eee;"
   >
     <div class="v-toolbar-title">
@@ -27,33 +27,36 @@
     <v-spacer />
     <v-toolbar-items>
       <v-flex
+        v-if="isUserLogged"
         align-center
         layout
         py-2
-        v-if="isUserLogged"
       >
-        <component :is="component"></component>
+        <component :is="component"/>
 
         <v-menu
-                bottom
-                left
-                full-width
-                min-width="200px"
-                class="toolbar-items"
-                content-class="dropdown-menu"
-                offset-y
-                transition="slide-y-transition">
+          bottom
+          left
+          full-width
+          min-width="200px"
+          class="toolbar-items"
+          content-class="dropdown-menu"
+          offset-y
+          transition="slide-y-transition">
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" color="green">mdi-account</v-icon>
+            <v-icon
+              color="green"
+              v-on="on">mdi-account</v-icon>
           </template>
           <v-card>
             <v-list dense>
               <router-link
-                      :to="item.to"
-                      v-for="(item, index) in links" :key="index">
+                v-for="(item, index) in links"
+                :to="item.to"
+                :key="index">
                 <v-list-tile
-                        v-ripple
-                        class="toolbar-items"
+                  v-ripple
+                  class="toolbar-items"
                 >
                   <v-list-tile-title v-text="item.text"/>
                 </v-list-tile>
@@ -62,7 +65,10 @@
           </v-card>
         </v-menu>
 
-        <v-icon @click="logOutAccount" v-if="isUserLogged" color="orange">mdi-exit-to-app</v-icon>
+        <v-icon
+          v-if="isUserLogged"
+          color="orange"
+          @click="logOutAccount">mdi-exit-to-app</v-icon>
       </v-flex>
     </v-toolbar-items>
   </v-toolbar>
@@ -70,14 +76,14 @@
 
 <script>
 
-import {mapActions, mapState} from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import NotificationsDropDown from '../shared/notifications/NotificationsDropDown'
 import NotificationsBottomSheet from '../shared/notifications/NotificationsBottomSheet'
 
 export default {
   components: {
     NotificationsDropDown,
-    NotificationsBottomSheet,
+    NotificationsBottomSheet
   },
 
   data: () => ({
@@ -101,8 +107,8 @@ export default {
         icon: 'mdi-account',
         text: 'Subscriptions',
         userAccess: true
-      },
-    ],
+      }
+    ]
   }),
 
   watch: {
@@ -115,7 +121,7 @@ export default {
     ...mapState('authentication', ['isUserLogged']),
     ...mapState('layout', ['responsive']),
     ...mapState('app', ['toolbar']),
-    component() {
+    component () {
       return this.responsive ? 'NotificationsBottomSheet' : 'NotificationsDropDown'
     }
   },
@@ -129,7 +135,7 @@ export default {
     onClick () {
       //
     },
-    logOutAccount() {
+    logOutAccount () {
       this.logout().then(() => this.$router.push('login'))
     }
   }

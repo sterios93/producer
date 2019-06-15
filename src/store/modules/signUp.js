@@ -1,21 +1,21 @@
 import { set, toggle } from '@/utils/vuex'
-import { postData} from "../../utils/helpers";
+import { postData } from '../../utils/helpers'
 
 export default {
   namespaced: true,
   state: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
     phoneInfo: {},
-    password: "",
+    password: '',
     isPersonalInfoValid: true,
     isRestaurantInfoValid: true,
-    restaurantName: "",
-    restaurantType: "",
-    restaurantWebsite: "",
-    restaurantNumber: "",
+    restaurantName: '',
+    restaurantType: '',
+    restaurantWebsite: '',
+    restaurantNumber: '',
     activeStepNumber: 0,
     address: '',
     city: '',
@@ -24,7 +24,7 @@ export default {
     location: {
 	    lng: '',
 	    lat: ''
-    },
+    }
   },
   mutations: {
     SET_FIRST_NAME: (state, firstName) => state.firstName = firstName,
@@ -46,53 +46,53 @@ export default {
     SET_COUNTRY: (state, value) => state.country = value,
     SET_POSTAL_CODE: (state, value) => state.postalCode = value,
     SET_LOCATION: (state, value) => state.location = value,
-    SET_PHONE_INFO: (state, value) => state.phoneInfo = value,
+    SET_PHONE_INFO: (state, value) => state.phoneInfo = value
   },
   getters: {},
   actions: {
-    setPersonalInfo({commit}, personalInfo) {
-        const {firstName, lastName, email, phoneNumber, password} = personalInfo;
-        commit('SET_FIRST_NAME', firstName);
-        commit('SET_LAST_NAME', lastName);
-        commit('SET_EMAIL', email);
-        commit('SET_PHONE_NUMBER', phoneNumber);
-        commit('SET_PASSWORD', password);
-        commit('SET_PERSONAL_INFO_VALID');
+    setPersonalInfo ({ commit }, personalInfo) {
+      const { firstName, lastName, email, phoneNumber, password } = personalInfo
+      commit('SET_FIRST_NAME', firstName)
+      commit('SET_LAST_NAME', lastName)
+      commit('SET_EMAIL', email)
+      commit('SET_PHONE_NUMBER', phoneNumber)
+      commit('SET_PASSWORD', password)
+      commit('SET_PERSONAL_INFO_VALID')
     },
-    setRestaurantInfo({commit}, restaurantInfo) {
-      const { restaurantName,  restaurantType, restaurantWebsite, restaurantNumber} = restaurantInfo;
-      commit('SET_RESTAURANT_NAME', restaurantName);
-      commit('SET_RESTAURANT_TYPE', restaurantType);
-      commit('SET_RESTAURANT_WEBSITE', restaurantWebsite);
-      commit('SET_RESTAURANT_NUMBER', restaurantNumber);
-      commit('SET_RESTAURANT_INFO_VALID');
+    setRestaurantInfo ({ commit }, restaurantInfo) {
+      const { restaurantName, restaurantType, restaurantWebsite, restaurantNumber } = restaurantInfo
+      commit('SET_RESTAURANT_NAME', restaurantName)
+      commit('SET_RESTAURANT_TYPE', restaurantType)
+      commit('SET_RESTAURANT_WEBSITE', restaurantWebsite)
+      commit('SET_RESTAURANT_NUMBER', restaurantNumber)
+      commit('SET_RESTAURANT_INFO_VALID')
     },
-    setPersonalInfoInvalid({commit}) {commit('SET_PERSONAL_INFO_INVALID')},
-    setPersonalInfoValid({commit}) { commit('SET_PERSONAL_INFO_VALID')},
-    setRestaurantInfoValid({commit}) {commit('SET_RESTAURANT_INFO_VALID')},
-    setRestaurantInfoInvalid({commit}) {commit('SET_RESTAURANT_INFO_INVALID')},
-    setActiveStepNumber({commit}, stepNumber) { commit('SET_ACTIVE_STEP_NUMBER', stepNumber)},
-    setAddress: ({commit}, value) => {commit('SET_ADDRESS', value)},
-    setCity: ({commit}, value) => {commit('SET_CITY', value)},
-    setCountry: ({commit}, value) => {commit('SET_COUNTRY', value)},
-    setPostalCode: ({commit}, value) => {commit('SET_POSTAL_CODE', value)},
-    setLocation: ({commit}, value) => {commit('SET_LOCATION', value)},
-    setPhoneInfo: ({commit}, value) => {commit('SET_PHONE_INFO', value)},
-	  doSignUpRequest: ({dispatch, rootState, state, commit}) => {
+    setPersonalInfoInvalid ({ commit }) { commit('SET_PERSONAL_INFO_INVALID') },
+    setPersonalInfoValid ({ commit }) { commit('SET_PERSONAL_INFO_VALID') },
+    setRestaurantInfoValid ({ commit }) { commit('SET_RESTAURANT_INFO_VALID') },
+    setRestaurantInfoInvalid ({ commit }) { commit('SET_RESTAURANT_INFO_INVALID') },
+    setActiveStepNumber ({ commit }, stepNumber) { commit('SET_ACTIVE_STEP_NUMBER', stepNumber) },
+    setAddress: ({ commit }, value) => { commit('SET_ADDRESS', value) },
+    setCity: ({ commit }, value) => { commit('SET_CITY', value) },
+    setCountry: ({ commit }, value) => { commit('SET_COUNTRY', value) },
+    setPostalCode: ({ commit }, value) => { commit('SET_POSTAL_CODE', value) },
+    setLocation: ({ commit }, value) => { commit('SET_LOCATION', value) },
+    setPhoneInfo: ({ commit }, value) => { commit('SET_PHONE_INFO', value) },
+	  doSignUpRequest: ({ dispatch, rootState, state, commit }) => {
 		  let payload = {
-				  "email": state.email.toString().replace(/ /g,''),
-				  "password": state.password.toString().replace(/ /g,''),
-				  "firstName": state.firstName.toString().replace(/ /g,''),
-				  "lastName": state.lastName.toString().replace(/ /g,''),
-				  "phone": state.phoneNumber.toString().replace(/ /g,''),
-				  "restaurantName": state.restaurantName.toString().replace(/ /g,''),
-				  "type": state.restaurantType.toString().replace(/ /g,''),
-				  "website": state.restaurantWebsite && state.restaurantWebsite.toString().replace(/ /g,''),
-				  "number": state.restaurantNumber.toString().replace(/ /g,''),
-				  "lng": parseFloat(state.location.lng.toString().replace(/ /g,'')).toFixed(20),
-			    "lat": parseFloat(state.location.lat.toString().replace(/ /g,'')).toFixed(20)
+				  'email': state.email.toString().replace(/ /g, ''),
+				  'password': state.password.toString().replace(/ /g, ''),
+				  'firstName': state.firstName.toString().replace(/ /g, ''),
+				  'lastName': state.lastName.toString().replace(/ /g, ''),
+				  'phone': state.phoneNumber.toString().replace(/ /g, ''),
+				  'restaurantName': state.restaurantName.toString().replace(/ /g, ''),
+				  'type': state.restaurantType.toString().replace(/ /g, ''),
+				  'website': state.restaurantWebsite && state.restaurantWebsite.toString().replace(/ /g, ''),
+				  'number': state.restaurantNumber.toString().replace(/ /g, ''),
+				  'lng': parseFloat(state.location.lng.toString().replace(/ /g, '')).toFixed(20),
+			    'lat': parseFloat(state.location.lat.toString().replace(/ /g, '')).toFixed(20)
 		  }
-		  
+
 		  return dispatch('authentication/signUp', payload, { root: true })
 	  }
   }

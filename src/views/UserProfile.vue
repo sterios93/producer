@@ -1,20 +1,29 @@
 <template>
-  <v-container fill-height  fluid grid-list-xl>
-    <v-layout justify-center wrap >
-      <v-flex  xs12 md8 >
+  <v-container
+    fill-height
+    fluid
+    grid-list-xl>
+    <v-layout
+      justify-center
+      wrap >
+      <v-flex
+        xs12
+        md8 >
         <material-card
-                :color="isProfileCardValid ? 'green' : 'red'"
-                title="Edit Profile"
-                text="Complete your profile">
-            <profile-card :forceEdit="forceEdit"></profile-card>
+          :color="isProfileCardValid ? 'green' : 'red'"
+          title="Edit Profile"
+          text="Complete your profile">
+          <profile-card :force-edit="forceEdit"/>
         </material-card>
       </v-flex>
-      <v-flex  xs12 md4 >
+      <v-flex
+        xs12
+        md4 >
         <material-card
-                color="green"
-                title="Payment information"
-                text="Active" >
-            <payment-card></payment-card>
+          color="green"
+          title="Payment information"
+          text="Active" >
+          <payment-card/>
         </material-card>
       </v-flex>
     </v-layout>
@@ -24,16 +33,16 @@
 <script>
 import ProfileCard from '../components/userProfile/ProfileCard'
 import PaymentCard from '../components/userProfile/PaymentCard'
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 
 // TODO :: Change the active state of the payment information
 
 export default {
-  name: 'user-profile',
+  name: 'UserProfile',
   components: {
     Map,
     ProfileCard,
-    PaymentCard,
+    PaymentCard
   },
   props: {
   	forceEdit: {
@@ -41,9 +50,9 @@ export default {
       default: false
     }
   },
-  computed:{
+  computed: {
     ...mapState({
-      isProfileCardValid: (state) => state.userProfile.isProfileValid,
+      isProfileCardValid: (state) => state.userProfile.isProfileValid
     })
   }
 }

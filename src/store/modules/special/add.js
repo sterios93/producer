@@ -1,4 +1,4 @@
-import {set, toggle} from '@/utils/vuex'
+import { set, toggle } from '@/utils/vuex'
 
 const stateBuilder = () => ({
   name: '',
@@ -8,7 +8,7 @@ const stateBuilder = () => ({
   price: 0,
   items: [],
   discount: 10,
-  isActive: true,
+  active: true,
   schedule: null,
   timeStart: null,
   timeEnd: null
@@ -18,12 +18,12 @@ export default {
   state: stateBuilder,
   mutations: {
     RESET_ADD: (state) => state.add = stateBuilder()
-  
+
   },
   getters: {
-  
+
   },
   actions: {
-  
+
   }
 }

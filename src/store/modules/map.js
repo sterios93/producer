@@ -12,20 +12,20 @@ export default {
     SET_TOKEN: set('token'),
     SET_STYLE: set('style'),
     SET_GEOLOCATION: set('geolocation'),
-    SET_MARKERS: set('markers'),
+    SET_MARKERS: set('markers')
   },
   getters: {},
   actions: {
-    setToken({commit}, payload) {
+    setToken ({ commit }, payload) {
       commit('SET_TOKEN', payload)
     },
-    setStyle({commit}, payload) {
+    setStyle ({ commit }, payload) {
       commit('SET_STYLE', payload)
     },
-    setGeolocation({commit}, payload) {
+    setGeolocation ({ commit }, payload) {
       commit('SET_GEOLOCATION', payload)
     },
-    setMarkers({commit}, payload) {
+    setMarkers ({ commit }, payload) {
       commit('SET_MARKERS', payload)
     }
   }

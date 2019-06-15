@@ -46,5 +46,5 @@ export default [
     path: '/lunch-offer/:id',
     props: true,
     view: 'LunchOffer'
-  },
+  }
 ]

@@ -17,79 +17,79 @@
 </template>
 
 <script>
-  import AddCategory from "../shared/category/AddCategory"
-  import ConfirmModal from "../custom/dialogs/ConfirmModal";
-  import PaymentModal from "../custom/dialogs/PaymentModal";
-  import CustomSnackBar from '../material/CustomSnackBar'
-  import AddMainMenuItem from '../shared/menu/main/Add'
-  import AddLunchMenuItem from '../shared/menu/lunch/Add'
-  import AddSpecialMenuItem from '../shared/menu/special/Add'
-  import {mapActions, mapState} from 'vuex'
-  import EventBus from '../../utils/eventBus'
+import AddCategory from '../shared/category/AddCategory'
+import ConfirmModal from '../custom/dialogs/ConfirmModal'
+import PaymentModal from '../custom/dialogs/PaymentModal'
+import CustomSnackBar from '../material/CustomSnackBar'
+import AddMainMenuItem from '../shared/menu/main/Add'
+import AddLunchMenuItem from '../shared/menu/lunch/Add'
+import AddSpecialMenuItem from '../shared/menu/special/Add'
+import { mapActions, mapState } from 'vuex'
+import EventBus from '../../utils/eventBus'
 
-  export default {
-    components: {
-      ConfirmModal,
-      PaymentModal,
-      AddCategory,
-      CustomSnackBar,
-      AddMainMenuItem,
-      AddLunchMenuItem,
-      AddSpecialMenuItem,
-    },
-    metaInfo() {
-      return {
-        title: 'Vuetify Material Dashboard by CreativeTim'
-      }
-    },
-    computed: {
-      ...mapState('authentication', ['isUserLogged']),
-      ...mapState('layout', ['responsive']),
-      ...mapState('modals', {
-        mainVisibility: (state) => state.menu.main.visibility,
-        lunchVisibility: (state) => state.menu.lunch.visibility,
-        specialVisibility: (state) => state.menu.special.visibility,
-      }),
-    },
-    watch: {
-      isUserLogged: {
-        handler: function (value) {
-          if (value === true) {
+export default {
+  components: {
+    ConfirmModal,
+    PaymentModal,
+    AddCategory,
+    CustomSnackBar,
+    AddMainMenuItem,
+    AddLunchMenuItem,
+    AddSpecialMenuItem
+  },
+  metaInfo () {
+    return {
+      title: 'Vuetify Material Dashboard by CreativeTim'
+    }
+  },
+  computed: {
+    ...mapState('authentication', ['isUserLogged']),
+    ...mapState('layout', ['responsive']),
+    ...mapState('modals', {
+      mainVisibility: (state) => state.menu.main.visibility,
+      lunchVisibility: (state) => state.menu.lunch.visibility,
+      specialVisibility: (state) => state.menu.special.visibility
+    })
+  },
+  watch: {
+    isUserLogged: {
+      handler: function (value) {
+        if (value === true) {
           	this.fetchUserData()
-          }
-        },
-        immediate: true
-       }
-    },
-    mounted() {
-      this.onResponsiveInverted()
-      window.addEventListener('resize', this.onResponsiveInverted)
-    },
-    created() {
-      this.fetchCategories()
+        }
+      },
+      immediate: true
+    }
+  },
+  mounted () {
+    this.onResponsiveInverted()
+    window.addEventListener('resize', this.onResponsiveInverted)
+  },
+  created () {
+    this.fetchCategories()
       .then(data => {
         if (!data.succes) {
-          return this.setSnackbar({snackbar: true, message: data.error.message, color: 'red'})
+          return this.setSnackbar({ snackbar: true, message: data.error.message, color: 'red' })
         }
       })
-    },
-    beforeDestroy() {
-      window.removeEventListener('resize', this.onResponsiveInverted)
-    },
-    methods: {
-      ...mapActions('categories', ['fetchCategories']),
-      ...mapActions('layout', ['setResponsive']),
-      ...mapActions('authentication', ['fetchUserData']),
-      onResponsiveInverted() {
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.onResponsiveInverted)
+  },
+  methods: {
+    ...mapActions('categories', ['fetchCategories']),
+    ...mapActions('layout', ['setResponsive']),
+    ...mapActions('authentication', ['fetchUserData']),
+    onResponsiveInverted () {
       	EventBus.$emit('resize')
-        if (window.innerWidth < 991) {
-          this.setResponsive(true)
-        } else {
-          this.setResponsive(false)
-        }
+      if (window.innerWidth < 991) {
+        this.setResponsive(true)
+      } else {
+        this.setResponsive(false)
       }
     }
   }
+}
 </script>
 
 <style lang="stylus">

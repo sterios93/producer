@@ -1,5 +1,5 @@
 import { set, toggle } from '@/utils/vuex'
-import { postData, getData } from "../../../utils/helpers";
+import { postData, getData } from '../../../utils/helpers'
 
 const state = () => ({
   name: '',
@@ -13,12 +13,12 @@ const state = () => ({
   timeStart: {
     date: '2019-05-10',
     time: '16:00',
-    visible: false,
+    visible: false
   },
   timeEnd: {
     date: '2019-10-10',
     time: '12:00',
-    visible: false,
+    visible: false
   }
 })
 
@@ -28,5 +28,3 @@ export default {
   getters: {},
   actions: {}
 }
-
-
