@@ -57,6 +57,9 @@ export default {
     setCountry: ({commit}, value) => {commit('SET_COUNTRY', value)},
     setPostalCode: ({commit}, value) => {commit('SET_POSTAL_CODE', value)},
     setLocation: ({commit}, value) => {commit('SET_LOCATION', value)},
+    updateProfile: ({commit, value}) => {
+      //TODO
+    }
   },
   getters: {},
 }
