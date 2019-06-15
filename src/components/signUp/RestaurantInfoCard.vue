@@ -35,17 +35,12 @@
             </v-text-field>
         </v-flex>
 
-        <v-flex xs12 md6>
-            <v-text-field
-                class="purple-input"
-                label="Restaurant number"
+         <v-flex xs12 md6>
+            <CustomPhoneValidate
                 v-model="restaurantNumber"
-                :error-messages="restaurantNumberErrors"
-                required
-                @input="validate('restaurantNumber')"
-                @blur="validate('restaurantNumber')"
-                >
-            </v-text-field>
+                @validate="validatePhoneNumbebr"
+            ></CustomPhoneValidate>
+            <a @click="setPersonalNumber" href="#">Use personal nuber.</a>
         </v-flex>
 
         <v-flex>
@@ -67,12 +62,18 @@
 import { mapActions } from 'vuex'
 import { validationMixin } from 'vuelidate'
 import { required, minLength, sameAs, email, numeric } from 'vuelidate/lib/validators';
+import CustomPhoneValidate from "../shared/CustomPhoneValidate";
 
     export default {
         name: 'restaurant-info-card',
         mixins: [validationMixin],
+        components: {
+            CustomPhoneValidate
+        },
         data () {
             return {
+                isPhoneValid: false,
+                phoneFieldDirty: false,
                 restaurantName: null,
                 restaurantNameErrors: [],
                 restaurantType: null,
@@ -83,6 +84,11 @@ import { required, minLength, sameAs, email, numeric } from 'vuelidate/lib/valid
                 allFields: ['restaurantName', 'restaurantType', 'restaurantNumber'],
             }
         },
+        computed: {
+            showPhoneError() {
+                return !this.isPhoneValid && this.phoneFieldDirty
+            }
+        },
         methods: {
              ...mapActions('signUp', [
                 'setActiveStepNumber',
@@ -90,6 +96,20 @@ import { required, minLength, sameAs, email, numeric } from 'vuelidate/lib/valid
                 'setRestaurantInfoInvalid',
                 'setRestaurantInfo',
             ]),
+            setPersonalNumber() {
+                this.restaurantNumber = this.$store.state.signUp.phoneNumber
+            },
+            validatePhoneNumbebr(e) {
+                console.error(e)
+                if (!e.isValid) {
+                    this.isPhoneValid = false;
+                    this.setRestaurantInfoInvalid();
+                } else {
+                    this.isPhoneValid = true;
+                    this.countryInfo = e.country;
+                    this.setRestaurantInfoInvalid();
+                }
+            },
             nextScreen(stepNumber) {
                 this.$v.$touch();
                 if (this.$v.$invalid) {
@@ -140,7 +160,6 @@ import { required, minLength, sameAs, email, numeric } from 'vuelidate/lib/valid
             },
             restaurantNumber: {
                 required,
-                numeric,
             },
         }
     }

@@ -22,13 +22,12 @@
                         </v-flex>
 
                         <v-flex xs12 md6 >
-                            <v-text-field
-                                    label="Phone number"
-                                    class="purple-input"
-                                    v-model="phoneNumber"
-                                    :error-messages="phoneNumberErrors"
-                                    :disabled="!inEditMode"
-                                    @blur="validate('phoneNumber')"/>
+                            <span class="label">Phone number</span>
+                            <CustomPhoneValidate
+                                :disabled="!inEditMode"
+                                v-model="phoneNumber"
+                                @validate="validatePhoneNumbebr"
+                            ></CustomPhoneValidate>
                         </v-flex>
 
 
@@ -59,13 +58,12 @@
                                     :disabled="!inEditMode"/>
                         </v-flex>
                         <v-flex xs12 md6 >
-                            <v-text-field
-                                    label="Restaurant number"
-                                    class="purple-input"
-                                    v-model="restaurantNumber"
-                                    :error-messages="restaurantNumberErrors"
-                                    :disabled="!inEditMode"
-                                    @blur="validate('restaurantNumber')"/>
+                            <span class="label">Restaurant number</span>
+                            <CustomPhoneValidate
+                                :disabled="!inEditMode"
+                                v-model="restaurantNumber"
+                                @validate="validatePhoneNumbebr"
+                            ></CustomPhoneValidate>
                         </v-flex>
 
                         <v-flex xs12 md6>
@@ -172,12 +170,15 @@
     import Map from '../shared/map/Map'
     import {mapState, mapActions} from 'vuex'
     import { validationMixin } from 'vuelidate'
+    import CustomPhoneValidate from "../shared/CustomPhoneValidate";
+
     import { required, minLength, sameAs, numeric } from 'vuelidate/lib/validators';
     // TODO :: Fix the map logic
     export default {
       name: 'profile-card',
       components: {
         Map,
+        CustomPhoneValidate,
       },
       props: {
         forceEdit: {
@@ -187,6 +188,7 @@
       },
       mixins: [validationMixin],
       beforeDestroy() {
+        this.setProfileValid(true);
         this.setEditMode(false);
       },
       data() {
@@ -249,10 +251,6 @@
         },
         phoneNumber: {
           get() {return this.userInfo.phoneNumber},
-          set(value) {
-            // this.setPhoneNumber(value);
-            this.validate('phoneNumber');
-          }
         },
         password: {
           get() {return this.userInfo.password},
@@ -283,10 +281,6 @@
         },
         restaurantNumber: {
           get() {return this.userInfo.restaurantNumber},
-          set(value) {
-            // this.setRestaurantNumber(value);
-            this.validate('restaurantNumber');
-          }
         },
         restaurantAddress: {
           get() {return this.userInfo.address},
@@ -340,6 +334,9 @@
           'updateProfile',
         ]),
         ...mapActions('snackbar', ['setState']),
+        validatePhoneNumbebr(e) {
+          this.setProfileValid(e.isValid);
+        },
         saveProfile() {
           // TODO :: send the data to the database
           this.$v.$touch();
@@ -361,8 +358,7 @@
           this[target + 'Errors'] = [];
           this.$v[target].$touch();
 
-          this.hasError() && this.setProfileValid(false);
-          !this.hasError() && this.setProfileValid(true);
+          this.setProfileValid(!this.hasError());
 
           this.checkRequired(target);
           this.checkNumeric(target);
@@ -388,6 +384,7 @@
           (this.$v[target].sameAsPassword !== undefined) && !this.$v[target].sameAsPassword && !this[target + 'Errors'].includes('Passwords must be the same') && this[target + 'Errors'].push('Passwords must be the same');
         },
         checkRequired(target){
+          console.error(this.$v[target])
           !this.$v[target].required && this[target + 'Errors'].push('This field is required');
         },
         passRepeatHandler(){
@@ -403,15 +400,14 @@
         },
         phoneNumber: {
           required,
-          numeric
         },
         password: {
           required,
-          minLength: minLength(5)
+          minLength: minLength(6),
         },
         passwordRepeat: {
           required,
-          minLength: minLength(5),
+          minLength: minLength(6),
           sameAsPassword: sameAs('password')
         },
         restaurantName: {
@@ -422,7 +418,6 @@
         },
         restaurantNumber: {
           required,
-          numeric,
         },
         restaurantAddress: {
           required,
@@ -443,4 +438,10 @@
 <style scoped lang="stylus">
     .disabled
         pointer-events none
+    .label
+      font-size: 11px
+      color: grey
+      position: absolute
+      z-index: 1
+      transform: translateY(-5px);
 </style>

@@ -38,14 +38,10 @@
       </v-flex>
 
       <v-flex xs12 md6>
-        <vue-tel-input
+        <CustomPhoneValidate
           v-model="phoneNumber"
-          v-bind="phoneProps"
           @validate="validatePhoneNumbebr"
-          @input="phoneFieldDirty = true"
-          @blur="phoneFieldDirty = true"
-        ></vue-tel-input>
-        <p class="error-message" v-if="showPhoneError">This field is required</p>
+        ></CustomPhoneValidate>
       </v-flex>
 
       <v-flex xs12 md6>
@@ -106,7 +102,7 @@ import {
   email,
   numeric
 } from "vuelidate/lib/validators";
-import VueTelInput from "vue-tel-input";
+import CustomPhoneValidate from "../shared/CustomPhoneValidate";
 import VueRecaptcha from "vue-recaptcha";
 
 export default {
@@ -114,37 +110,12 @@ export default {
   mixins: [validationMixin],
   components: {
     VueRecaptcha,
-    VueTelInput
+    CustomPhoneValidate
   },
   data() {
     return {
       phone: "",
-      phoneProps: {
-        defaultCountry: "de",
-        disabledFetchingCountry: false,
-        disabled: false,
-        disabledFormatting: false,
-        placeholder: "Enter a phone number",
-        required: true,
-        enabledCountryCode: false,
-        enabledFlags: true,
-        preferredCountries: ["AU", "BR"],
-        onlyCountries: [],
-        ignoredCountries: [],
-        autocomplete: "off",
-        name: "telephone",
-        maxLen: 25,
-        wrapperClasses: "",
-        inputClasses: "",
-        countryEnabled: true,
-        dropdownOptions: {
-          disabledDialCode: false
-        },
-        inputOptions: {
-          showDialCode: true
-        }
-      },
-      phoneNumber: null,
+      phoneNumber: '',
       phoneInfo: null,
       isPhoneValid: false,
       recaptchaVerified: false,
@@ -160,7 +131,6 @@ export default {
       passwordRepeatErrors: [],
       showPassword: false,
       showRepeatPassword: false,
-      phoneFieldDirty: false,
       allFields: [
         "firstName",
         "lastName",
@@ -169,11 +139,6 @@ export default {
         "passwordRepeat"
       ]
     };
-  },
-  computed: {
-    showPhoneError() {
-      return !this.isPhoneValid && this.phoneFieldDirty
-    }
   },
   methods: {
     ...mapActions("signUp", [
@@ -296,17 +261,5 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-    .vue-tel-input
-        padding: 8px;
-        border: none !important;
-        border-bottom: 1px solid #cccccc !important;
-        border-radius: 0;
-        &:focus
-            outline: none !important;
-        &:focus-within
-            box-shadow: none !important;
-    p.error-message
-        margin-top: 1px
-        color: #f55a4e
-        font-size: 12px !important
+
 </style>
