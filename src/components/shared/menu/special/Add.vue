@@ -197,7 +197,7 @@
     computed: {
       ...mapState({
         item: function (state) { return state.special[this.action]},
-        mainItems: (state) => state.special.shared.mainItems,
+        mainItems: (state) => state.main.shared.mainItems,
         color: (state) => state.modals.menu.special.color,
         action: (state) => state.modals.menu.special.action,
         special: (state) => state.modals.menu.special,
@@ -314,11 +314,13 @@
         'setStartDate',
         'setPictureUrl',
         'setDescription',
-        'fetchAvailableItems'
       ]),
       ...mapActions('modals', [
         'setFullscreen',
         'setMenuModalVisibility'
+      ]),
+      ...mapActions('main', [
+        'fetchAvailableItems'
       ]),
       ...mapActions('snackbar', {
         setSnackbar: 'setState'

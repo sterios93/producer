@@ -171,10 +171,10 @@
         color: (state) => state.modals.menu.lunch.color,
         lunch: (state) => state.modals.menu.lunch,
         action: (state) => state.modals.menu.lunch.action,
-        lunchOnlyItems: (state) => state.lunch.shared.lunchOnlyItems,
-        mainItems: (state) => state.special.shared.mainItems,
+        mainItems: (state) => state.main.shared.mainItems,
         responsive: (state) => state.layout.responsive,
         mainVisibility: (state) => state.modals.menu.main.visibility,
+        lunchOnlyItems: (state) => state.main.shared.lunchOnlyItems,
       }),
       isEveryThingValid() {
         return this.isFormValidForced // this.isFormValid && 
@@ -261,14 +261,14 @@
         'setDiscount',
         'toggleActive',
         'setStartDate',
-        'fetchAvailableLunchOnlyItems',
       ]),
       ...mapActions('modals', [
         'setFullscreen',
         'setMenuModalVisibility'
       ]),
-      ...mapActions('special', [
-        'fetchAvailableItems'
+      ...mapActions('main', [
+        'fetchAvailableItems',
+        'fetchAvailableLunchOnlyItems',
       ]),
       ...mapActions('snackbar', {
         setSnackbar: 'setState'

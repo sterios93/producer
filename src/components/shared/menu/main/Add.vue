@@ -237,9 +237,15 @@
         'setCategory',
         'setPictureUrl',
         'setDescription',
-        'toggleLunchOnly'
+        'toggleLunchOnly',
+        'fetchAvailableItems',
+        'fetchAvailableLunchOnlyItems'
       ]),
       ...mapActions('modals', [
+        'setModalVisibility',
+        'setMenuModalVisibility'
+      ]),
+      ...mapActions('special', [
         'setModalVisibility',
         'setMenuModalVisibility'
       ]),
@@ -272,6 +278,12 @@
             if (!data.success) {
               return this.setSnackbar({snackbar: true, message: data.error.message, color: 'red'})
             }
+            this.fetchAvailableItems({
+              action: this.action
+            })
+            this.fetchAvailableLunchOnlyItems({
+              action: this.action
+            })            
             this.uploadImage({
               type: 'item',
               data: this.formData

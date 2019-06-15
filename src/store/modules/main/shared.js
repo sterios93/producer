@@ -1,8 +1,10 @@
 import { set, toggle } from '@/utils/vuex'
-import { postData } from "../../../utils/helpers";
+import { postData, getData } from "../../../utils/helpers";
+import Vue from 'vue'
 
 const state = () => ({
-
+  mainItems: [],
+  lunchOnlyItems: []
 })
 
 export default {
@@ -18,6 +20,8 @@ export default {
     SET_PICTURE_URL: (state, {payload, action}) => state[action].image = payload,
     SET_DESCRIPTION: (state, {payload, action}) => state[action].description = payload,
     TOGGLE_LUNCH_ONLY: (state, {payload, action}) => state[action].lunchOnly = payload,
+    SET_MAIN_ITEMS: (state, {payload, action}) => Vue.set(state.shared, 'mainItems', payload),
+    SET_LUNCH_ONlY_ITEMS: (state, {payload, action}) => Vue.set(state.shared, 'lunchOnlyItems', payload),
   },
   getters: {
     sumItemsPrice: (state) => (ids, action) => {
@@ -38,6 +42,37 @@ export default {
     setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
     setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
     toggleLunchOnly: ({commit}, {payload, action}) => commit('TOGGLE_LUNCH_ONLY', {payload, action}),
+    fetchAvailableLunchOnlyItems: ({rootState, commit}, {action}) => {
+      const { apiUrl, getAvailableLunchOnlyItemsPath, prodGet } = rootState.settings;
+      const url = apiUrl + getAvailableLunchOnlyItemsPath + prodGet
+
+      return getData(url)
+      .then((data) => data.json())
+      .then((data) => {
+        if (data.success) {
+          commit('SET_LUNCH_ONlY_ITEMS', {
+            payload: data.result,
+            action
+          })
+        }
+      })
+    },
+    fetchAvailableItems: ({rootState, commit}, {action}) => {
+      const { apiUrl, getAvailableMainItemsPath, prodGet } = rootState.settings;
+      const url = apiUrl + getAvailableMainItemsPath + prodGet
+
+      return getData(url)
+      .then((data) => data.json())
+      .then((data) => {
+        if (data.success) {
+          commit('SET_MAIN_ITEMS', {
+            payload: data.result,
+            action
+          })
+        }
+      })
+    },
+
     saveItem({rootState, state, commit, dispatch}, {action}) {
     const data = state[action];
     

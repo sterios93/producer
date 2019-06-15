@@ -3,8 +3,6 @@ import {postData, getData, customFromatDate, changeDateFormat} from "../../../ut
 import Vue from 'vue'
 
 const state = () => ({
-  allItems: [],
-  lunchOnlyItems: [],
 })
 
 export default {
@@ -12,7 +10,6 @@ export default {
   mutations: {
     SET_ITEM: (state, {payload, action}) => state[action] = payload,
     SET_ITEMS: (state, {payload, action}) => Vue.set(state[action], 'items', payload),
-    SET_LUNCH_ONlY_ITEMS: (state, {payload, action}) => Vue.set(state.shared, 'lunchOnlyItems', payload),
     SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
     SET_SCHEDULE: (state, {payload, action}) => state[action].schedule = payload,
     SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
@@ -39,21 +36,6 @@ export default {
     setDiscount: ({commit}, {payload, action}) => commit('SET_DISCOUNT', {payload, action}),
     setSchedule: ({commit}, {payload, action}) => commit('SET_SCHEDULE', {payload, action}),
     setStartDate: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
-    fetchAvailableLunchOnlyItems: ({rootState, commit}, {action}) => {
-      const { apiUrl, getAvailableLunchOnlyItemsPath, prodGet } = rootState.settings;
-      const url = apiUrl + getAvailableLunchOnlyItemsPath + prodGet
-
-      return getData(url)
-      .then((data) => data.json())
-      .then((data) => {
-        if (data.success) {
-          commit('SET_LUNCH_ONlY_ITEMS', {
-            payload: data.result,
-            action
-          })
-        }
-      })
-    },
     saveItem({rootState, state, commit, dispatch}, {prePayload = {}, action}) {
       let data = state[action] || prePayload
 

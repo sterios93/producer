@@ -3,7 +3,6 @@ import { set, toggle } from '@/utils/vuex'
 import { formatDate, getData, postData, customFromatDate} from "../../../utils/helpers";
 
 const state = () => ({
-  mainItems: [],
 })
 
 export default {
@@ -19,7 +18,6 @@ export default {
     SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
     TOGGLE_ACTIVE: (state, {payload, action}) => state[action].active = !state[action].active, //TODO use BE response
     SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
-    SET_MAIN_ITEMS: (state, {payload, action}) => Vue.set(state.shared, 'mainItems', payload),
     SET_PICTURE_URL: (state, {payload, action}) => state[action].image = payload,
     SET_DESCRIPTION: (state, {payload, action}) => state[action].description = payload,
   },
@@ -43,21 +41,6 @@ export default {
     setStartDate: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
     setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
     setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
-    fetchAvailableItems: ({rootState, commit}, {action}) => {
-      const { apiUrl, getAvailableMainItemsPath, prodGet } = rootState.settings;
-      const url = apiUrl + getAvailableMainItemsPath + prodGet
-
-      return getData(url)
-      .then((data) => data.json())
-      .then((data) => {
-        if (data.success) {
-          commit('SET_MAIN_ITEMS', {
-            payload: data.result,
-            action
-          })
-        }
-      })
-    },
     setItems: ({commit, getters}, {payload, action}) => {
       	commit('SET_ITEMS', {payload, action})
 		    const sum = getters['sumItemsPrice'](action)
