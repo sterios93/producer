@@ -199,7 +199,7 @@
         }
       },
       isLunchOnly: {
-        get() {return this.item.isActive},
+        get() {return this.item.lunchOnly},
         set(value) {
           this.toggleLunchOnly({payload: value ? 1 : 0, action: this.action})
         }

@@ -14,7 +14,7 @@ export default {
     SET_WEIGHT: (state, {payload, action}) => state[action].weight = payload,
     SET_PICTURE: (state, {payload, action}) => state[action].picture = payload,
     SET_CATEGORY: (state, {payload, action}) => state[action].category = payload,
-    TOGGLE_ACTIVE: (state, {payload, action}) => state[action].isActive = !state[action].isActive,
+    TOGGLE_ACTIVE: (state, {payload, action}) => state[action].active = !state[action].active,
     SET_PICTURE_URL: (state, {payload, action}) => state[action].image = payload,
     SET_DESCRIPTION: (state, {payload, action}) => state[action].description = payload,
     TOGGLE_LUNCH_ONLY: (state, {payload, action}) => state[action].lunchOnly = payload,

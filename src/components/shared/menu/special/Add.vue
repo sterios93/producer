@@ -246,7 +246,7 @@
           this.validate('specialItems')
         }
       },
-      isActive() {return this.item.isActive},
+      isActive() {return this.item.active},
       description: {
         get() {return this.item.description},
         set(value) {

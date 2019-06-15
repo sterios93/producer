@@ -65,8 +65,6 @@ export default {
       } = rootState.settings;
 
       const url = apiUrl + (action === 'add' ? createLunchtemPath : updateLunchItemPath) + prodPost;
-
-      console.error(prePayload);
       
       const payload = {
         id: data._id,

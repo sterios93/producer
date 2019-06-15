@@ -55,11 +55,11 @@
                 <v-flex xs12>
                     <v-switch
                             color="indigo accent-4"
-                            :input-value="isActive"
-                            :value="isActive"
+                            :input-value="active"
+                            :value="active"
                             :loading="activeLoading"
                             :disabled="activeLoading"
-                            @click.prevent="toggleIsActive"
+                            @click.prevent="toggleActive"
                     >
                         <template v-slot:label>
                             <span class="indigo--text text--accent-4">Toggle active</span>
@@ -114,7 +114,7 @@
     },
     data() {
       return {
-        isActive: false,
+        active: false,
         defaultImage: './img/default-menu-v2.jpg',
         activeLoading: false,
         deleteLoading: false,
@@ -136,7 +136,7 @@
     watch: {
       'item.active': {
         handler: function (value) {          
-          this.isActive = value
+          this.active = value
         },
         immediate: true
       }
@@ -162,7 +162,7 @@
           action: 'edit'
         })
       },
-      toggleIsActive(e) {
+      toggleActive(e) {
         e.stopImmediatePropagation()
         if (this.activeLoading) return
         this.activeLoading = true

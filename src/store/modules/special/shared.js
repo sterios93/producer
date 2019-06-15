@@ -17,7 +17,7 @@ export default {
     SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
     SET_SCHEDULE: (state, {payload, action}) => state[action].schedule = payload,
     SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
-    TOGGLE_ACTIVE: (state, {payload, action}) => state[action].isActive = !state[action].isActive,
+    TOGGLE_ACTIVE: (state, {payload, action}) => state[action].active = !state[action].active, //TODO use BE response
     SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
     SET_MAIN_ITEMS: (state, {payload, action}) => Vue.set(state.shared, 'mainItems', payload),
     SET_PICTURE_URL: (state, {payload, action}) => state[action].image = payload,
@@ -63,8 +63,9 @@ export default {
 		    const sum = getters['sumItemsPrice'](action)
       	commit('SET_PRICE', {payload: sum, action})
     },
-    saveItem({rootState, state, commit, dispatch, getters}, {action}) {
-  		const data = state[action];
+    saveItem({rootState, state, commit, dispatch, getters}, {prePayload = {}, action}) {
+      let data = state[action] || prePayload
+
 		  const { apiUrl, createSpecialOfferPath, updateSpecialOfferPath, prodPost } = rootState.settings;
 		
 			const payload = {
@@ -72,14 +73,12 @@ export default {
 				name: data.name,
 				discount: parseInt(data.discount),
 				// price: getPrice(new Number(data.price).toFixed(2)),
-				price: getters['getPrice'](action).toFixed(2),
-				menuItems: data.items.map(item => item._id),
+				price: action && getters['getPrice'](action).toFixed(2),
+				menuItems: data.items && data.items.map(item => item._id),
 				timeStart: data.startDate ? customFromatDate(data.startDate) : data.timeStart,
 				timeEnd: data.endDate ? customFromatDate(data.endDate) : data.timeEnd,
 				description: data.description,
-				active: true, // TODO: Its, hardoced for now, check it later
-				// TODO: wait for the BE to create another request for adding image.
-				img: data.image,
+				active: data.active,
 			};
 
 			const url = apiUrl +  (action === 'add' ? createSpecialOfferPath : updateSpecialOfferPath) + prodPost;
@@ -129,27 +128,31 @@ export default {
         }, 2000)
       })
     },
-    async toggleActive({commit}, {payload, action}) {
-      let isAsync = (action === 'edit') || (action === 'list')
-    
-      if (isAsync) {
-        await new Promise((resolve) => {
-          setTimeout(() => {
-            resolve()
-          }, 2000)
+    async toggleActive({dispatch, commit}, {payload, action, isAsync}) {
+      // let isAsync = action === 'edit' || action === 'list'
+      
+      if (isAsync !== undefined) {
+        const data = await dispatch('saveItem', {
+          prePayload: {
+            active: !payload.active,
+            _id: payload._id
+          }
         })
+        if (!data.success) {
+          return data
+        }
       }
-    
+
       switch (action) {
         case 'add':
         case 'edit':
           commit('TOGGLE_ACTIVE', {payload, action})
           break
         case 'list':
-          commit('TOGGLE_ACTIVE_LIST_ITEM', payload)
+          commit('TOGGLE_ACTIVE_LIST_ITEM', payload._id)
           break
       }
-    
+
       return {
         success: true,
         message: 'Toggled successfully',
