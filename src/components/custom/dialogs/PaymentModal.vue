@@ -23,10 +23,10 @@
 
                 <v-card-actions class="pb-5 layout justify-space-around row wrap">
                     <div>
-                        <v-img class="payment-method" width="200px" @click="onConfirm" src="/img/visa-master.png"></v-img>
+                        <v-img class="payment-method" width="200px" @click="onConfirm" src="./img/visa-master.png"></v-img>
                     </div>
                     <div>
-                        <v-img class="payment-method" width="200px" @click="onConfirm" src="/img/paypal.png"></v-img>
+                        <v-img class="payment-method" width="200px" @click="onConfirm" src="./img/paypal.png"></v-img>
                     </div>
                 </v-card-actions>
         </v-card>
