@@ -146,7 +146,7 @@ export default {
           commit('TOGGLE_ACTIVE', {payload, action})
           break
         case 'list':
-          commit('TOGGLE_ACTIVE_LIST_ITEM', payload)
+          commit('TOGGLE_ACTIVE_LIST_ITEM', payload._id)
           break
       }
 

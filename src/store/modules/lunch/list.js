@@ -14,7 +14,7 @@ export default {
     TOGGLE_ACTIVE_LIST_ITEM: (state, id) => {
       let item = state.list.items.find(el => el._id === id)
       if (item) {
-        item.isActive = !item.isActive
+        item.active = !item.active
       }
     },
     DELETE_LIST_ITEM: (state, id) => {
