@@ -88,9 +88,9 @@
                                 <v-flex xs12 sm6>
                                     <v-flex xs12>
                                         <CustomDatePicker
-                                                :options="startDate"
-                                                :error-messages="startDateErrors"
-                                                @date-changed="onStartDateChange"
+                                                :options="timeStart"
+                                                :error-messages="timeStartErrors"
+                                                @date-changed="ontimeStartChange"
                                                 @time-changed="onStartTimeChange"
                                         />
                                     </v-flex>
@@ -99,9 +99,9 @@
                                 <v-flex xs12 sm6>
                                     <v-flex xs12>
                                         <CustomDatePicker
-                                                :options="endDate"
-                                                :error-messages="endDateErrors"
-                                                @date-changed="onEndDateChange"
+                                                :options="timeEnd"
+                                                :error-messages="timeEndErrors"
+                                                @date-changed="ontimeEndChange"
                                                 @time-changed="onEndTimeChange"
                                         />
                                     </v-flex>
@@ -173,9 +173,9 @@
       return {
         visibility: false,
         nameErrors: [],
-        endDateErrors: [],
+        timeEndErrors: [],
         discountErrors: [],
-        startDateErrors: [],
+        timeStartErrors: [],
         specialItemsErrors: [],
         allFields: [
           'name',
@@ -253,28 +253,29 @@
           this.setDescription({payload: value, action: this.action})
         }
       },
-      startDate: {
+      timeStart: {
         get() {
-          if (this.item.startDate) {
-            return formatDate(this.item.startDate)
+          if (this.item.timeStart) {
+            return formatDate(this.item.timeStart)
           }
           return this.today
         },
         set(value) {
-          this.setStartDate({payload: reverseFormatDate(value), action: this.action})
-          this.validateDates(value, this.endDate)
+          console.error(value)
+          this.settimeStart({payload: reverseFormatDate(value), action: this.action})
+          this.validateDates(value, this.timeEnd)
         }
       },
-      endDate: {
+      timeEnd: {
         get() {
-          if (this.item.endDate) {
-            return formatDate(this.item.endDate)
+          if (this.item.timeEnd) {
+            return formatDate(this.item.timeEnd)
           }
           return this.today
         },
         set(value) {
-          this.setEndDate({payload: reverseFormatDate(value), action: this.action})
-          this.validateDates(this.startDate, value)
+          this.settimeEnd({payload: reverseFormatDate(value), action: this.action})
+          this.validateDates(this.timeStart, value)
         }
       },
     },
@@ -284,8 +285,10 @@
         action: this.action
       })
 
-      this.endDate = this.today
-      this.startDate = this.today
+      if (this.action === 'add') {
+        this.timeEnd = this.today 
+        this.timeStart = this.today
+      }
 
       this.isFormValid = this.action !== 'add'
     },
@@ -307,11 +310,11 @@
         'setPrice',
         'setItems',
         'saveItem',
-        'setEndDate',
+        'settimeEnd',
         'setPicture',
         'setDiscount',
         'toggleActive',
-        'setStartDate',
+        'settimeStart',
         'setPictureUrl',
         'setDescription',
       ]),
@@ -330,7 +333,7 @@
       }),
       onConfirm() {
         this.allFields.forEach(el => this.validate(el))
-        this.validateDates(this.startDate, this.endDate)
+        this.validateDates(this.timeStart, this.timeEnd)
         // TODO :: send the data to the database
         this.$v.$touch();
         if (this.$v.$invalid || this.hasError()) {
@@ -391,26 +394,26 @@
         })
       },
       onStartTimeChange(value) {
-        this.startDate = {
-          ...this.startDate,
+        this.timeStart = {
+          ...this.timeStart,
           time: value
         }
       },
       onEndTimeChange(value) {
-        this.endDate = {
-          ...this.endDate,
+        this.timeEnd = {
+          ...this.timeEnd,
           time: value
         }
       },
-      onStartDateChange(value) {
-        this.startDate = {
-          ...this.startDate,
+      ontimeStartChange(value) {
+        this.timeStart = {
+          ...this.timeStart,
           date: value
         }
       },
-      onEndDateChange(value) {
-        this.endDate = {
-          ...this.endDate,
+      ontimeEndChange(value) {
+        this.timeEnd = {
+          ...this.timeEnd,
           date: value
         }
       },
@@ -436,12 +439,12 @@
         return this[target + 'Errors']
       },
       validateDates(...dates) {
-        let isEndDateInThePast = this.checkDates(...dates)
-        this.setFormValidForced(!isEndDateInThePast)
-        if (isEndDateInThePast) {
-          this.endDateErrors = ['End date is in the past']
+        let istimeEndInThePast = this.checkDates(...dates)
+        this.setFormValidForced(!istimeEndInThePast)
+        if (istimeEndInThePast) {
+          this.timeEndErrors = ['End date is in the past']
         } else {
-          this.endDateErrors = []
+          this.timeEndErrors = []
         }
       },
       hasError() {
@@ -459,11 +462,11 @@
         !this.$v[target].required && this[target + 'Errors'].push('This field is required')
       },
       /* ---- CUSTOM ---- */
-      checkDates(startDate, endDate) {
-        let parsedEndDate = moment(reverseFormatDate(endDate))
-        let parsedStartDate = moment(reverseFormatDate(startDate))
+      checkDates(timeStart, timeEnd) {
+        let parsedtimeEnd = moment(reverseFormatDate(timeEnd))
+        let parsedtimeStart = moment(reverseFormatDate(timeStart))
 
-        return parsedEndDate < parsedStartDate
+        return parsedtimeEnd < parsedtimeStart
       }
     },
     validations: {

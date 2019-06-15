@@ -10,12 +10,12 @@ const state = () => ({
   menuItems: [],
   discount: 10,
   schedule: null,
-  startDate: {
+  timeStart: {
     date: '2019-05-10',
     time: '16:00',
     visible: false,
   },
-  endDate: {
+  timeEnd: {
     date: '2019-10-10',
     time: '12:00',
     visible: false,

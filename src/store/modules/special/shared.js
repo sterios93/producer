@@ -15,9 +15,9 @@ export default {
     SET_PICTURE: (state, {payload, action}) => state[action].picture = payload,
     SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
     SET_SCHEDULE: (state, {payload, action}) => state[action].schedule = payload,
-    SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
+    SET_END_DATE: (state, {payload, action}) => state[action].timeEnd = payload,
     TOGGLE_ACTIVE: (state, {payload, action}) => state[action].active = !state[action].active, //TODO use BE response
-    SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
+    SET_START_DATE: (state, {payload, action}) => state[action].timeStart = payload,
     SET_PICTURE_URL: (state, {payload, action}) => state[action].image = payload,
     SET_DESCRIPTION: (state, {payload, action}) => state[action].description = payload,
   },
@@ -34,11 +34,11 @@ export default {
     setItem: ({commit}, {payload, action}) => commit('SET_ITEM', {payload, action}),
     setName: ({commit}, {payload, action}) => commit('SET_NAME', {payload, action}),
     setPrice: ({commit}, {payload, action}) => commit('SET_PRICE', {payload, action}),
-    setEndDate: ({commit}, {payload, action}) => commit('SET_END_DATE', {payload, action}),
+    settimeEnd: ({commit}, {payload, action}) => commit('SET_END_DATE', {payload, action}),
     setPicture: ({commit}, {payload, action}) => commit('SET_PICTURE', {payload, action}),
     setDiscount: ({commit}, {payload, action}) => commit('SET_DISCOUNT', {payload, action}),
     setSchedule: ({commit}, {payload, action}) => commit('SET_SCHEDULE', {payload, action}),
-    setStartDate: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
+    settimeStart: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
     setPictureUrl: ({commit}, {payload, action}) => commit('SET_PICTURE_URL', {payload, action}),
     setDescription: ({commit}, {payload, action}) => commit('SET_DESCRIPTION', {payload, action}),
     setItems: ({commit, getters}, {payload, action}) => {
@@ -58,8 +58,8 @@ export default {
 				// price: getPrice(new Number(data.price).toFixed(2)),
 				price: action && getters['getPrice'](action).toFixed(2),
 				menuItems: data.items && data.items.map(item => item._id),
-				timeStart: data.startDate ? customFromatDate(data.startDate) : data.timeStart,
-				timeEnd: data.endDate ? customFromatDate(data.endDate) : data.timeEnd,
+				timeStart: data.timeStart && customFromatDate(data.timeStart),
+				timeEnd: data.timeEnd && customFromatDate(data.timeEnd),
 				description: data.description,
 				active: data.active,
 			};
@@ -74,6 +74,7 @@ export default {
             } else if (action === 'edit') {
               dispatch('updateItem', data.result)
             }
+            dispatch('setItem', {payload: data.result, action: 'view'}) // TODO consider a way where we dont do this every time
 					}
 					return data
 				})
@@ -87,8 +88,8 @@ export default {
           if (data.success) {
             const payload = data.result;
             payload.items = payload.menuItems;
-            payload.startDate = customFromatDate(payload.timeStart);
-            payload.endDate = customFromatDate(payload.timeEnd);
+            payload.timeStart = customFromatDate(payload.timeStart);
+            payload.timeEnd = customFromatDate(payload.timeEnd);
             dispatch('setItem', { payload, action})
           }
           return data

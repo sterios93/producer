@@ -91,37 +91,37 @@ export default {
 			{
 				id: 4,
 				type: 'basic',
-				startDate: '2019-09-10 12:00',
-				endDate: '2019-10-10 12:00',
+				timeStart: '2019-09-10 12:00',
+				timeEnd: '2019-10-10 12:00',
 				expired: false,
 			},
 			{
 				id: 3,
 				type: 'basic',
-				startDate: '2019-09-10 12:00',
-				endDate: '2019-10-10 12:00',
+				timeStart: '2019-09-10 12:00',
+				timeEnd: '2019-10-10 12:00',
 				expired: true
 			},
 			{
 				id: 2,
 				type: 'basic',
-				startDate: '2019-09-10 12:00',
-				endDate: '2019-10-10 12:00',
+				timeStart: '2019-09-10 12:00',
+				timeEnd: '2019-10-10 12:00',
 				expired: true
 			},
 			{
 				id: 1,
 				type: 'basic',
-				startDate: '2019-09-10 12:00',
-				endDate: '2019-10-10 12:00',
+				timeStart: '2019-09-10 12:00',
+				timeEnd: '2019-10-10 12:00',
 				expired: true
 			},
 		],
 		currentMembership: {
 			id: 4,
 			type: 'basic',
-			startDate: '2019-09-10 12:00',
-			endDate: '2019-10-10 12:00',
+			timeStart: '2019-09-10 12:00',
+			timeEnd: '2019-10-10 12:00',
 			expired: false
 		}
 	},

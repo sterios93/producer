@@ -15,8 +15,23 @@
 
                 <v-flex xs12 lg6>
                   <v-card-text class="text-xs-center">
-                    <h3 class="category font-weight-bold mb-3">From {{startDate}}</h3>
-                    <h3 class="category font-weight-bold mb-3">To {{endDate}}</h3>
+                    <v-flex
+                          xs12
+                          v-if="price"
+                          class="new-price ma-0 pa-0 headline red--text text--accent-4 text-uppercase font-weight-bold text-xs-center"
+                    >
+                      {{price - price * (discount / 100)  | formatCurrency}}
+                    </v-flex>
+                    <v-flex
+                          xs12
+                          v-if="price"
+                          class="old-price ma-0 pa-0 title red--text text--accent-1 text-uppercase font-weight-medium text-xs-center"
+                    >
+                        {{price | formatCurrency}}
+                    </v-flex>
+                    <br/>
+                    <h3 class="category font-weight-bold mb-3">From {{timeStart}}</h3>
+                    <h3 class="category font-weight-bold mb-3">To {{timeEnd}}</h3>
                     <h3 class="card-title font-weight-light">{{name}}</h3>
                     <p class="card-description font-weight-light">{{description}}</p>
                     <p class="card-description font-weight-light">Also see our other offers bellow :)</p>
@@ -70,9 +85,9 @@ export default {
       image: (state) => state.view.image,
       price: (state) => state.view.price, // TODO
       items: (state) => state.view.menuItems,
-      endDate: (state) => state.view.endDate,
+      timeEnd: (state) => state.view.timeEnd,
       discount: (state) => state.view.discount, // TODO
-      startDate: (state) => state.view.startDate,
+      timeStart: (state) => state.view.timeStart,
       description: (state) => state.view.description,
     }),
     imagePath() {
@@ -80,8 +95,14 @@ export default {
     },
   },
   created() {
-    this.fetchItem({itemId: this.id, action: 'view'})
-            .then(item => this.item = item)
+    this.fetchItem({ itemId: this.id, action: "view" })
+      .then(data => {
+        if (data.success) {
+          this.item = data.result
+        } else {
+          return this.setSnackbar({snackbar: true, message: data.error.message, color: 'red'})
+        }
+      })
   },
   methods: {
     ...mapActions({
@@ -96,7 +117,7 @@ export default {
       })
 
       // TODO :: consider making new request for edit
-      this.$store.dispatch(`special/setItemValues`, {
+      this.$store.dispatch(`special/setItem`, {
         payload: JSON.parse(JSON.stringify(this.item)),
         action: 'edit'
       })
@@ -105,4 +126,7 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus"></style>
+<style scoped lang="stylus">
+    .old-price
+        text-decoration line-through
+</style>

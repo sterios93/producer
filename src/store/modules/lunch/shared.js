@@ -12,9 +12,9 @@ export default {
     SET_ITEMS: (state, {payload, action}) => Vue.set(state[action], 'items', payload),
     SET_DISCOUNT: (state, {payload, action}) => state[action].discount = payload,
     SET_SCHEDULE: (state, {payload, action}) => state[action].schedule = payload,
-    SET_END_DATE: (state, {payload, action}) => state[action].endDate = payload,
+    SET_END_DATE: (state, {payload, action}) => state[action].timeEnd = payload,
     TOGGLE_ACTIVE: (state, {payload, action}) => state[action].active = !state[action].active, // TODO use data from BE
-    SET_START_DATE: (state, {payload, action}) => state[action].startDate = payload,
+    SET_START_DATE: (state, {payload, action}) => state[action].timeStart = payload,
   },
   getters: {
     getItem: (state) => (action) => {
@@ -23,8 +23,8 @@ export default {
         items,
         discount,
         schedule,
-        startDate,
-        endDate,
+        timeStart,
+        timeEnd,
       } = state[action]
     }
   },
@@ -32,10 +32,10 @@ export default {
     reset: ({commit}, action) => commit(`RESET_${action.toUpperCase()}`),
     setItem: ({commit}, {payload, action}) => commit('SET_ITEM', {payload, action}),
     setItems: ({commit}, {payload, action}) => commit('SET_ITEMS', {payload, action}),
-    setEndDate: ({commit}, {payload, action}) => commit('SET_END_DATE', {payload, action}),
+    settimeEnd: ({commit}, {payload, action}) => commit('SET_END_DATE', {payload, action}),
     setDiscount: ({commit}, {payload, action}) => commit('SET_DISCOUNT', {payload, action}),
     setSchedule: ({commit}, {payload, action}) => commit('SET_SCHEDULE', {payload, action}),
-    setStartDate: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
+    settimeStart: ({commit}, {payload, action}) => commit('SET_START_DATE', {payload, action}),
     saveItem({rootState, state, commit, dispatch}, {prePayload = {}, action}) {
       let data = state[action] || prePayload
 
@@ -51,8 +51,8 @@ export default {
       const payload = {
         id: data._id,
         menuItems: data.items && data.items.map(item => item._id),
-        timeStart: data.startDate && changeDateFormat(data.startDate),
-        timeEnd: data.endDate && changeDateFormat(data.endDate),
+        timeStart: data.timeStart && changeDateFormat(data.timeStart),
+        timeEnd: data.timeEnd && changeDateFormat(data.timeEnd),
         active: data.active,
         ...prePayload
       }
@@ -67,6 +67,7 @@ export default {
             } else if (action === 'edit') {
               dispatch('updateItem', data.result)
             }
+            dispatch('setItem', {payload: data.result, action: 'view'}) // TODO consider a way where we dont do this every time
           }
           return data
         })
@@ -81,8 +82,8 @@ export default {
           if (data.success) {
             const payload = data.result;
             payload.items = payload.menuItems;
-            payload.startDate = customFromatDate(payload.timeStart);
-            payload.endDate = customFromatDate(payload.timeEnd);
+            payload.timeStart = customFromatDate(payload.timeStart);
+            payload.timeEnd = customFromatDate(payload.timeEnd);
             dispatch('setItem', { payload, action})
           }
           return data

@@ -13,8 +13,8 @@
 
 
         <v-list-tile-content>
-            <v-list-tile-title class="caption">Ordered: {{item.startDate}}</v-list-tile-title>
-            <v-list-tile-title class="caption">Expires At: {{item.endDate}}</v-list-tile-title>
+            <v-list-tile-title class="caption">Ordered: {{item.timeStart}}</v-list-tile-title>
+            <v-list-tile-title class="caption">Expires At: {{item.timeEnd}}</v-list-tile-title>
         </v-list-tile-content>
 
         <v-list-tile-action >

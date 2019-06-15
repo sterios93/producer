@@ -5,8 +5,8 @@ const stateBuilder = () => ({
   discount: 10,
   active: true,
   schedule: null,
-  startDate: null,
-  endDate: null
+  timeStart: null,
+  timeEnd: null
 })
 
 export default {

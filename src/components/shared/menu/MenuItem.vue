@@ -52,7 +52,7 @@
                 Read more
             </v-btn>
             <v-spacer></v-spacer>
-            <div class="body-2 red--text">EXPIRES AT: {{item.endDate}}</div>
+            <div class="body-2 red--text">EXPIRES AT: {{item.timeEnd}}</div>
         </v-card-actions>
 
     </v-card>
