@@ -47,7 +47,6 @@ export default {
       const url = apiUrl + getAvailableLunchOnlyItemsPath + prodGet
 
       return getData(url)
-        .then((data) => data.json())
         .then((data) => {
           if (data.success) {
             commit('SET_LUNCH_ONlY_ITEMS', {
@@ -62,7 +61,6 @@ export default {
       const url = apiUrl + getAvailableMainItemsPath + prodGet
 
       return getData(url)
-        .then((data) => data.json())
         .then((data) => {
           if (data.success) {
             commit('SET_MAIN_ITEMS', {
@@ -95,7 +93,6 @@ export default {
 
       const url = apiUrl + (action === 'add' ? createMenuItemPath : updateMenuItemPath) + prodPost
       return postData({ payload, url })
-        .then(data => data.json())
         .then(data => {
           if (data.success) {
 		          if (action === 'add') {

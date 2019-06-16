@@ -43,7 +43,6 @@ export default {
       const { apiUrl, fetchLunchListPath, prodGet } = rootState.settings
       const url = apiUrl + fetchLunchListPath + prodGet
       return getData(url)
-        .then(data => data.json())
         .then(data => {
           if (data.success) {
             const items = data.result

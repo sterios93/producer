@@ -59,7 +59,6 @@ export default {
       const url = apiUrl + listCateoriesPath + prodPost
 
       return getData(url)
-        .then(data => data.json())
         .then(data => {
           if (data.success) {
             let categories = data.result.map(category => {
@@ -79,7 +78,6 @@ export default {
       const payload = { 'name': state.current.name.toString().replace(/ /g, '') }
 
       return postData({ payload, url })
-        .then(data => data.json())
         .then(data => {
           if (data.success) {
             commit('ADD_NEW_CATEGORY', {

@@ -66,7 +66,6 @@ export default {
 
       const url = apiUrl + (action === 'add' ? createSpecialOfferPath : updateSpecialOfferPath) + prodPost
       return postData({ payload, url })
-        .then(data => data.json())
         .then(data => {
           if (data.success) {
             if (action === 'add') {
@@ -83,7 +82,6 @@ export default {
 		  const { apiUrl, fetchSpecialOfferPath, prodGet } = rootState.settings
       const url = apiUrl + fetchSpecialOfferPath + itemId + prodGet
       return getData(url)
-        .then(data => data.json())
         .then(data => {
           if (data.success) {
             const payload = data.result

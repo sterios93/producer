@@ -18,7 +18,6 @@ export default {
     fetchUserData ({ dispatch, rootState, state, commit }) {
       const { apiUrl, fetchPath, prodGet } = rootState.settings
       return getData(apiUrl + fetchPath + prodGet)
-        .then(response => response.json())
         .then(data => {
           let { user, restaurant, plan } = data.result
 
@@ -46,7 +45,6 @@ export default {
       }
 
       return postData({ url: data.url })
-        .then(response => response.json())
         .then(data => {
           if (data.success) {
             commit('SET_IS_USER_LOGGED', false)
@@ -61,7 +59,6 @@ export default {
       }
 
       return postData(data)
-        .then(response => response.json())
         .then(data => {
           if (data.success) {
             commit('SET_IS_USER_LOGGED', true)
@@ -83,7 +80,6 @@ export default {
       }
 
       return postData(data)
-        .then(response => response.json())
         .then(data => {
           if (data.success) {
             commit('SET_IS_USER_LOGGED', true)

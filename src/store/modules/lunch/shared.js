@@ -58,7 +58,6 @@ export default {
       }
 
       return postData({ url, payload })
-        .then((data) => data.json())
         .then((data) => {
           if (data.success) {
             if (action === 'add') {
@@ -77,7 +76,6 @@ export default {
       const url = apiUrl + fetchLunchtemPath + itemId + prodGet
 
       return getData(url)
-        .then(data => data.json())
         .then(data => {
           if (data.success) {
             const payload = data.result

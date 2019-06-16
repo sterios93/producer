@@ -1,5 +1,13 @@
+import store from '@/store'
+import router from '@/router'
+
 const defaultHeaders = {
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
+  "Origin": "http://lunchdeal24.de"
+}
+
+const ErrorsCodes = {
+  SESSION_EXPIRED: 103
 }
 
 export const postData = ({ payload, url, headers = {} }) => {
@@ -16,6 +24,13 @@ export const postData = ({ payload, url, headers = {} }) => {
     referrer: 'no-referrer',
     body: JSON.stringify(payload)
   })
+    .then(data => data.json())
+    .then(data => {
+      if (!data.success) {
+        handleErrors(data)
+      }
+      return data
+    })
 }
 
 export const getData = (url, query = '', token = '') => {
@@ -30,6 +45,13 @@ export const getData = (url, query = '', token = '') => {
     redirect: 'follow',
     referrer: 'no-referrer'
   })
+    .then(data => data.json())
+    .then(data => {
+      if (!data.success) {
+        handleErrors(data)
+      }
+      return data
+    })
 }
 export const customFromatDate = (date) => {
   	const dateArray = date.split(' ')
@@ -61,4 +83,14 @@ export const changeDateFormat = (date) => {
   const [year, month, day] = newDate.split('-')
 
   return `${day}-${month}-${year} ${time}`
+}
+
+const handleErrors = (data) => {
+  switch (data.error.code) {
+    case ErrorsCodes.SESSION_EXPIRED:
+      router.push('login')
+      store.dispatch('authentication/setIsUserLogged', false)
+  }
+
+  store.dispatch('snackbar/setState', {snackbar: true, message: data.error.message, color: 'red'})
 }
