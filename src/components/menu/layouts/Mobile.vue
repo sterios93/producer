@@ -101,7 +101,7 @@ export default {
   data () {
     return {
       selectedMenu: 'main',
-      category: this.categories[0],
+      categoryValue: '',
       controls: []
     }
   },
@@ -109,7 +109,6 @@ export default {
   watch: {
     selectedMenu: {
       handler: function (value) {
-        console.error(value)
         switch (value) {
           case 'main':
             this.fetchMenuItems().then(data => !data.success && this.errorHandler(data))
@@ -127,7 +126,6 @@ export default {
   },
 
   created () {
-    this.category = this.categories[0].name
     this.controls = [
       {
         img: 'main.png',
@@ -166,6 +164,14 @@ export default {
 
   computed: {
     ...mapState('special', ['items']),
+    category: {
+      get() {
+        return this.categoryValue || (this.categories[0] && this.categories[0].name)
+      },
+      set(value) {
+        this.categoryValue = value
+      }
+    },
     isMainMenu () {
       return this.selectedMenu === 'main'
     },
@@ -175,7 +181,7 @@ export default {
     menuListProps () {
       return {
         color: this.color,
-        items: this.isMainMenu ? this.getMenuByCategory()(this.category) : this.$store.state[this.selectedMenu].list.items
+        items: this.isMainMenu ? this.getMenuByCategory()(this.categoryValue) : this.$store.state[this.selectedMenu].list.items
       }
     },
     categoryProps () {
