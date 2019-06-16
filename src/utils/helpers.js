@@ -7,7 +7,8 @@ const defaultHeaders = {
 }
 
 const ErrorsCodes = {
-  SESSION_EXPIRED: 103
+  SESSION_EXPIRED: 103,
+  PRODUCER_INVALID_SESSION: 120
 }
 
 export const postData = ({ payload, url, headers = {} }) => {
@@ -88,6 +89,7 @@ export const changeDateFormat = (date) => {
 const handleErrors = (data) => {
   switch (data.error.code) {
     case ErrorsCodes.SESSION_EXPIRED:
+    case ErrorsCodes.PRODUCER_INVALID_SESSION:
       router.push('login')
       store.dispatch('authentication/setIsUserLogged', false)
   }
