@@ -35,11 +35,6 @@ export default {
   data () {
     return {
       autocompleteOptions: {
-        componentRestrictions: {
-          country: [
-            'de'
-          ]
-        }
       },
       defaultCoords: {
         latitude: 51.1657,
