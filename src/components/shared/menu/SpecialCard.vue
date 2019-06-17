@@ -203,12 +203,12 @@ export default {
       this.deleteLoading = true
 
       this.$store.dispatch(`${this.type}/deleteItem`, {
-        payload: this.item._id,
+        payload: { id: this.item._id },
         action: 'list'
       }).then((data) => {
         this.deleteLoading = false
         if (!data.success) {
-          return this.setSnackbar({ snackbar: true, message: data.message, color: 'red' })
+          return this.setSnackbar({ snackbar: true, message: data.error.message, color: 'red' })
         }
         this.setSnackbar({ snackbar: true, message: 'Deleted successfully', color: 'success' })
       })

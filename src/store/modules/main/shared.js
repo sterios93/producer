@@ -104,21 +104,20 @@ export default {
           return data
         })
     },
-    deleteItem: ({ commit }, { payload }) => {
-      return new Promise(resolve => {
-        let data = {
-          success: true,
-          message: 'Internal Error'
-        }
-
-        // postData().then((data) => {
-        setTimeout(() => {
-          if (data.success) {
-            commit('DELETE_LIST_ITEM', payload)
-          }
-          resolve(data)
-        }, 2000)
+    deleteItem: ({ rootState, commit }, { payload }) => {
+      const { apiUrl, deleteMainItemPath, prodPost } = rootState.settings
+      const url = apiUrl + deleteMainItemPath + prodPost
+      
+      return postData({
+        url, 
+        payload
       })
+        .then(data => {
+          if (data.success) {
+            commit('DELETE_LIST_ITEM', payload.id)
+          }
+          return data
+        })
     }
   }
 }
