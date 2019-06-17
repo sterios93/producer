@@ -23,7 +23,7 @@ export default {
   	uploadImage ({ rootState }, payload) {
   		return postData({
 			  url: rootState.settings.apiUrl + rootState.settings.addImage.replace('{type}', payload.type) + rootState.settings.prodGet,
-		    payload: payload.data,
+		    formData: payload.data,
 			  headers: {
 			  	'Content-Type': 'multipart/form-data'
 			  }

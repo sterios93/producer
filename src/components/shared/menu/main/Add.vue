@@ -322,7 +322,7 @@ export default {
       this.image = url
 
       let formData = new FormData()
-      formData.append('item_img', file)
+      formData.append('item_img', file, file.name)
 
       this.formData = formData
     },

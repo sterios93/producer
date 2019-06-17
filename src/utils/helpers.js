@@ -11,7 +11,7 @@ const ErrorsCodes = {
   PRODUCER_INVALID_SESSION: 120
 }
 
-export const postData = ({ payload, url, headers = {} }) => {
+export const postData = ({ payload, url, headers = {}, formData }) => {
   return fetch(url, {
     method: 'POST',
     mode: 'cors',
@@ -23,7 +23,7 @@ export const postData = ({ payload, url, headers = {} }) => {
     },
     redirect: 'follow',
     referrer: 'no-referrer',
-    body: JSON.stringify(payload)
+    body: formData || JSON.stringify(payload)
   })
     .then(data => data.json())
     .then(data => {
