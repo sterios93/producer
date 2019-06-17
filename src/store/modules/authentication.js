@@ -32,7 +32,7 @@ export default {
             dispatch('userProfile/setRestaurantType', restaurant.type, { root: true })
             dispatch('userProfile/setRestaurantWebsite', restaurant.website, { root: true })
             dispatch('userProfile/setRestaurantNumber', restaurant.phoneNumber, { root: true })
-            dispatch('userProfile/setLocation', restaurant.location.coordinates, { root: true })
+            dispatch('userProfile/setLocation', {lat: restaurant.lat, lng: restaurant.lng}, { root: true })
           }
         })
     },

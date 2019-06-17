@@ -181,7 +181,7 @@ export default {
     menuListProps () {
       return {
         color: this.color,
-        items: this.isMainMenu ? this.getMenuByCategory()(this.categoryValue) : this.$store.state[this.selectedMenu].list.items
+        items: this.isMainMenu ? this.getMenuByCategory()(this.category) : this.$store.state[this.selectedMenu].list.items
       }
     },
     categoryProps () {

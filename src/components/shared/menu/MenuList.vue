@@ -12,7 +12,7 @@
       class="py-2 px-0">
       <MenuItem
         v-bind="menuItemProps"
-        :item="item" >
+        :item="item" />
     </v-flex>
   </v-slide-x-transition>
 </template>
