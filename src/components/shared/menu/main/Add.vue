@@ -264,10 +264,6 @@ export default {
       'setModalVisibility',
       'setMenuModalVisibility'
     ]),
-    ...mapActions('special', [
-      'setModalVisibility',
-      'setMenuModalVisibility'
-    ]),
     ...mapActions('snackbar', {
       setSnackbar: 'setState'
     }),
