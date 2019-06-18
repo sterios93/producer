@@ -8,7 +8,7 @@ const defaultHeaders = {
 
 const ErrorsCodes = {
   SESSION_EXPIRED: 103,
-  PRODUCER_INVALID_SESSION: 120
+  PRODUCER_INVALID_SESSION: 102
 }
 
 export const postData = ({ payload, url, headers = {}, formData }) => {

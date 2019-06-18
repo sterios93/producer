@@ -56,6 +56,8 @@ export default {
       handler: function (value) {
         if (value === true) {
            this.requsetData()
+        } else {
+          this.$router.push('login')
         }
       },
       immediate: true
