@@ -39,8 +39,8 @@
       <v-flex
         xs12
         sm7>
-        <v-card-title primary-title>
-          <div>
+        <v-card-title primary-title class="justify-center">
+          <div class="text-xs-center">
             <div class="headline">{{ item.name }}</div>
             <div>{{ item.description }} ({{ item.weight }} grams)</div>
           </div>
