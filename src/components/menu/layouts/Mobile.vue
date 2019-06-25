@@ -216,7 +216,7 @@ export default {
     .controls
         >>> .v-btn
             position: fixed
-            top: 80%
-            left: 80%
+            bottom: 60px;
+            right: 0px;   
             z-index: 3
 </style>
