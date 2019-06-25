@@ -32,8 +32,6 @@
         layout
         py-2
       >
-        <component :is="component"/>
-
         <v-menu
           bottom
           left
