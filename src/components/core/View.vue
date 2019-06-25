@@ -76,14 +76,7 @@ export default {
   methods: {
     ...mapActions('categories', ['fetchCategories']),
     ...mapActions('layout', ['setResponsive']),
-    ...mapActions('authentication', ['fetchUserData']),
     requsetData() {
-      this.fetchUserData()
-        .then(data => {
-          if (!data.succes) {
-            return this.setSnackbar({ snackbar: true, message: data.error.message, color: 'red' })
-          }
-        })
       this.fetchCategories()
         .then(data => {
           if (!data.succes) {

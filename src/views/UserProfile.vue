@@ -33,7 +33,7 @@
 <script>
 import ProfileCard from '../components/userProfile/ProfileCard'
 import PaymentCard from '../components/userProfile/PaymentCard'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 // TODO :: Change the active state of the payment information
 
@@ -49,6 +49,17 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  created() {
+    this.fetchUserData()
+      .then(data => {
+        if (!data.succes) {
+          return this.setSnackbar({ snackbar: true, message: data.error.message, color: 'red' })
+        }
+      })
+  },
+  methods: {
+    ...mapActions('authentication', ['fetchUserData']),
   },
   computed: {
     ...mapState({
