@@ -1,30 +1,21 @@
 <template>
   <v-list-tile
+    class="list-item"
     avatar
-    @click=""
+    height="100px"
   >
-    <v-list-tile-avatar>
-      <img :src="membership.img">
-    </v-list-tile-avatar>
-
     <v-list-tile-content>
+      <v-list-tile-avatar>
+        <img :src="membership.img">
+      </v-list-tile-avatar>
       <v-list-tile-title v-html="membership.type.toUpperCase()"/>
     </v-list-tile-content>
 
-    <v-list-tile-content>
-      <v-list-tile-title class="caption">Ordered: {{ item.timeStart }}</v-list-tile-title>
-      <v-list-tile-title class="caption">Expires At: {{ item.timeEnd }}</v-list-tile-title>
-    </v-list-tile-content>
-
-    <v-list-tile-action >
+    <v-list-tile-content class="align-end">
       <div class="action-container">
-        <!--                <v-btn-->
-        <!--                        icon-->
-        <!--                        class="mx-2"-->
-        <!--                        @click="toggleFollow(item)"-->
-        <!--                >-->
-        <!--                    <v-icon :color="item.following ? 'teal' : 'grey'">hearing</v-icon> &lt;!&ndash;mdi-bell&ndash;&gt;-->
-        <!--                </v-btn>-->
+        <v-list-tile-title class="caption text-xs-center">Ordered: {{ item.timeStart }}</v-list-tile-title>
+        <v-list-tile-title class="caption text-xs-center">Expires At: {{ item.timeEnd }}</v-list-tile-title>
+
         <v-btn
           :disabled="item.expired"
           class="px-2"
@@ -34,7 +25,7 @@
           {{ item.expired ? 'EXPIRED' : 'CANCEL SUBSCRIPTION' }}
         </v-btn>
       </div>
-    </v-list-tile-action>
+    </v-list-tile-content>
   </v-list-tile>
 </template>
 
@@ -84,6 +75,12 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .list-item
+    min-height 100px
+  >>> .v-list__tile--avatar
+    height 100%
+    .align-end
+      align-items: flex-end
     .action-container
         min-width 200px
 </style>

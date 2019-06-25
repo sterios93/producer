@@ -144,5 +144,5 @@ export default {
             .v-btn
                 bottom: 0 !important
     >>> .v-list
-        width 95%
+        width 90%
 </style>

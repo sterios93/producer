@@ -53,6 +53,11 @@ export default {
   components: {
     HistoryItem
   },
+  data() {
+    return {
+      text: ''
+    }
+  },
   computed: {
     ...mapState({
       history: state => state.subscriptions.history
@@ -77,5 +82,5 @@ export default {
             .v-btn
                 bottom: 0 !important
     >>> .v-list
-        width 95%
+        width 90%
 </style>
