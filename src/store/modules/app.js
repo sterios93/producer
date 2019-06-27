@@ -24,9 +24,6 @@ export default {
   		return postData({
 			  url: rootState.settings.apiUrl + rootState.settings.addImage.replace('{type}', payload.type) + rootState.settings.prodGet,
 		    formData: payload.data,
-			  headers: {
-			  	'Content-Type': 'multipart/form-data'
-			  }
 		  })
 	  },
     setDrawer ({ commit }, drawer) {
