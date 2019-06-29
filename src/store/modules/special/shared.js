@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { set, toggle } from '@/utils/vuex'
-import { formatDate, getData, postData, customFromatDate } from '../../../utils/helpers'
+import { formatDate, getData, postData, changeDateFormat } from '../../../utils/helpers'
 
 const state = () => ({
 })
@@ -58,8 +58,8 @@ export default {
         // price: getPrice(new Number(data.price).toFixed(2)),
         price: action && getters['getPrice'](action).toFixed(2),
         menuItems: data.items && data.items.map(item => item._id),
-        timeStart: data.timeStart && customFromatDate(data.timeStart),
-        timeEnd: data.timeEnd && customFromatDate(data.timeEnd),
+        timeStart: data.timeStart && changeDateFormat(data.timeStart),
+        timeEnd: data.timeEnd && changeDateFormat(data.timeEnd),
         description: data.description,
         active: data.active
       }
@@ -86,8 +86,8 @@ export default {
           if (data.success) {
             const payload = data.result
             payload.items = payload.menuItems
-            payload.timeStart = customFromatDate(payload.timeStart)
-            payload.timeEnd = customFromatDate(payload.timeEnd)
+            payload.timeStart = changeDateFormat(payload.timeStart, false)
+            payload.timeEnd = changeDateFormat(payload.timeEnd, false)
             dispatch('setItem', { payload, action })
           }
           return data

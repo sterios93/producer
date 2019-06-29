@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { set, toggle } from '@/utils/vuex'
-import { postData, getData } from '../../../utils/helpers'
+import { postData, getData, changeDateFormat } from '../../../utils/helpers'
 
 const state = () => ({
   items: []
@@ -46,6 +46,10 @@ export default {
         .then(data => {
           if (data.success) {
             const items = data.result
+            items.forEach(item => {
+              item.timeStart = changeDateFormat(item.timeStart, false)
+              item.timeEnd = changeDateFormat(item.timeEnd, false)
+            })
             commit('ADD_ITEMS', items)
           }
           return data

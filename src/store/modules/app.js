@@ -22,8 +22,9 @@ export default {
   actions: {
   	uploadImage ({ rootState }, payload) {
   		return postData({
+        hasHeaders: false,
 			  url: rootState.settings.apiUrl + rootState.settings.addImage.replace('{type}', payload.type) + rootState.settings.prodGet,
-		    formData: payload.data,
+        formData: payload.data,
 		  })
 	  },
     setDrawer ({ commit }, drawer) {

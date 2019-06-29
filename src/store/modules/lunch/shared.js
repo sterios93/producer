@@ -1,5 +1,5 @@
 import { set, toggle } from '@/utils/vuex'
-import { postData, getData, customFromatDate, changeDateFormat } from '../../../utils/helpers'
+import { postData, getData, changeDateFormat } from '../../../utils/helpers'
 import Vue from 'vue'
 
 const state = () => ({
@@ -80,8 +80,8 @@ export default {
           if (data.success) {
             const payload = data.result
             payload.items = payload.menuItems
-            payload.timeStart = customFromatDate(payload.timeStart)
-            payload.timeEnd = customFromatDate(payload.timeEnd)
+            payload.timeStart = changeDateFormat(payload.timeStart, false)
+            payload.timeEnd = changeDateFormat(payload.timeEnd, false)
             dispatch('setItem', { payload, action })
           }
           return data
