@@ -2,9 +2,7 @@
   <v-form>
     <v-container py-0>
       <v-layout wrap>
-        <v-flex
-          xs12
-          md6>
+        <v-flex xs12 md6>
           <v-text-field
             v-model="firstName"
             :disabled="!inEditMode"
@@ -14,9 +12,7 @@
             class="purple-input"
           />
         </v-flex>
-        <v-flex
-          xs12
-          md6>
+        <v-flex xs12 md6>
           <v-text-field
             v-model="lastName"
             :disabled="!inEditMode"
@@ -27,9 +23,7 @@
           />
         </v-flex>
 
-        <v-flex
-          xs12
-          md6>
+        <v-flex xs12 md6>
           <span class="label">Phone number</span>
           <CustomPhoneValidate
             :disabled="!inEditMode"
@@ -38,9 +32,7 @@
           />
         </v-flex>
 
-        <v-flex
-          xs12
-          md6>
+        <v-flex xs12 md6>
           <v-text-field
             v-model="restaurantName"
             :disabled="!inEditMode"
@@ -50,9 +42,7 @@
             class="purple-input"
           />
         </v-flex>
-        <v-flex
-          xs12
-          md6>
+        <v-flex xs12 md6>
           <v-text-field
             v-model="restaurantType"
             :disabled="!inEditMode"
@@ -63,9 +53,7 @@
           />
         </v-flex>
 
-        <v-flex
-          xs12
-          md6>
+        <v-flex xs12 md6>
           <v-text-field
             v-model="restaurantWebsite"
             :disabled="!inEditMode"
@@ -74,9 +62,7 @@
             class="purple-input"
           />
         </v-flex>
-        <v-flex
-          xs12
-          md6>
+        <v-flex xs12 md6>
           <span class="label">Restaurant number</span>
           <CustomPhoneValidate
             :disabled="!inEditMode"
@@ -85,27 +71,48 @@
           />
         </v-flex>
 
-        <v-flex
-          xs12
-          md6>
+        <v-flex xs12 md6>
+          <v-btn
+              :class="{ disabled: !inEditMode }"
+              class="mx-0"
+              color="primary"
+              @click="togglePasswordView"
+              >Change Password
+          </v-btn>
+        </v-flex>
+
+        <v-flex xs12 md6 v-if="showPassFields && inEditMode">
           <v-text-field
             :append-icon="showPassword ? 'visibility' : 'visibility_off'"
-            v-model="password"
+            v-model="oldPassword"
             :type="showPassword ? 'text' : 'password'"
             :error="inEditMode"
-            :rules="[rules.required, rules.password, rules.min]"
+            :rules="[rules.required,rules.min]"
             :disabled="!inEditMode"
             class="purple-input"
-            label="Password"
-            hint="At least 6 characters"
+            label="Old Password"
             required
             @click:append="showPassword = !showPassword"
           />
         </v-flex>
 
-        <v-flex
-          xs12
-          md6>
+        <v-flex xs12 md6 v-if="showPassFields && inEditMode">
+          <v-text-field
+            :append-icon="showNewPassword ? 'visibility' : 'visibility_off'"
+            v-model="password"
+            :type="showNewPassword ? 'text' : 'password'"
+            :error="inEditMode"
+            :rules="[rules.required,rules.min]"
+            :disabled="!inEditMode"
+            class="purple-input"
+            label="New Password"
+            hint="At least 6 characters"
+            required
+            @click:append="showNewPassword = !showNewPassword"
+          />
+        </v-flex>
+
+        <v-flex xs12 md6 v-if="showPassFields && inEditMode">
           <v-text-field
             :append-icon="showRepeatPassword ? 'visibility' : 'visibility_off'"
             v-model="passwordRepeat"
@@ -121,15 +128,10 @@
           />
         </v-flex>
 
-        <v-flex
-          :class="[{disabled: !inEditMode}]"
-          xs12
-          md12>
+        <v-flex :class="[{disabled: !inEditMode}]" xs12 md12>
           <Map storeModule="userProfile"/>
         </v-flex>
-        <v-flex
-          xs12
-          md4>
+        <v-flex xs12 md4>
           <v-text-field
             :disabled="!inEditMode"
             v-model="restaurantCity"
@@ -137,9 +139,7 @@
             class="purple-input"
           />
         </v-flex>
-        <v-flex
-          xs12
-          md4>
+        <v-flex xs12 md4>
           <v-text-field
             :disabled="!inEditMode"
             v-model="restaurantCountry"
@@ -147,9 +147,7 @@
             class="purple-input"
           />
         </v-flex>
-        <v-flex
-          xs12
-          md4>
+        <v-flex xs12 md4>
           <v-text-field
             :disabled="!inEditMode"
             v-model="restaurantPostalCode"
@@ -158,9 +156,7 @@
             type="number"
           />
         </v-flex>
-        <v-flex
-          xs12
-          text-xs-right>
+        <v-flex xs12 text-xs-right>
           <v-btn
             class="mr-2 font-weight-light"
             color="orange"
@@ -187,7 +183,6 @@ import { validationMixin } from 'vuelidate'
 import CustomPhoneValidate from '../shared/CustomPhoneValidate'
 
 import { required, minLength, sameAs, numeric } from 'vuelidate/lib/validators'
-// TODO :: Fix the map logic
 export default {
   name: 'ProfileCard',
   components: {
@@ -205,14 +200,25 @@ export default {
     return {
       _firstName: null,
       passwordRepeat: null,
+      oldPassword: null,
       showPassword: false,
+      showNewPassword: false,
       showRepeatPassword: false,
+      showPassFields: false,
       rules: {
         required: value => !!value || 'Required.',
-        min: v => v.length >= 6 || 'Min 6 characters',
+        min: v => (v && v.length >= 6) || 'Min 6 characters',
         password: value => {
           if (value !== this.password) return 'Passwords does not match'
+          else return true
         }
+      }
+    }
+  },
+    watch: {
+    passwordRepeat: {
+      handler (value) {
+
       }
     }
   },
@@ -319,9 +325,6 @@ export default {
       }
     }
   },
-  watch: {
-    passwordRepeat: 'passRepeatHandler'
-  },
   methods: {
     ...mapActions('userProfile', [
       'setEditMode',
@@ -344,21 +347,31 @@ export default {
     validatePhoneNumbebr (e) {
       this.setProfileValid(e.isValid)
     },
+    togglePasswordView() {
+		  this.showPassFields = !this.showPassFields;
+	  },
     saveProfile () {
-      this.setState({
-        snackbar: true,
-        message: 'Please fill correct all fields.',
-        color: 'red'
-      })
-      this.setState({
-        snackbar: true,
-        message: 'Profile updated.',
-        color: 'green'
-      })
-      this.updateProfile({
-        name: this._firstName
-      })
-      this.setEditMode(false)
+
+      let payload = null;
+      if (this.showPassFields) {
+        payload = {
+          oldPassword: this.oldPassword,
+          newPassword: this.password,
+          repeatedPassword: this.passwordRepeat,
+        };
+      }
+      this.updateProfile(payload)
+        .then(data => {
+          if (data.success) {
+            this.password = '';
+            this.passwordRepeat = null;
+            this.oldPassword = null;
+            this.setEditMode(false);
+            this.setState({ snackbar: true, message: 'Profile updated.', color: 'green' });
+          }
+          !data.success && this.setState({ snackbar: true, message: data.error ? data.error && data.error.message : 'Please fill correct all fields.', color: 'red' })
+        })
+      
     }
   }
 }

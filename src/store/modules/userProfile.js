@@ -1,4 +1,6 @@
 import { set, toggle } from '@/utils/vuex'
+import { getData, postData } from '../../utils/helpers'
+
 
 const state = () => ({
   namespaced: true,
@@ -57,8 +59,30 @@ export default {
     setCountry: ({ commit }, value) => { commit('SET_COUNTRY', value) },
     setPostalCode: ({ commit }, value) => { commit('SET_POSTAL_CODE', value) },
     setLocation: ({ commit }, value) => { commit('SET_LOCATION', value) },
-    updateProfile: ({ commit, value }) => {
-      // TODO
+    updateProfile: ({ commit, state, rootState }, updatedData) => {
+      const	url = rootState.settings.apiUrl + rootState.settings.updateProfilePath + rootState.settings.prodPost;
+      let data = {
+        payload: {
+          firstName: state.firstName,
+          lastName: state.lastName,
+          phone: state.phoneNumber,
+          restaurantName: state.restaurantName,
+          type: state.restaurantType,
+          website: state.restaurantWebsite,
+          number: state.restaurantNumber,
+        },
+        url:url
+      }
+
+      if (updatedData) {
+        const {oldPassword, newPassword, repeatedPassword } = updatedData;
+        data.payload.passowrds = {
+          oldPassword,
+          newPassword,
+          repeatedPassword,
+        };
+      }
+      return postData(data)
     }
   },
   getters: {}
