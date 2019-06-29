@@ -70,22 +70,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions('authentication', ['postData']),
+    ...mapActions('authentication', ['resetPassword']),
     ...mapActions('snackbar', ['setState']),
     submit () {
       this.$v.$touch()
       if (this.$v.$invalid) {
         this.setState({ snackbar: true, message: 'Please fill correct all fields.', color: 'red' })
       } else {
-        let payload = {
-          email: this.email
-        }
-
-        // TODO fix the post request when the backend is ready.
-        this.postData({ action: 'login', payload })
+        this.resetPassword(this.email)
           .then(data => {
             if (data.success !== false) {
-              this.$router.push({ path: 'maps' })
+              this.$router.push({ path: '/login' })
+              this.setState({ snackbar: true, message: 'Check your email for the new password.', color: 'green' })
             } else {
               this.setState({ snackbar: true, message: data.msg, color: 'red' })
               this.clear()

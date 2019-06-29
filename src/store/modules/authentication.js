@@ -15,6 +15,17 @@ export default {
   },
   getters: {},
   actions: {
+    resetPassword({dispatch, rootState,}, email){
+			const data = {
+				payload: {
+					email: email,	
+				},
+				url: rootState.settings.apiUrl + rootState.settings.resetPassPath + rootState.settings.prodPost,
+			}
+
+			return postData(data)
+							.then(data => data);
+		},
     fetchUserData ({ dispatch, rootState, state, commit }) {
       const { apiUrl, fetchPath, prodGet } = rootState.settings
       return getData(apiUrl + fetchPath + prodGet)

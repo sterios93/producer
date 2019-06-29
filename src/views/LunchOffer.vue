@@ -80,7 +80,7 @@
               xs12
               class="py-2 px-0">
               <v-divider/>
-              <MenuItem :item="item">
+              <MenuItem :item="item"/>
             </v-flex>
           </v-flex>
         </material-card>
