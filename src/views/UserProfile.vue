@@ -1,29 +1,12 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-    grid-list-xl>
-    <v-layout
-      justify-center
-      wrap >
-      <v-flex
-        xs12
-        md8 >
+  <v-container fill-height fluid grid-list-xl>
+    <v-layout justify-center wrap >
+      <v-flex xs12>
         <material-card
           :color="isProfileCardValid ? 'green' : 'red'"
           title="Edit Profile"
           text="Complete your profile">
           <profile-card :force-edit="forceEdit"/>
-        </material-card>
-      </v-flex>
-      <v-flex
-        xs12
-        md4 >
-        <material-card
-          color="green"
-          title="Payment information"
-          text="Active" >
-          <payment-card/>
         </material-card>
       </v-flex>
     </v-layout>
@@ -32,17 +15,14 @@
 
 <script>
 import ProfileCard from '../components/userProfile/ProfileCard'
-import PaymentCard from '../components/userProfile/PaymentCard'
 import { mapState, mapActions } from 'vuex'
 
-// TODO :: Change the active state of the payment information
 
 export default {
   name: 'UserProfile',
   components: {
     Map,
     ProfileCard,
-    PaymentCard
   },
   props: {
   	forceEdit: {
