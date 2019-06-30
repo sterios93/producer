@@ -29,6 +29,7 @@
 <script>
 import Memberships from '../components/shared/subscriptions/Memberships'
 import QuickAccess from '../components/shared/quickaccess/QuickAccess'
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -39,7 +40,11 @@ export default {
     return {
     }
   },
+  created() {
+    this.sessionCheck()
+  },
   methods: {
+    ...mapActions('app', ['sessionCheck']),
     complete (index) {
       this.list[index] = !this.list[index]
     }

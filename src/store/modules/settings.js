@@ -28,6 +28,7 @@ let config = {
   deleteLunchItemPath: 'producer/offers/lunch/delete',
   deleteSpiecialItemPath: 'producer/offers/special/delete',
   imagePath: 'producer/menu/{type}/image/{action}',
+  sessionCheck: 'producer/session/check',
   basePath: './',
   prodPost: '?prod=true',
   prodGet: '?prod=true'
@@ -67,6 +68,7 @@ export default {
     deleteSpiecialItemPath: config.deleteSpiecialItemPath,
     resetPassPath: config.resetPassword,
     updateProfilePath: config.updateProfilePath,
+    sessionCheck: config.sessionCheck,
   },
   mutations: {},
   getters: {},

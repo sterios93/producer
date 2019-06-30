@@ -1,5 +1,5 @@
 import { set, toggle } from '@/utils/vuex'
-import { postData } from '../../utils/helpers'
+import { postData, getData } from '../../utils/helpers'
 
 export default {
   namespaced: true,
@@ -20,6 +20,11 @@ export default {
   },
   getters: {},
   actions: {
+    sessionCheck({ rootState }, payload) {
+      let url = rootState.settings.apiUrl + rootState.settings.sessionCheck + rootState.settings.prodGet
+
+      return getData(url)
+    },
   	uploadImage ({ rootState }, payload) {
       let action = payload.action === 'add' ? 'add' : 'update'
       console.log(action, payload);
