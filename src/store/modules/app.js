@@ -28,12 +28,11 @@ export default {
 
       let url = `${(rootState.settings.apiUrl + imagePath + rootState.settings.prodGet)}${payload.action === 'add' ? '' : `&itemId=${payload.id}`}`
 
-      console.error(url)
       return postData({
         hasHeaders: false,
 			  url,
         formData: payload.data,
-		  })
+      })
 	  },
     setDrawer ({ commit }, drawer) {
       commit('SET_DRAWER', drawer)

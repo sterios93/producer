@@ -21,7 +21,10 @@ export default {
       let items = state.list.items
       let index = items.findIndex(el => el._id === payload._id)
       if (index !== -1) {
-        Vue.set(items, index, payload)
+        Vue.set(items, index, {
+          ...items[index],
+          ...payload 
+        })
       }
     },
     DELETE_LIST_ITEM: (state, id) => {

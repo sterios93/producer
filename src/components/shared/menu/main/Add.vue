@@ -253,6 +253,7 @@ export default {
       'saveItem',
       'setWeight',
       'setPicture',
+      'updateItem',
       'setCategory',
       'setPictureUrl',
       'setDescription',
@@ -304,6 +305,13 @@ export default {
             id: this.item._id,
             data: this.formData,
             action: this.action
+          }).then((imageData) => {
+            if (imageData.success) {
+              this.updateItem({
+                _id: data.result._id,
+                img: imageData.result.imageLink
+              })
+            }
           })
           this.closeDialog()
           return this.setSnackbar({ snackbar: true, message: 'Updated successfully', color: 'success' })
