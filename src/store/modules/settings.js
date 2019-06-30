@@ -27,7 +27,7 @@ let config = {
   deleteMainItemPath: 'producer/menu/item/delete',
   deleteLunchItemPath: 'producer/offers/lunch/delete',
   deleteSpiecialItemPath: 'producer/offers/special/delete',
-  imagePath: 'producer/menu/{type}/image/{action}',
+  imagePath: 'producer/{type}/image/{action}',
   sessionCheck: 'producer/session/check',
   basePath: './',
   prodPost: '?prod=true',

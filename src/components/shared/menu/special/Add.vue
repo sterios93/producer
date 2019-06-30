@@ -286,7 +286,6 @@ export default {
         return this.today
       },
       set (value) {
-        console.error(value)
         this.settimeStart({ payload: reverseFormatDate(value), action: this.action })
         this.validateDates(value, this.timeEnd)
       }
@@ -382,7 +381,7 @@ export default {
             return this.setSnackbar({ snackbar: true, message: data.error.message, color: 'red' })
           }
            this.uploadImage({
-            type: 'item',
+            type: 'offers/special',
             id: this.item._id,
             data: this.formData,
             action: this.action

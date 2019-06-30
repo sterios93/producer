@@ -31,7 +31,8 @@ export default {
       
       let imagePath = rootState.settings.imagePath.replace('{type}', payload.type).replace('{action}', action)
 
-      let url = `${(rootState.settings.apiUrl + imagePath + rootState.settings.prodGet)}${payload.action === 'add' ? '' : `&itemId=${payload.id}`}`
+      let parameter = payload.type === 'menu/items' ? 'itemId' : 'offerId'
+      let url = `${(rootState.settings.apiUrl + imagePath + rootState.settings.prodGet)}${payload.action === 'add' ? '' : `&${parameter}=${payload.id}`}`
 
       return postData({
         hasHeaders: false,

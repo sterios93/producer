@@ -58,8 +58,8 @@ export default {
         // price: getPrice(new Number(data.price).toFixed(2)),
         price: action && getters['getPrice'](action).toFixed(2),
         menuItems: data.items && data.items.map(item => item._id),
-        timeStart: data.timeStart && changeDateFormat(data.timeStart),
-        timeEnd: data.timeEnd && changeDateFormat(data.timeEnd),
+        timeStart: data.timeStart && changeDateFormat(data.timeStart, true, true),
+        timeEnd: data.timeEnd && changeDateFormat(data.timeEnd, true, true),
         description: data.description,
         active: data.active
       }

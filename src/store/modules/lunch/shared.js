@@ -51,8 +51,8 @@ export default {
       const payload = {
         id: data._id,
         menuItems: data.items && data.items.map(item => item._id),
-        timeStart: data.timeStart && changeDateFormat(data.timeStart),
-        timeEnd: data.timeEnd && changeDateFormat(data.timeEnd),
+        timeStart: data.timeStart && changeDateFormat(data.timeStart, true, true),
+        timeEnd: data.timeEnd && changeDateFormat(data.timeEnd, true, true),
         active: data.active,
         ...prePayload
       }
