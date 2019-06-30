@@ -71,7 +71,7 @@ export const reverseFormatDate = ({ date, time }) => {
   return [date, time].join(' ')
 }
 
-export const changeDateFormat = (date, utc = true) => {
+export const changeDateFormat = (date, utc = true) => {  
   if (!date) return null
   
   let arr = date.split(' ')
@@ -90,7 +90,7 @@ export const changeDateFormat = (date, utc = true) => {
     minute: currentMinute,
   })
 
-  return `${year}-${month}-${day} ${hour}:${minute}` 
+  return utc ? `${year}-${month}-${day} ${hour}:${minute}` : `${day}-${month}-${year} ${hour}:${minute}`
 }
 
 export const utcParser = ({utc, year, month, day, hour, minute}) => {
@@ -103,8 +103,6 @@ export const utcParser = ({utc, year, month, day, hour, minute}) => {
     let dateAsString = `${year}-${month}-${day} ${hour}:${minute}`
     newDate = moment.utc(dateAsString).local()
   }
-
-  console.error(newDate)
 
   year = newDate.date().toString().padStart(2, '0').slice(-2)
   month = newDate.month().toString().padStart(2, '0').slice(-2)
