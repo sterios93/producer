@@ -76,7 +76,7 @@ export default {
 
       if (updatedData) {
         const {oldPassword, newPassword, repeatedPassword } = updatedData;
-        data.payload.passowrds = {
+        data.payload.passwords = {
           oldPassword,
           newPassword,
           repeatedPassword,
