@@ -27,7 +27,7 @@ let config = {
   deleteMainItemPath: 'producer/menu/item/delete',
   deleteLunchItemPath: 'producer/offers/lunch/delete',
   deleteSpiecialItemPath: 'producer/offers/special/delete',
-  addImage: 'producer/menu/{type}/image/add',
+  imagePath: 'producer/menu/{type}/image/{action}',
   basePath: './',
   prodPost: '?prod=true',
   prodGet: '?prod=true'
@@ -55,7 +55,7 @@ export default {
     fetchSpecialOfferPath: config.fetchSpecialOfferPath,
     createSpecialOfferPath: config.createSpecialOfferPath,
     updateSpecialOfferPath: config.updateSpecialOfferPath,
-    addImage: config.addImage,
+    imagePath: config.imagePath,
     fetchLunchListPath: config.fetchLunchListPath,
     fetchLunchtemPath: config.fetchLunchtemPath,
     createLunchtemPath: config.createLunchtemPath,

@@ -382,7 +382,9 @@ export default {
           }
           this.uploadImage({
             type: 'item',
-            data: this.formData
+            id: this.item._id,
+            data: this.formData,
+            action: this.action
           })
           this.closeDialog()
           return this.setSnackbar({ snackbar: true, message: 'Updated successfully', color: 'success' })

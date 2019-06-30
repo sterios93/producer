@@ -21,9 +21,17 @@ export default {
   getters: {},
   actions: {
   	uploadImage ({ rootState }, payload) {
-  		return postData({
+      let action = payload.action === 'add' ? 'add' : 'update'
+      console.log(action, payload);
+      
+      let imagePath = rootState.settings.imagePath.replace('{type}', payload.type).replace('{action}', action)
+
+      let url = `${(rootState.settings.apiUrl + imagePath + rootState.settings.prodGet)}${payload.action === 'add' ? '' : `&itemId=${payload.id}`}`
+
+      console.error(url)
+      return postData({
         hasHeaders: false,
-			  url: rootState.settings.apiUrl + rootState.settings.addImage.replace('{type}', payload.type) + rootState.settings.prodGet,
+			  url,
         formData: payload.data,
 		  })
 	  },
