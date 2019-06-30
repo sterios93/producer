@@ -54,26 +54,11 @@
                     <p class="card-description font-weight-light">{{ description }}</p>
                     <p class="card-description font-weight-light">Also see our other offers bellow :)</p>
                     <v-btn
-                      color="success"
-                      dark
-                      round
-                      class="font-weight-light" >Follow </v-btn>
-                    <v-btn
                       dark
                       color="orange"
                       round
                       class="font-weight-light"
                       @click="onEditClick" >EDIT </v-btn>
-                    <v-btn
-                      dark
-                      color="red"
-                      round
-                      class="font-weight-light" >MENU </v-btn>
-                    <v-btn
-                      dark
-                      color="blue"
-                      round
-                      class="font-weight-light" >LUNCH OFFERS </v-btn>
                   </v-card-text>
                 </v-flex>
               </v-layout>
