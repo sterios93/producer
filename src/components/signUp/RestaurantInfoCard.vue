@@ -109,7 +109,6 @@ export default {
       this.restaurantNumber = this.$store.state.signUp.phoneNumber
     },
     validatePhoneNumbebr (e) {
-      console.error(e)
       if (!e.isValid) {
         this.isPhoneValid = false
         this.setRestaurantInfoInvalid()

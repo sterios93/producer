@@ -27,7 +27,6 @@ export default {
     },
   	uploadImage ({ rootState }, payload) {
       let action = payload.action === 'add' ? 'add' : 'update'
-      console.log(action, payload);
       
       let imagePath = rootState.settings.imagePath.replace('{type}', payload.type).replace('{action}', action)
 
