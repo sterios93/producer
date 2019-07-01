@@ -33,7 +33,7 @@ export default {
   created() {
     this.fetchUserData()
       .then(data => {
-        if (!data.succes) {
+        if (!data.success) {
           return this.setSnackbar({ snackbar: true, message: data.error.message, color: 'red' })
         }
       })
