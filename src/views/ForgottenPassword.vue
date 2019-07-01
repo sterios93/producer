@@ -83,7 +83,7 @@ export default {
               this.$router.push({ path: '/login' })
               this.setState({ snackbar: true, message: 'Check your email for the new password.', color: 'green' })
             } else {
-              this.setState({ snackbar: true, message: data.msg, color: 'red' })
+              this.setState({ snackbar: true, message: data.erro.message, color: 'red' })
               this.clear()
             }
           })
