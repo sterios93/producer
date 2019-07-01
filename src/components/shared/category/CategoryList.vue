@@ -8,7 +8,7 @@
       <v-spacer/>
 
       <v-btn icon>
-        <v-icon>search</v-icon>
+        <v-icon>list_alt</v-icon>
       </v-btn>
     </v-toolbar>
 
