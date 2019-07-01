@@ -94,9 +94,13 @@ export const changeDateFormat = (date, utc = true, reverse = false) => {
 }
 
 export const utcParser = ({utc, year, month, day, hour, minute}) => {
-  let newDate = moment.utc().year(year).month(month).date(day).hours(hour).minute(minute)
+  let newDate
 
-  if (!utc) {
+  if (utc) {
+    newDate = moment().year(year).month(month).date(day).hours(hour).minute(minute)
+    newDate = newDate.utc()
+  } else {
+    newDate = moment.utc().year(year).month(month).date(day).hours(hour).minute(minute)
     newDate = newDate.local()
   }
 

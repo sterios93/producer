@@ -68,12 +68,15 @@ export default {
       return postData({ payload, url })
         .then(data => {
           if (data.success) {
+            let item = data.result
+            item.timeStart = item.timeStart && changeDateFormat(item.timeStart, false)
+            item.timeEnd = item.timeEnd && changeDateFormat(item.timeEnd, false)
             if (action === 'add') {
-              dispatch('addItem', data.result)
+              dispatch('addItem', item)
             } else if (action === 'edit') {
-              dispatch('updateItem', data.result)
+              dispatch('updateItem', item)
             }
-            dispatch('setItem', { payload: data.result, action: 'view' }) // TODO consider a way where we dont do this every time
+            dispatch('setItem', { payload: item, action: 'view' }) // TODO consider a way where we dont do this every time
           }
           return data
         })
