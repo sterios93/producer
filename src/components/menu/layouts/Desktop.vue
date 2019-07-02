@@ -22,7 +22,7 @@
           xs12
           class="controls">
           <v-btn
-            color="green darken-2"
+            color="orange accent-3"
             dark
             flat
             block

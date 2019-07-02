@@ -75,7 +75,8 @@
           <v-btn
               :class="{ disabled: !inEditMode }"
               class="mx-0"
-              color="primary"
+              color="orange accent-3"
+              style="color: white;"
               @click="togglePasswordView"
               >Change Password
           </v-btn>
