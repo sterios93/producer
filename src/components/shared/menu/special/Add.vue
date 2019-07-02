@@ -409,7 +409,11 @@ export default {
     },
     onFilePicked ({ file, url }) {
       this.image = url
-      this.setPicture({ payload: file, action: this.action })
+
+      let formData = new FormData()
+      formData.append('item_img', file)
+
+      this.formData = formData
     },
     toggleIsActive (e) {
       e.stopImmediatePropagation()
