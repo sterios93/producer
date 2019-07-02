@@ -30,7 +30,8 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
   props: {
-    storeModule: String
+    storeModule: String,
+    positionProp: Object,
   },
   data () {
     return {
@@ -216,8 +217,20 @@ export default {
       apiKey: 'AIzaSyAfYAgsxbh9FIJw1lAUc3B_t3ujOTrDRT4'
     }
   },
-  mounted () {
-    this.geolocate()
+  watch: {
+    positionProp: {
+      handler: function(value) {
+        if (this.positionProp !== undefined) {
+          this.setCoordinates({
+            latitude: parseFloat(this.positionProp.lat),
+            longitude: parseFloat(this.positionProp.lng)
+          })
+        } else {
+          this.geolocate()
+        }
+      },
+      immediate: true
+    }
   },
   computed: {
     ...mapState({
@@ -274,7 +287,7 @@ export default {
       this.$set(this.center, 'lat', coordinates.latitude)
       this.$set(this.center, 'lng', coordinates.longitude)
 
-      this.$refs.map.$mapPromise.then((map) => {
+      this.$refs.map && this.$refs.map.$mapPromise.then((map) => {
         map.panTo(this.center)
       })
 

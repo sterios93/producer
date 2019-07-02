@@ -129,7 +129,7 @@
         </v-flex>
 
         <v-flex :class="[{disabled: !inEditMode}]" xs12 md12>
-          <Map storeModule="userProfile"/>
+          <Map :positionProp="userInfo.location" storeModule="userProfile"/>
         </v-flex>
         <v-flex xs12 md4>
           <v-text-field
