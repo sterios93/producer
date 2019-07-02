@@ -45,6 +45,7 @@ export default {
             dispatch('userProfile/setRestaurantNumber', restaurant.phoneNumber, { root: true })
             dispatch('userProfile/setLocation', {lat: restaurant.lat, lng: restaurant.lng}, { root: true })
           }
+          return data
         })
     },
     setIsUserLogged ({ commit }, value) {

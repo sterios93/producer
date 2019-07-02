@@ -69,7 +69,7 @@ export default {
               }
             })
             commit('SET_CATEGORIES', categories)
-          }
+          } else return data
         })
     },
     saveItem ({ commit, rootState, state }) {

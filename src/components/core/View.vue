@@ -79,7 +79,7 @@ export default {
     requsetData() {
       this.fetchCategories()
         .then(data => {
-          if (!data.success) {
+          if (data && !data.success) {
             return this.setSnackbar({ snackbar: true, message: data.error.message, color: 'red' })
           }
         })
