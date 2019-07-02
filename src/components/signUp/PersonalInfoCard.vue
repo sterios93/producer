@@ -88,7 +88,8 @@
 
       <v-flex>
         <v-btn
-          color="primary"
+          color="orange accent-3"
+          style="color: white;"
           @click="nextScreen">Continue</v-btn>
 
         <v-btn flat>Cancel</v-btn>
@@ -275,5 +276,4 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-
 </style>

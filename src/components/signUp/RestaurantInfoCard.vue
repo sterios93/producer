@@ -52,10 +52,12 @@
 
       <v-flex>
         <v-btn
-          color="primary"
+          color="orange accent-3"
+          style="color: white;"
           @click="setActiveStepNumber(1);">Back</v-btn>
         <v-btn
-          color="primary"
+          color="orange accent-3"
+          style="color: white;"
           @click="nextScreen(3)"
         >
           Continue

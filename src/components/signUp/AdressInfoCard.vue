@@ -44,10 +44,12 @@
 
       <v-flex>
         <v-btn
-          color="primary"
+          color="orange accent-3"
+          style="color: white;"
           @click="stepClick(2)">Back</v-btn>
         <v-btn
-          color="primary"
+          color="orange accent-3"
+          style="color: white;"
           @click="submit" >Submit</v-btn>
         <v-btn flat>Cancel</v-btn>
 
