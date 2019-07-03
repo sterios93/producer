@@ -301,7 +301,7 @@ export default {
             action: this.action
           })
           this.uploadImage({
-            type: 'menu/item',
+            type: 'main',
             id: this.item._id,
             data: this.formData,
             action: this.action

@@ -27,11 +27,10 @@ export default {
     },
   	uploadImage ({ rootState }, payload) {
       let action = payload.action === 'add' ? 'add' : 'update'
+      let type = payload.type === 'special' ? 'offers/special' : 'menu/item'
       
-      let imagePath = rootState.settings.imagePath.replace('{type}', payload.type).replace('{action}', action)
-
-      let parameter = payload.type === 'menu/items' ? 'itemId' : 'offerId'
-      let url = `${(rootState.settings.apiUrl + imagePath + rootState.settings.prodGet)}${payload.action === 'add' ? '' : `&${parameter}=${payload.id}`}`
+      let imagePath = rootState.settings.imagePath.replace('{type}', type).replace('{action}', action)
+      let url = `${(rootState.settings.apiUrl + imagePath + rootState.settings.prodGet)}${payload.action === 'add' ? '' : `&id=${payload.id}`}`
 
       return postData({
         hasHeaders: false,

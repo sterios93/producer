@@ -381,7 +381,7 @@ export default {
             return this.setSnackbar({ snackbar: true, message: data.error.message, color: 'red' })
           }
            this.uploadImage({
-            type: 'offers/special',
+            type: 'special',
             id: this.item._id,
             data: this.formData,
             action: this.action
