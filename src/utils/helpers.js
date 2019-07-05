@@ -18,7 +18,7 @@ export const postData = ({ hasHeaders = true, payload, url, headers = {}, formDa
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
-    credentials: 'same-origin',
+    credentials: 'include',
     ...(hasHeaders && { headers: {
       ...defaultHeaders,
       ...headers 
@@ -42,7 +42,7 @@ export const getData = (url, query = '', token = '') => {
     method: 'GET',
     mode: 'cors',
     cache: 'no-cache',
-    credentials: 'same-origin',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
