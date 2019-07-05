@@ -89,7 +89,7 @@ export default {
   data () {
     return {
       isEditable: false,
-      defaultImage: '/img/default-menu-v2.jpg'
+      defaultImage: 'http://lunchdeal24.de/images/default/default-menu-v2.jpg'
     }
   },
   computed: {
