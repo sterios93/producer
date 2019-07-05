@@ -89,7 +89,7 @@ export default {
   data () {
     return {
       isEditable: false,
-      defaultImage: './img/default-menu-v2.jpg'
+      defaultImage: '/img/default-menu-v2.jpg'
     }
   },
   computed: {
@@ -97,7 +97,7 @@ export default {
       item: state => state.view
     }),
     imagePath () {
-      return this.item.image || this.defaultImage
+      return this.defaultImage
     }
   },
   created () {

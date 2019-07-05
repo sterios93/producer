@@ -105,7 +105,7 @@ export default {
   computed: {
     ...mapState('special', {
       name: (state) => state.view.name,
-      image: (state) => state.view.image,
+      image: (state) => state.view.img,
       price: (state) => state.view.price, // TODO
       items: (state) => state.view.menuItems,
       timeEnd: (state) => state.view.timeEnd,
